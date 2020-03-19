@@ -14,14 +14,5 @@ ENV PATH="/usr/local/bundle/bin:${PATH}"
 
 COPY . /usr/src/app
 
-# Add a script to be executed every time the container starts.
-# COPY entrypoint.sh /usr/bin/
-# RUN chmod +x /usr/bin/entrypoint.sh
-# ENTRYPOINT ["entrypoint.sh"]
-
 EXPOSE 9292
-
-# CMD ["bundle", "exec", "rerun", "rackup", ]
-# CMD ["bundle", "exec", "rerun", "'rackup --host 0.0.0.0 -p 9292'"]
-# CMD ["bundle", "exec", "rackup", "--host", "0.0.0.0", "-p", "9292"]
 
