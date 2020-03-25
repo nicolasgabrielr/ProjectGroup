@@ -2,7 +2,7 @@ version: "3"
 services:
   web:
     build: .
-    command: bash -c "bundle exec rerun --background 'rackup --host 0.0.0.0 -p 9292' 1>/dev/null"
+    command: bash -c "bundle check || bundle install && bundle exec rerun --background 'rackup --host 0.0.0.0 -p 9292' 1>/dev/null"
     ports:
       - "9292:9292"
     environment:
@@ -12,3 +12,4 @@ services:
     volumes:
       - .:/usr/src/app
       - ./.bundle:/usr/local/bundle
+
