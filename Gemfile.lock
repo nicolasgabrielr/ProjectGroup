@@ -32,7 +32,6 @@ PLATFORMS
 
 DEPENDENCIES
   dotenv (= 2.7.5)
-  ffi
   puma (= 4.3.3)
   rerun
   sinatra (= 2.0.7)

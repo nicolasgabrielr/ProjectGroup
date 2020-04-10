@@ -1,7 +1,6 @@
 class App < Sinatra::Base
   get "/" do
-    erb:home
-
+    erb:index
   end
   get "/logeduser" do
     erb:logeduser
@@ -21,4 +20,12 @@ class App < Sinatra::Base
   get "/templatetest" do
     erb:templatetest
   end
+  post "/login" do
+    if params[:key]=="123"
+    "te has logueago correctamente #{params[:user]}"
+     erb :logeduser
+    else
+     erb :logedadmin
+    end
+ end
 end
