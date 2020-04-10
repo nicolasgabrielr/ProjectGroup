@@ -1,31 +1,44 @@
 class App < Sinatra::Base
+
   get "/" do
     erb:index
   end
-  get "/logeduser" do
-    erb:logeduser
+
+  get "/index" do
+    erb:index
   end
-  get "/logedadmin" do
-    erb:logedadmin
-  end
+
   get "/notificationlist" do
     erb:notificationlist
   end
+
   get "/notificationdemo" do
     erb:notificationdemo
   end
+
   get "/about" do
     erb:about
   end
-  get "/templatetest" do
-    erb:templatetest
+
+  get "/loged" do
+    "solo deberia cargar nuevamente la Pagina"
   end
-  post "/login" do
+
+  post "/loged" do
+    @name = params[:user]
+    @admin = "hidden"
+    @superAdmin = "hidden"
     if params[:key]=="123"
-    "te has logueago correctamente #{params[:user]}"
-     erb :logeduser
-    else
-     erb :logedadmin
+     @admin = "submit"
+    elsif params[:key]=="111"
+     @admin = "submit"
+     @superAdmin = "submit"
     end
- end
+    erb :loged
+  end
+
+  get "/:doc" do
+    "aca se muestra el  #{params[:doc]} "
+  end
+
 end

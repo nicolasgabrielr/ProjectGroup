@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<title>Pagina que ve el USUARIO cuando se loguea</title>
+<a href="/about">About</a>
+<a href="/index">Index</a>
+</head>
+
+
+<body>
+
+<h1>Menu de <%= @name %> </h1>
+
+<form action="/myData" method="get">
+  <input type="submit" value="Mi Perfil" >
+</form>
+
+<form action="/notificationlist" method="get">
+  <input type="submit" value="Notificaciones">
+</form>
+
+<form action="/uploadrecord" method="get">
+  <input type= "<%= @admin %>" value="Subir Acta" >
+</form>
+
+<form  action="/recordlist" method="get">
+  <input  type= "<%= @admin %>" value="Ver Actas Subidas">
+</form>
+
+<form  action="/asign" method="get">
+  <input  type= "<%= @superAdmin %>" value="Asignar admin">
+</form>
+
+
+</body>
+
+</html>
