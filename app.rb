@@ -24,6 +24,21 @@ class App < Sinatra::Base
     "solo deberia cargar nuevamente la Pagina"
   end
 
+  get "/mydata" do
+    @nomb = params[:name]
+    erb:mydata
+  end
+
+  post "/modifypassword" do
+    @nomb = params[:name]
+    @pass = params[:key]
+    erb:modifypassword
+  end
+
+  post "/modifyemail" do
+    erb:modifyemail
+  end
+
   post "/loged" do
     @name = params[:user]
     @admin = "hidden"

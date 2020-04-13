@@ -1,48 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-
-<title>Pagina que ve el USUARIO cuando se loguea</title>
-<div class="about-section">
-
-</div>
+	<form action="/" method="get">
+	 <p><button class="buttBack"> - Back to Main Page</button></p>
+	</form>
+	<title>Pagina que ve el USUARIO cuando se loguea</title>
 </head>
 
-
 <body>
+	<div class="about-section">
+		<h1>Welcome Again <%= @name %>  &#128075; <img src="/index.png" alt="" style="width:2%">
+	        <!-- Grey navigation panel -->
+	</div>
+	<form action="/mydata" method="get" >
+	  	<button class="button">Mi Perfil</button>
+	</form>
+	<!-- miren este boton -->
+	<form action="/notificationlist" >
+	  <button onclick="get()" class="button">Notificaciones</button>
+	</form>
 
-<h1>Menu de <%= @name %> </h1>
-<form action="/" method="get">
-   <p><button class="buttBack"> - Back to Main Page</button></p>
-<form>
-        <!-- Grey navigation panel -->
+	<form action="/uploadrecord" method="get">
+	  <input type= "<%= @admin %>" value="Subir Acta" class="button">
+	</form>
 
+	<form  action="/recordlist" method="get">
+	  <input  type= "<%= @admin %>" value="Ver Actas Subidas" class="button">
+	</form>
 
-<form action="/myData" >
-  <button onclick="get()" class="buttList">Mi Perfil</button>
-</form>
-<!-- miren este boton -->
-<form action="/notificationlist" >
-  <button onclick="get()" class="buttList">Notificaciones</button>
-</form>
-
-<form action="/uploadrecord" method="get">
-  <input type= "<%= @admin %>" value="Subir Acta" class="buttList">
-</form>
-
-<form  action="/recordlist" method="get">
-  <input  type= "<%= @admin %>" value="Ver Actas Subidas" class="buttList">
-</form>
-
-<form  action="/asign" method="get">
-  <input  type= "<%= @superAdmin %>" value="Asignar admin"class="buttList">
-</form>
-
-<form action="/" method="get">
- <p><button class="buttBack"> - Back to Main Page</button></p>
-<form>
-
+	<form  action="/asign" method="get">
+	  <input  type= "<%= @superAdmin %>" value="Asignar admin"class="button">
+	</form>
 </body>
 
 </html>

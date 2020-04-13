@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<form action="/loged" method="post">
+ <p><button class="buttBack"> - Back to User</button></p>
+</form>
 
 <title>Mis Notificaciones</title>
 
@@ -9,23 +12,22 @@
 
 <body>
 
+<div class="about-section">
 <h1>Mis Notificaciones </h1>
-<p>Aca va una lista de las notificaciones de un usuario especifico</p>
-<ul>
- <li><form action="/notificationdemo" method="get">
-    <input type="submit" value="notification Demo" >
-  </form></li>
-  <li><form action="/notification2" method="get">
-    <input type="submit" value="notification2" >
-  </form></li>
-  <li><form action="/notification3" method="get">
-    <input type="submit" value="notification3" >
-  </form></li>
-</ul>
-
-<form action="/about" method="get">
-  <input type="submit" value="about" >
-</form>
+</div>
+  <h2></h2>
+  <p class="tittle"> Aca va una lista de las notificaciones de un usuario especifico:</p>
+	<ul>
+	 <li><form action="/notificationdemo" method="get">
+	    	<input type="submit" value="notification Demo" >
+	 	 </form></li>
+		  <li><form action="/notification2" method="get">
+		    <input type="submit" value="notification2" >
+		  </form></li>
+	  <li><form action="/notification3" method="get">
+	    <input type="submit" value="notification3" >
+	  </form></li>
+	</ul>
 </body>
 
 </html>
