@@ -4,35 +4,44 @@
 
 
 <title>Pagina que ve el USUARIO cuando se loguea</title>
-<a href="/about">About</a>
-<a href="/index">Index</a>
+<div class="about-section">
+
+</div>
 </head>
 
 
 <body>
 
 <h1>Menu de <%= @name %> </h1>
+<form action="/" method="get">
+   <p><button class="buttBack"> - Back to Main Page</button></p>
+<form>
+        <!-- Grey navigation panel -->
 
-<form action="/myData" method="get">
-  <input type="submit" value="Mi Perfil" >
+
+<form action="/myData" >
+  <button onclick="get()" class="buttList">Mi Perfil</button>
 </form>
-
-<form action="/notificationlist" method="get">
-  <input type="submit" value="Notificaciones">
+<!-- miren este boton -->
+<form action="/notificationlist" >
+  <button onclick="get()" class="buttList">Notificaciones</button>
 </form>
 
 <form action="/uploadrecord" method="get">
-  <input type= "<%= @admin %>" value="Subir Acta" >
+  <input type= "<%= @admin %>" value="Subir Acta" class="buttList">
 </form>
 
 <form  action="/recordlist" method="get">
-  <input  type= "<%= @admin %>" value="Ver Actas Subidas">
+  <input  type= "<%= @admin %>" value="Ver Actas Subidas" class="buttList">
 </form>
 
 <form  action="/asign" method="get">
-  <input  type= "<%= @superAdmin %>" value="Asignar admin">
+  <input  type= "<%= @superAdmin %>" value="Asignar admin"class="buttList">
 </form>
 
+<form action="/" method="get">
+ <p><button class="buttBack"> - Back to Main Page</button></p>
+<form>
 
 </body>
 
