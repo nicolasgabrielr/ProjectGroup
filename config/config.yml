@@ -1,0 +1,8 @@
+development:
+  db_adapter:  'postgres'
+  db_name:     'notificator-development'
+  db_username: 'unicorn'
+  db_password: 'magic'
+  db_logfile:   $stdout
+  db_loglevel:  :debug
+  db_host:      'db'
