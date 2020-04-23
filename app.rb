@@ -1,4 +1,22 @@
+require 'json'
+require './models/init.rb'
+
 class App < Sinatra::Base
+
+  get "/prueba" do
+    #User[19].delete
+
+    #PARA MODIFICAR UN REGISTRO
+    #user = User.last
+    #user.update category: 'superAdmin'
+
+    #PARA MOSTRAR UN REGISTRO
+    #usuario = User.first(id:19)
+    #u = usuario.name
+
+
+    User.all.to_s
+  end
 
   get "/" do
     erb:index
@@ -8,52 +26,52 @@ class App < Sinatra::Base
     erb:index
   end
 
-  get "/notificationlist" do
-    erb:notificationlist
-  end
-
-  get "/notificationdemo" do
-    erb:notificationdemo
-  end
-
   get "/about" do
     erb:about
   end
 
-  get "/loged" do
-    "solo deberia cargar nuevamente la Pagina"
+  get '/newUser' do
+    erb:newUser
   end
 
-  get "/mydata" do
-    @nomb = params[:name]
-    erb:mydata
+  get '/uploadrecord' do
+    erb:uploadrecord
   end
 
-  post "/modifypassword" do
-    @nomb = params[:name]
-    @pass = params[:key]
-    erb:modifypassword
+
+  post '/newUser' do
+    request.body.rewind
+    hash = Rack::Utils.parse_nested_query(request.body.read)
+    params = JSON.parse hash.to_json
+    user = User.new(surname: params["surname"], name: params["name"], username: params["username"], dni: params["dni"], password: params["key"], email: params["email"] )
+    if user.save
+      redirect "/"
+    else
+      [500, {}, "Internal server Error"]
+    end
   end
 
-  post "/modifyemail" do
-    erb:modifyemail
-  end
+
 
   post "/loged" do
-    @name = params[:user]
     @admin = "hidden"
     @superAdmin = "hidden"
-    if params[:key]=="123"
-     @admin = "submit"
-    elsif params[:key]=="111"
-     @admin = "submit"
-     @superAdmin = "submit"
+    user = User.last #deberia ver username:params[:username]  email: params[:email]
+                     #creo que tengo que crear un index en cada columna para buscar
+
+    if params[:key] == user.password
+      if user.category == "admin"
+       @admin = "submit"
+     elsif user.category =="superAdmin"
+       @admin = "submit"
+       @superAdmin = "submit"
+      end
+    else
+      "contraseña incorrecta"
     end
+
     erb :loged
   end
 
-  get "/:doc" do
-    "aca se muestra el  #{params[:doc]} "
-  end
 
 end
