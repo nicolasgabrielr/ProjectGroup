@@ -1,56 +1,41 @@
 <!DOCTYPE html>
 <html>
-<body>
-	<div class="about-section">
-		<h1> Notifications System <h1>
-		<button class="button" onclick="document.getElementById('id01').style.display='block'" style="width:100;">Enter</button>
-	</div>
-
-	<div id="id01" class="modal">
-		<form class="modal-content animate" action="/loged" method="post">
-    <div class="imgcontainer">
-      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-      <img src="unrc.png" alt="Avatar" class="avatar">
-    </div>
-
-    <div class="container">
-      <label for="uname"><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" name="user" required>
-      <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="key" required>
-      <button class="button" type="submit">Login</button>
-      <label>
-        <input type="checkbox" checked="checked" name="remember"> Remember me
-      </label>
-    </div>
-
-    <div class="container" style="background-color:#f1f1f1">
-      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-      <span class="psw">Forgot <a href="#">password?</a></span>
-    </div>
-  </form>
-</div>
-
-<script>
-// Get the modal
-var modal = document.getElementById('id01');
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
-</script>
+<head>
 
 </head>
-	<body>
-			<h2 style="text-align:left">Lista Publica de Actas:</h2>
-			<ul>
-			  <li><a href="/acta1" target="_blank" class="button">Acta 1</a></li>
-			  <li><a href="/acta2" target="_blank" class="button">Acta 2</a></li>
-			  <li><a href="/actaN" target="_blank" class="button">Acta 3</a></li>
-			  <li><a href="/acta3" target="_blank" class="button">Acta 4</a></li>
-			</ul>
-	</body>
-</html>
+<body>
+	<div class="column-container">
+	  <div class="column1">
+			<form  action="/loged" method="post">
+				<label for="fname">email:</label><br>
+				<input type="text" email="email"class="button"></input><br>
+				<label for="fname">Password:</label><br>
+				<input type="password" name="key" class="button"></input><br><br>
+				<input type="submit" value="Login" class="button"></input><br><br>
+			</form>
+			<form action="/newUser" method="get">
+				<label for="fname">New user</label><br>
+				<input type="submit" value="Create" class="button"></input><br><br><br>
+			</form>
+			<form action="/notificationlist" method="get">
+				<label for="fname">View docs as a guest</label><br>
+				<input type="submit" value="Docs" class="button"></input><br>
+			</form>
+	  </div>
+
+		<div class="column2">
+			<p>Presentacion de la pagina, Posiblemente un logo y algo bonito</p>
+		</div>
+
+	</div>
+
+
+
+
+
+
+
+
+
+
+</body>

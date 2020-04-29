@@ -1,36 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<form action="/" method="get">
-	 <p><button class="buttBack"> - Back to Main Page</button></p>
-	</form>
 	<title>Pagina que ve el USUARIO cuando se loguea</title>
 </head>
 
 <body>
-	<div class="about-section">
-		<h1>Welcome Again <%= @name %>  &#128075; <img src="/index.png" alt="" style="width:2%">
-	        <!-- Grey navigation panel -->
+	<div class="column-container">
+
+	  <div class="column1" >
+			<form action="/mydata" method="get" >
+			  	<button class="button">Mi Perfil        </button>
+			</form><br>
+			<!-- miren este boton -->
+			<form action="/notificationlist"  >
+			  <button onclick="get()" class="button">Notificaciones   </button>
+			</form><br>
+
+			<form action="/uploadrecord" >
+			  <input type= "<%= @admin %>" value="Subir Acta" class="button">
+			</form><br>
+
+			<form  action="/recordlist" method="get">
+			  <input  type= "<%= @admin %>" value="Ver Actas Subidas" class="button">
+			</form><br>
+
+			<form  action="/asign" method="get">
+			  <input  type= "<%= @superAdmin %>" value="Asignar admin"class="button">
+			</form><br>
+	  </div>
+	  <div class="column2">
+
+	  </div>
+
 	</div>
-	<form action="/mydata" method="get" >
-	  	<button class="button">Mi Perfil</button>
-	</form>
-	<!-- miren este boton -->
-	<form action="/notificationlist" >
-	  <button onclick="get()" class="button">Notificaciones</button>
-	</form>
-
-	<form action="/uploadrecord" method="get">
-	  <input type= "<%= @admin %>" value="Subir Acta" class="button">
-	</form>
-
-	<form  action="/recordlist" method="get">
-	  <input  type= "<%= @admin %>" value="Ver Actas Subidas" class="button">
-	</form>
-
-	<form  action="/asign" method="get">
-	  <input  type= "<%= @superAdmin %>" value="Asignar admin"class="button">
-	</form>
 </body>
 
 </html>

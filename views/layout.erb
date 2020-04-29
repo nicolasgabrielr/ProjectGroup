@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-  
+
 <title></title>
 
 <link href="<%= url('/css/style.css') %>" rel="stylesheet" type="text/css" />
 </head>
 <body>
-
+  <header>
+    <div class="menu" >
+        <ul class = "ullista">
+          <li class= "lista"><a href="/about" >about</a></li>
+      	  <li class= "lista"><a href="/index" >index</a></li>
+        </ul>
+    </div>
+  </header>
 <%= yield %>
-<div bottom class="about-section">
-  <a href="/about" class="about-section">About Us</a>
-</div>
 </body>
-
 </html>

@@ -1,25 +1,15 @@
 require 'json'
 require './models/init.rb'
+include FileUtils::Verbose
 
 class App < Sinatra::Base
 
-  get "/prueba" do
-    #User[19].delete
-
-    #PARA MODIFICAR UN REGISTRO
-    #user = User.last
-    #user.update category: 'superAdmin'
-
-    #PARA MOSTRAR UN REGISTRO
-    #usuario = User.first(id:19)
-    #u = usuario.name
-
-
-    User.all.to_s
-  end
-
   get "/" do
     erb:index
+  end
+
+  get "/notificationlist" do
+    erb:notificationlist
   end
 
   get "/index" do
@@ -38,7 +28,6 @@ class App < Sinatra::Base
     erb:uploadrecord
   end
 
-
   post '/newUser' do
     request.body.rewind
     hash = Rack::Utils.parse_nested_query(request.body.read)
@@ -51,6 +40,33 @@ class App < Sinatra::Base
     end
   end
 
+  post '/load' do
+    tempfile = params[:pdf][:tempfile]
+    @filename = params[:pdf][:filename]
+    cp(tempfile.path, "public/file/#{@filename}")
+    @src =  "/file/#{@filename}"
+    erb :uploadrecord
+  end
+
+  post '/pre_upload' do
+    @src =  params[:path]
+    @date = params[:date]
+    @description = params[:description]
+    erb :uploadrecord
+  end
+
+  post '/upload' do
+    request.body.rewind
+    hash = Rack::Utils.parse_nested_query(request.body.read)
+    params = JSON.parse hash.to_json
+    document = Document.new(path: params["path"], description: params["description"], date: params["date"] )
+    if document.save
+      redirect "/uploadrecord"
+    else
+      [500, {}, "Internal server Error"]
+    end
+
+  end
 
 
   post "/loged" do
@@ -69,8 +85,29 @@ class App < Sinatra::Base
     else
       "contraseña incorrecta"
     end
+    @admin = "submit"
+    @superAdmin = "submit"
 
     erb :loged
+  end
+
+## Pruebas para ver las tablas
+
+
+
+  get "/prueba" do
+    #User[19].delete
+
+    #PARA MODIFICAR UN REGISTRO
+    #user = User.last
+    #user.update category: 'superAdmin'
+
+    #PARA MOSTRAR UN REGISTRO
+    #usuario = User.first(id:19)
+    #u = usuario.name
+
+
+    Document.all.to_s
   end
 
 
