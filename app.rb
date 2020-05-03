@@ -4,31 +4,79 @@ include FileUtils::Verbose
 
 class App < Sinatra::Base
 
-  get "/" do
-    erb:index
+  configure do
+    #enable :logging   si uso esto se me rompe porqueeeee?
+    enable :sessions
+    set :session_fail, '/'
+    set :session_secret, "otro secret pero dificil y abstracto"
+    set :sessions, true
   end
+
+  get "/" do
+    erb :index
+  end
+
+  post '/sign_in' do #inicio de sesion
+    usuario = User.find(email: params["email"])
+    if usuario.password == params["password"]
+      session[:user_name] = usuario.name
+      session[:user_category]=usuario.category
+      session[:user_id] = usuario.id
+      set_user
+      erb :loged
+    else
+      erb :index
+    end
+  end
+
+
+
+  get '/sign_in' do  #sesion iniciada get
+    if session[:user_id]
+      set_user
+      erb :loged
+    else
+      erb :index
+    end
+  end
+
+
+  get '/sign_out' do  #cierre de sesion
+      session[:user_id] = false
+      erb:index
+  end
+
 
   get "/notificationlist" do
     erb:notificationlist
   end
 
+
   get "/index" do
-    erb:index
+    session[:user_id] = false
+    erb :index
   end
+
 
   get "/about" do
     erb:about
   end
 
+
   get '/newUser' do
     erb:newUser
   end
 
-  get '/uploadrecord' do
-    erb:uploadrecord
+
+  get '/uploadrecord' do  #carga de ducumentos
+    if (session[:user_category] == "admin" || session[:user_category] == "superAdmin")
+      erb:uploadrecord
+    else
+      erb:index
+    end
   end
 
-  post '/newUser' do
+  post '/newUser' do   #cargar un nuevo usuario
     request.body.rewind
     hash = Rack::Utils.parse_nested_query(request.body.read)
     params = JSON.parse hash.to_json
@@ -40,74 +88,68 @@ class App < Sinatra::Base
     end
   end
 
-  post '/load' do
-    tempfile = params[:pdf][:tempfile]
-    @filename = params[:pdf][:filename]
-    cp(tempfile.path, "public/file/#{@filename}")
-    @src =  "/file/#{@filename}"
-    erb :uploadrecord
-  end
-
-  post '/pre_upload' do
-    @src =  params[:path]
-    @date = params[:date]
-    @description = params[:description]
-    erb :uploadrecord
-  end
-
-  post '/upload' do
-    request.body.rewind
-    hash = Rack::Utils.parse_nested_query(request.body.read)
-    params = JSON.parse hash.to_json
-    document = Document.new(path: params["path"], description: params["description"], date: params["date"] )
-    if document.save
-      redirect "/uploadrecord"
+  post '/load' do   #vista previa del documento para extraer datos y tags
+    if (session[:user_category] == "admin" || session[:user_category] == "superAdmin")
+      tempfile = params[:pdf][:tempfile]
+      @filename = params[:pdf][:filename]
+      cp(tempfile.path, "public/file/#{@filename}")
+      @src =  "/file/#{@filename}"
+      erb :uploadrecord
     else
-      [500, {}, "Internal server Error"]
+      erb:index
     end
-
   end
 
-
-  post "/loged" do
-    @admin = "hidden"
-    @superAdmin = "hidden"
-    user = User.last #deberia ver username:params[:username]  email: params[:email]
-                     #creo que tengo que crear un index en cada columna para buscar
-
-    if params[:key] == user.password
-      if user.category == "admin"
-       @admin = "submit"
-     elsif user.category =="superAdmin"
-       @admin = "submit"
-       @superAdmin = "submit"
+  post '/upload' do     #cargar documetos a la base de datos (supongo que tags tambien)
+    if (session[:user_category] == "admin" || session[:user_category] == "superAdmin")
+      erb :uploadrecord
+      request.body.rewind
+      hash = Rack::Utils.parse_nested_query(request.body.read)
+      params = JSON.parse hash.to_json
+      document = Document.new(path: params["path"], description: params["description"], date: params["date"] )
+      if document.save
+        redirect "/uploadrecord"
+      else
+        [500, {}, "Internal server Error"]
       end
     else
-      "contraseña incorrecta"
+      erb:index
     end
-    @admin = "submit"
-    @superAdmin = "submit"
-
-    erb :loged
   end
+
+  def set_user
+    case session[:user_category]
+      when "superAdmin" then
+        @admin = "submit"
+        @superAdmin = "submit"
+      when "admin" then
+        @admin = "submit"
+        @superAdmin = "hidden"
+      else
+        @admin = "hidden"
+        @superAdmin = "hidden"
+      end
+        @usuario = session[:user_name]
+  end
+
 
 ## Pruebas para ver las tablas
 
-
-
   get "/prueba" do
-    #User[19].delete
+    #User[20].delete
 
     #PARA MODIFICAR UN REGISTRO
     #user = User.last
-    #user.update category: 'superAdmin'
+    #user.update category: 'admin'
 
     #PARA MOSTRAR UN REGISTRO
     #usuario = User.first(id:19)
     #u = usuario.name
 
+    #usuario = User.first(id: session[:user_id])
+    #u = usuario.name
 
-    Document.all.to_s
+    User.all.to_s
   end
 
 
