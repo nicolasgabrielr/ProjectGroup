@@ -50,23 +50,31 @@ class App < Sinatra::Base
     #genera un arreglo con el campo deseado
     @arr= orderbydate.map{|x| x.filename}.reverse
     if (session[:user_category] == "admin" || session[:user_category] == "superAdmin")
-      usuario = User.find(email: params["emailnewAdmin"])
-      if usuario != nil && checkpass(params["passwordActual"])
-        if params[:admin] == 'Asignar Administrador'
-          usuario.update(category:"admin")  
-        else 
-            usuario.update(category:"superAdmin")
+      if checkpass(params["passwordActual"])
+        usuario = User.find(email: params["emailnewAdmin"])
+        if params[:dUser] && usuario != nil
+          usuario.destroy
+          @band = "¡El usuario ha sido eliminado con Exito!"
+        else
+          @band = "¡El usuario no existe o no se pudo eliminar!"
         end
-        @band = "¡El Administrador ha sido cargado con exito!"
+        if params[:admin]
+          usuario.update(category:"admin")  
+          @band = "¡El Administrador ha sido cargado con exito!"
+        elsif params[:sAdmin]
+          usuario.update(category:"superAdmin")
+          @band = "¡El Administrador ha sido cargado con exito!"
+        end
       else
-        @band = "No se pudo cargar el Administrador."
+        @band = "El password es incorrecto o el usuario no existe"
       end
       set_user
       erb:assign
     else 
-      "no tienes permisos suficientes"
+      erb:loged
     end
   end
+
 
   get '/assign' do
     set_user
@@ -191,15 +199,14 @@ class App < Sinatra::Base
     erb:modifyphoto
   end
 
-  post '/uploadImg' do     #cargar documetos a la base de datos (supongo que tags tambien)
-    erb :modifyphoto
-    request.body.rewind
-    hash = Rack::Utils.parse_nested_query(request.body.read)
-    params = JSON.parse hash.to_json
+  post '/uploadImg' do     #cargar imagenes a la base de datos
+    tempfile = params[:myImg][:tempfile]
+    @filename = params[:myImg][:filename]
+    cp(tempfile.path, "public/usr/#{@filename}")
     usuario = User.find(id: session[:user_id])
-    usuario.update(imgpath: params["path"])
+    usuario.update(imgpath: "/usr/#{@filename}")
     @username = session[:user_name]
-    session[:user_imgpath] = params["path"]
+    session[:user_imgpath] = "/usr/#{@filename}"
     @foto = session[:user_imgpath]
     erb:mydata
   end

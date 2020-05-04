@@ -20,20 +20,26 @@
 			</form><br>
 
 			<form  action="/assign" method="get">
-			  <input  type= "<%= @superAdmin %>" value="Asignar admin"class="button">
+			  <input  type= "<%= @superAdmin %>" value="Gestionar Usuarios"class="button">
 			</form><br>
+
+			<form action="/index"  >
+			  <button onclick="get()" class="button">Cerrar Sesion</button>
+			</form><br>
+
 	  </div>
 
 		   <div class="columnmid">
-        	<h2>CARGA DE NUEVOS ADMINISTRADORES</h2><br><br>
+        	<h2>Opciones disponibles:</h2><br><br>
 
 			<form name="formEmail" action="/assign" method="post">
   				<label for="passwordActual">Password Actual:</label><br>
 				<input class="buttonmid" type="password" name="passwordActual"><br><br>
-				<label for="emailnewAdmin">Email del nuevo Admin:</label><br>
+				<label for="emailnewAdmin">Email del Usuario:</label><br>
 				<input class="buttonmid" type="text" name="emailnewAdmin"><br><br><br>
 			 	<input class="buttonmid" type="submit" name="admin" value="Asignar Administrador"/>
-				<input class="buttonmid" type="submit" name="sAdmin" value="Asignar Super Administrador" /><br>
+				<input class="buttonmid" type="submit" name="sAdmin" value="Asignar Super Administrador" />
+				<input class="buttonmid" type="submit" name="dUser" value="Eliminar User"/><br>
 				<form><%= @band %></form></ul>
 			</form>
 			</div>

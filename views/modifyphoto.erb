@@ -2,28 +2,32 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Upload Image</title>
   </head>
   <body>
-    <div class="column-container">
-    <!-------  seleccionar archivo   ------->
       <div class="column1">
-        <form class="button" action="/loadImg" method="post" enctype="multipart/form-data">
-          <input type="file" name="myImg" value=""class="button" accept="image/jpeg">
-          <input type="submit" value="Visualizar"class="button">
+        <form action="/sign_in" method="get">
+          <p><button class="button"> Back </button></p>
         </form>
       </div>
-      <!--------   Previsualizar archivo   ----------->
+      <!--------   Cargar Foto y Visualizar   ----------->
       <div class="column2">
-        <embed src="<%= @img %>" type="image/jpeg" width="20%" height="200px" />
-      </div>
-      <!--------- Taggear y subir  --------->
-      <div class="column1">
-        <form class="button" action="/uploadImg" method="post">
-          <input type="text" name="path" value ="<%= @img %>" class="button" hidden>
-          <input type="submit" value="subir"class="button">
+        <label>Upload your new Image!</label>
+        <form class="button" action="/uploadImg" method="post" enctype="multipart/form-data">
+          <input type="file" name="myImg" value="" class="button" accept="image/jpg" onchange="loadFile(event)">
+          <img id="output" width="20%" height="150px"/>
+          <input type="submit" value="Cargar"class="button">
         </form>
-  	  </div>
     </div>
   </body>
 </html>
+
+<script>
+  var loadFile = function(event) {
+    var output = document.getElementById('output');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function() {
+      URL.revokeObjectURL(output.src) // free memory
+    }
+  };
+</script>
