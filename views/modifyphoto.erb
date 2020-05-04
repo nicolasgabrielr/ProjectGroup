@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div class="column-container">
+    <!-------  seleccionar archivo   ------->
+      <div class="column1">
+        <form class="button" action="/loadImg" method="post" enctype="multipart/form-data">
+          <input type="file" name="myImg" value=""class="button" accept="image/jpeg">
+          <input type="submit" value="Visualizar"class="button">
+        </form>
+      </div>
+      <!--------   Previsualizar archivo   ----------->
+      <div class="column2">
+        <embed src="<%= @img %>" type="image/jpeg" width="20%" height="200px" />
+      </div>
+      <!--------- Taggear y subir  --------->
+      <div class="column1">
+        <form class="button" action="/uploadImg" method="post">
+          <input type="text" name="path" value ="<%= @img %>" class="button" hidden>
+          <input type="submit" value="subir"class="button">
+        </form>
+  	  </div>
+    </div>
+  </body>
+</html>

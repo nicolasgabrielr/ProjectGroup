@@ -2,50 +2,26 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-   <form action="/loged" method="post">
-          <p><button class="buttBack"> - Back to User </button></p>
-   </form>
-
-    <body>
-        <div class="about-section">
-          <h1>Perfil de <%= @nomb %> @aca_va_el_current_user </h1> <img src="/index.png" alt="" style="width:20%">
-        </div>
-
-        <div class="row">
-          <div class="column">
-            <div class="card">
-              <div class="container">
-              <h2></h2>
-              <p class="tittle"> Email:</p>
-                <p class="title"> example@gmail.com</p>
-                <form action="/modifyemail" method="post" >
-                    <button class="button">Modify current Email</button>
-                </form>
-              </div>
+  <div class="column-container">
+    <div class="column1" >
+     <form action="/sign_in" method="get">
+            <p><button class="button"> Back to User </button></p>
+     </form>
+   </div>
+      <body>
+          <div class="columnmid">
+            <div class="about-section">
+              <h1>Perfil de <%= @username %></h1> <img src="<%= @foto %>" alt="" style="width:20%">
             </div>
-          </div>
-
-          <div class="column">
-            <div class="card">
-              <p class="tittle"> Current Password:</p>
-                <p class="title"> *******</p>
-                <form action="/modifypassword" method="post" >
-                    <button class="button">Modify Password</button>
-                </form>
-            </div>
-          </div>
-
-           <div class="column">
-            <div class="card">
-              <p class="tittle"> Your Photo:</p>
-              <img src="/index.png" alt="" style="width:20%">
-                <form action="/" method="get" >
-                    <button class="button">Modify current Photo</button>
-                </form>
-            </div>
+            <form action="/modifypassword" method="get" >
+              <button class="button">Modify Password</button>
+            </form>
+            <form action="/modifyemail" method="get" >
+              <button class="button">Modify Email</button>
+            </form>
+            <form action="/modifyphoto" method="get" >
+                <button class="button">Modify current Photo</button>
+            </form>
           </div>
         </div>
-    </body>
-
 </html>

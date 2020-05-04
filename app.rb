@@ -31,6 +31,7 @@ class App < Sinatra::Base
       session[:user_category]=usuario.category
       session[:user_id] = usuario.id
       session[:user_password] = usuario.password
+      session[:user_imgpath] = usuario.imgpath
       set_user
       erb :loged
     else
@@ -73,6 +74,10 @@ class App < Sinatra::Base
   end 
 
   get '/sign_in' do  #sesion iniciada get
+     #filtra la tabla 
+    orderbydate=Document.select(:filename,:realtime).order(:realtime).all
+    #genera un arreglo con el campo deseado
+    @arr= orderbydate.map{|x| x.filename}.reverse
     if session[:user_id]
       set_user
       erb :loged
@@ -92,16 +97,14 @@ class App < Sinatra::Base
     erb:notificationlist
   end
 
-
   get "/index" do
     #filtra la tabla 
-    orderbydate=Document.select(:filename,:resolution,:realtime).order(:realtime).all
+    orderbydate=Document.select(:filename,:realtime).order(:realtime).all
     #genera un arreglo con el campo deseado
     @arr= orderbydate.map{|x| x.filename}.reverse
     session.clear
     erb :index
   end
-
 
   get "/about" do
     erb:about
@@ -113,6 +116,8 @@ class App < Sinatra::Base
   end
 
   get '/mydata' do
+    @username = session[:user_name]
+    @foto = session[:user_imgpath]
     erb:mydata
   end
 
@@ -120,6 +125,35 @@ class App < Sinatra::Base
     erb:modifyemail
   end
 
+  post '/modifyemail' do
+    usuario = User.find(id: session[:user_id])
+    if usuario != nil && checkpass(params["passwordActual"])
+      usuario.update(email: params["emailNew1"])  
+      @band = "¡El email ha sido Actualizado con exito!"
+    else
+      @band = "La contraseña o el email son Incorrectos!"
+    end
+    erb:modifyemail
+  end
+
+  get '/modifypassword' do
+    erb:modifypassword
+  end
+
+  post '/modifypassword' do
+    usuario = User.find(id: session[:user_id])
+    if usuario != nil && checkpass(params["passwordActual"])
+      usuario.update(password: params["passwordNew1"])  
+      @band = "¡El password ha sido Actualizado con exito!"
+    else
+      @band = "La contraseña ingresada es incorrecta"
+    end
+    erb:modifypassword
+  end
+
+  get '/modifyphoto' do
+    erb:modifyphoto
+  end
 
   get '/uploadrecord' do  #carga de ducumentos
     if (session[:user_category] == "admin" || session[:user_category] == "superAdmin")
@@ -143,6 +177,31 @@ class App < Sinatra::Base
     else
       [500, {}, "Internal server Error"]
     end
+  end
+
+  post '/loadImg' do   #vista previa del documento para extraer datos y tags
+    tempfile = params[:myImg][:tempfile]
+    @filename = params[:myImg][:filename]
+    cp(tempfile.path, "public/usr/#{@filename}")
+    @img =  "/usr/#{@filename}"
+    erb :modifyphoto
+  end
+
+  get '/uploadImg' do  #carga de fotos
+    erb:modifyphoto
+  end
+
+  post '/uploadImg' do     #cargar documetos a la base de datos (supongo que tags tambien)
+    erb :modifyphoto
+    request.body.rewind
+    hash = Rack::Utils.parse_nested_query(request.body.read)
+    params = JSON.parse hash.to_json
+    usuario = User.find(id: session[:user_id])
+    usuario.update(imgpath: params["path"])
+    @username = session[:user_name]
+    session[:user_imgpath] = params["path"]
+    @foto = session[:user_imgpath]
+    erb:mydata
   end
 
   post '/load' do   #vista previa del documento para extraer datos y tags
@@ -207,7 +266,7 @@ class App < Sinatra::Base
     #usuario = User.first(id: session[:user_id])
     #u = usuario.name
 
-    Document.all.to_s
+    User.all.to_s
   end
 
 
