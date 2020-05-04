@@ -7,19 +7,11 @@
   <body>
     <div class="column-container">
       <div class="column1">
-
         <form class="button"  action="/load" method="post" enctype="multipart/form-data">
-          <input type="file" name="pdf" value=""class="button">
-          <input type="submit" value="cargar"class="button">
+          <input type="file" name="pdf" value=""class="button" accept="application/pdf">
+          <input type="submit" value="Visualizar"class="button">
         </form>
         <form class="" action="/pre_upload" method="post">
-          <label for="fname">Date:</label><br>
-          <input type="text" name="date" value="" class="button">
-          <label for="fname">Description:</label><br>
-          <input type="text" name="description" value="" class="button">
-          <label for="fname">Res N°:</label><br>
-          <input type="submit" value="pre cargar"class="button">
-          <input type="text" name="path" value="<%= @src %>" class="button" readonly>
         </form>
       </div>
       <div class="column2">
@@ -27,9 +19,13 @@
       </div>
       <div class="column1">
         <form class="button" action="/upload" method="post">
-          <input type="text" name="path" value="<%= @src %>" class="button" readonly>
-          <input type="text" name="date" value="<%= @date %>" class="button" readonly>
-          <input type="text" name="description" value="<%= @description %>" class="button" readonly>
+          <label for="fname">Date:</label><br>
+          <input type="text" name="date" value="" class="button"><br>
+          <label for="fname">Description:</label><br>
+          <input type="text" name="description" value="" class="button"><br>
+          <label for="fname">Res N°:</label><br>
+          <input type="text" name="number" value="" class="button"><br>
+          <input type="text" name="path" value ="<%= @src %>" class="button" readonly><br>
           antes de subir debera revisar el documento y taggear a los involucrados
           <input type="submit" value="subir"class="button">
         </form>
@@ -41,11 +37,10 @@
             <ul id="myUL" >
             </ul>
         </form>
-  	  </div>
+      </div>
     </div>
   </body>
 </html>
-
 <script>
 // Create a new list item when clicking on the "Add" button
 function newElement() {
@@ -60,7 +55,4 @@ function newElement() {
   }
   document.getElementById("myInput").value = "";
  }
-
-
-
 </script>

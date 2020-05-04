@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<body>
+	<div class="column-container">
+	  <div class="column1" >
+			<form action="/mydata" method="get" >
+			  	<button class="button">Mi Perfil</button>
+			</form><br>
+			<!-- miren este boton -->
+			<form action="/notificationlist"  >
+			  <button onclick="get()" class="button">Notificaciones</button>
+			</form><br>
+
+			<form action="/uploadrecord" >
+			  <input type= "<%= @admin %>" value="Subir Acta" class="button">
+			</form><br>
+
+			<form  action="/recordlist" method="get">
+			  <input  type= "<%= @admin %>" value="Ver Actas Subidas" class="button">
+			</form><br>
+
+			<form  action="/assign" method="get">
+			  <input  type= "<%= @superAdmin %>" value="Asignar admin"class="button">
+			</form><br>
+	  </div>
+
+		   <div class="columnmid">
+        	<h2>CARGA DE NUEVOS ADMINISTRADORES</h2><br><br>
+
+			<form name="formEmail" action="/assign" method="post">
+  				<label for="passwordActual">Password Actual:</label><br>
+				<input class="buttonmid" type="password" name="passwordActual"><br><br>
+				<label for="emailnewAdmin">Email del nuevo Admin:</label><br>
+				<input class="buttonmid" type="text" name="emailnewAdmin"><br><br><br>
+			 	<input class="buttonmid" type="submit" name="admin" value="Asignar Administrador"/>
+				<input class="buttonmid" type="submit" name="sAdmin" value="Asignar Super Administrador" /><br>
+				<form><%= @band %></form></ul>
+			</form>
+			</div>
+</body>
+</html>

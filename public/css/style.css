@@ -5,10 +5,7 @@
 
 body {
   font-family: Arial;
-
 }
-
-
 
 a{
   color: white;
@@ -76,6 +73,21 @@ ul{
     background-color: #555;
     }
 
+    .button2 {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #34495E;
+    text-align: center;
+    cursor: pointer;
+    width: 90%;
+    }
+    .button2:hover {
+    background-color: #555;
+    }
+
 
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -91,7 +103,7 @@ ul{
 .about-section {
   padding: 50px;
   text-align: center;
-  background-color: #6C7CB5;
+  background-color: #474e5d;
   color: white;
 }
 
@@ -158,6 +170,22 @@ ul{
   height: 600px;
   padding: 7px;
   width: 70%;
+  box-sizing: border-box;
+}
+.columnmid {
+  float: left;
+  width: auto;
+  height: 600px;
+  padding: 7px;
+  width: 70%;
+  box-sizing: border-box;
+  text-align:center;
+  font-family:verdana;
+}
+.buttonmid{
+  width: 25%;
+  padding-top: 5px;
+  padding-bottom: 5px;
   box-sizing: border-box;
 }
 

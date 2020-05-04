@@ -22,6 +22,7 @@ class App < Sinatra::Base
       session[:user_name] = usuario.name
       session[:user_category]=usuario.category
       session[:user_id] = usuario.id
+      session[:user_password] = usuario.password
       set_user
       erb :loged
     else
@@ -29,7 +30,35 @@ class App < Sinatra::Base
     end
   end
 
+  def checkpass(key)
+    session[:user_password] == key
+  end
 
+  post '/assign' do #asignacion de admin o super admin
+    @band
+    if (session[:user_category] == "admin" || session[:user_category] == "superAdmin")
+      usuario = User.find(email: params["emailnewAdmin"])
+      if usuario != nil && checkpass(params["passwordActual"])
+        if params[:admin] == 'Asignar Administrador'
+          usuario.update(category:"admin")  
+        else 
+            usuario.update(category:"superAdmin")
+        end
+        @band = "¡El Administrador ha sido cargado con exito!"
+      else
+        @band = "No se pudo cargar el Administrador."
+      end
+      set_user
+      erb:assign
+    else 
+      "no tienes permisos suficientes"
+    end
+  end
+
+  get '/assign' do
+    set_user
+    erb :assign
+  end 
 
   get '/sign_in' do  #sesion iniciada get
     if session[:user_id]
@@ -42,7 +71,7 @@ class App < Sinatra::Base
 
 
   get '/sign_out' do  #cierre de sesion
-      session[:user_id] = false
+      session.clear
       erb:index
   end
 
@@ -53,7 +82,7 @@ class App < Sinatra::Base
 
 
   get "/index" do
-    session[:user_id] = false
+    session.clear
     erb :index
   end
 
@@ -65,6 +94,14 @@ class App < Sinatra::Base
 
   get '/newUser' do
     erb:newUser
+  end
+
+  get '/mydata' do
+    erb:mydata
+  end
+
+  get '/modifyemail' do
+    erb:modifyemail
   end
 
 
@@ -143,8 +180,8 @@ class App < Sinatra::Base
     #user.update category: 'admin'
 
     #PARA MOSTRAR UN REGISTRO
-    #usuario = User.first(id:19)
-    #u = usuario.name
+    #usuario = User.first(id:2)
+    #usuario.update(category:"admin")
 
     #usuario = User.first(id: session[:user_id])
     #u = usuario.name
