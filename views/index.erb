@@ -24,7 +24,26 @@
 	  </div>
 
 		<div class="column2">
-			<p>Presentacion de la pagina, Posiblemente un logo y algo bonito</p>
+		
+		<ul id="li1">
+			
+			<li >
+				<h1 id="section_headder">Lista Publica de Actas Facultad de Ciencias Exactas</h1>
+			</li> 
+			<li>
+				<ol id="lista_publica">
+					<% @arr.each do |elem| %>
+					<li> 
+						<p ><strong><u> Resolución:</u></strong> <strong><%=Document.first(filename: elem).resolution%></strong></p>
+							
+						<p>Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%>
+							<a href="file/<%= elem%>"><strong>Descargar</strong></a>
+						</p>
+					</li>
+					<% end %>
+				</ol>
+			</li>
+		</ul>
 		</div>
 
 	</div>

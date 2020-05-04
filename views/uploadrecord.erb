@@ -6,6 +6,7 @@
   </head>
   <body>
     <div class="column-container">
+    <!-------  seleccionar archivo   ------->
       <div class="column1">
         <form class="button"  action="/load" method="post" enctype="multipart/form-data">
           <input type="file" name="pdf" value=""class="button" accept="application/pdf">
@@ -14,18 +15,21 @@
         <form class="" action="/pre_upload" method="post">
         </form>
       </div>
+      <!--------   Previsualizar archivo   ----------->
       <div class="column2">
         <embed src="<%= @src %>" type="application/pdf" width="100%" height="600px" />
       </div>
+      <!--------- Taggear y subir  --------->
       <div class="column1">
         <form class="button" action="/upload" method="post">
-          <label for="fname">Date:</label><br>
-          <input type="text" name="date" value="" class="button"><br>
-          <label for="fname">Description:</label><br>
+          <label for="fname">Fecha:</label><br>
+          <input type="text" name="realtime" value="<%= @realtime %>" class="button"readonly><br>
+          <label for="fname">Descripcion:</label><br>
           <input type="text" name="description" value="" class="button"><br>
-          <label for="fname">Res N°:</label><br>
-          <input type="text" name="number" value="" class="button"><br>
-          <input type="text" name="path" value ="<%= @src %>" class="button" readonly><br>
+          <label for="fname">N° de Resolucion:</label><br>
+          <input type="text" name="resolution" value="" class="button"><br>
+          <input type="text" name="path" value ="<%= @src %>" class="button" hidden>
+          <input type="text" name="filena" value ="<%= @filename %>" class="button" readonly><br>
           antes de subir debera revisar el documento y taggear a los involucrados
           <input type="submit" value="subir"class="button">
         </form>
@@ -37,7 +41,7 @@
             <ul id="myUL" >
             </ul>
         </form>
-      </div>
+  	  </div>
     </div>
   </body>
 </html>

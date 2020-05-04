@@ -13,10 +13,18 @@ class App < Sinatra::Base
   end
 
   get "/" do
+    #filtra la tabla 
+    orderbydate=Document.select(:filename,:resolution,:realtime).order(:realtime).all
+    #genera un arreglo con el campo deseado
+    @arr= orderbydate.map{|x| x.filename}.reverse
     erb :index
   end
 
   post '/sign_in' do #inicio de sesion
+    #filtra la tabla 
+    orderbydate=Document.select(:filename,:resolution,:realtime).order(:realtime).all
+    #genera un arreglo con el campo deseado
+    @arr= orderbydate.map{|x| x.filename}.reverse
     usuario = User.find(email: params["email"])
     if usuario.password == params["password"]
       session[:user_name] = usuario.name
@@ -36,6 +44,10 @@ class App < Sinatra::Base
 
   post '/assign' do #asignacion de admin o super admin
     @band
+    #filtra la tabla 
+    orderbydate=Document.select(:filename,:resolution,:realtime).order(:realtime).all
+    #genera un arreglo con el campo deseado
+    @arr= orderbydate.map{|x| x.filename}.reverse
     if (session[:user_category] == "admin" || session[:user_category] == "superAdmin")
       usuario = User.find(email: params["emailnewAdmin"])
       if usuario != nil && checkpass(params["passwordActual"])
@@ -82,6 +94,10 @@ class App < Sinatra::Base
 
 
   get "/index" do
+    #filtra la tabla 
+    orderbydate=Document.select(:filename,:resolution,:realtime).order(:realtime).all
+    #genera un arreglo con el campo deseado
+    @arr= orderbydate.map{|x| x.filename}.reverse
     session.clear
     erb :index
   end
@@ -109,6 +125,10 @@ class App < Sinatra::Base
     if (session[:user_category] == "admin" || session[:user_category] == "superAdmin")
       erb:uploadrecord
     else
+    #filtra la tabla 
+    orderbydate=Document.select(:filename,:resolution,:realtime).order(:realtime).all
+    #genera un arreglo con el campo deseado
+    @arr= orderbydate.map{|x| x.filename}.reverse
       erb:index
     end
   end
@@ -131,6 +151,7 @@ class App < Sinatra::Base
       @filename = params[:pdf][:filename]
       cp(tempfile.path, "public/file/#{@filename}")
       @src =  "/file/#{@filename}"
+      @realtime=Time.now
       erb :uploadrecord
     else
       erb:index
@@ -143,7 +164,7 @@ class App < Sinatra::Base
       request.body.rewind
       hash = Rack::Utils.parse_nested_query(request.body.read)
       params = JSON.parse hash.to_json
-      document = Document.new(path: params["path"], description: params["description"], date: params["date"] )
+      document = Document.new(resolution: params ["resolution"],path: params["path"],filename: params["filena"], description: params["description"], realtime: params["realtime"] )
       if document.save
         redirect "/uploadrecord"
       else
@@ -174,7 +195,7 @@ class App < Sinatra::Base
 
   get "/prueba" do
     #User[20].delete
-
+    #Document[47].delete    
     #PARA MODIFICAR UN REGISTRO
     #user = User.last
     #user.update category: 'admin'
@@ -186,7 +207,7 @@ class App < Sinatra::Base
     #usuario = User.first(id: session[:user_id])
     #u = usuario.name
 
-    User.all.to_s
+    Document.all.to_s
   end
 
 
