@@ -187,19 +187,15 @@ class App < Sinatra::Base
     end
   end
 
-  post '/loadImg' do   #vista previa del documento para extraer datos y tags
-    tempfile = params[:myImg][:tempfile]
-    @filename = params[:myImg][:filename]
-    cp(tempfile.path, "public/usr/#{@filename}")
-    @img =  "/usr/#{@filename}"
-    erb :modifyphoto
-  end
-
   get '/uploadImg' do  #carga de fotos
     erb:modifyphoto
   end
 
   post '/uploadImg' do     #cargar imagenes a la base de datos
+    @temp = session[:user_imgpath]
+    if File.exist?("public#{@temp}") 
+      File.delete("public#{@temp}")
+    end
     tempfile = params[:myImg][:tempfile]
     @filename = params[:myImg][:filename]
     cp(tempfile.path, "public/usr/#{@filename}")
