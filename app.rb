@@ -5,7 +5,7 @@ include FileUtils::Verbose
 class App < Sinatra::Base
 
   configure do
-    #enable :logging   si uso esto se me rompe porqueeeee?
+    enable :logging
     enable :sessions
     set :session_fail, '/'
     set :session_secret, "otro secret pero dificil y abstracto"
@@ -13,7 +13,7 @@ class App < Sinatra::Base
   end
 
   get "/" do
-    #filtra la tabla 
+    #filtra la tabla
     orderbydate=Document.select(:filename,:resolution,:realtime).order(:realtime).all
     #genera un arreglo con el campo deseado
     @arr= orderbydate.map{|x| x.filename}.reverse
@@ -33,13 +33,13 @@ class App < Sinatra::Base
       params["elem"]
       Document.find(filename: params["elem"]).delete
       redirect "/myrecords"
-    else 
+    else
       "no se pudo eliminar el documento"
     end
   end
 
   post '/sign_in' do #inicio de sesion
-    #filtra la tabla 
+    #filtra la tabla
     orderbydate=Document.select(:filename,:resolution,:realtime).order(:realtime).all
     #genera un arreglo con el campo deseado
     @arr= orderbydate.map{|x| x.filename}.reverse
@@ -63,7 +63,7 @@ class App < Sinatra::Base
 
   post '/assign' do #asignacion de admin o super admin
     @band
-    #filtra la tabla 
+    #filtra la tabla
     orderbydate=Document.select(:filename,:resolution,:realtime).order(:realtime).all
     #genera un arreglo con el campo deseado
     @arr= orderbydate.map{|x| x.filename}.reverse
@@ -77,7 +77,7 @@ class App < Sinatra::Base
           @band = "¡El usuario no existe o no se pudo eliminar!"
         end
         if params[:admin]
-          usuario.update(category:"admin")  
+          usuario.update(category:"admin")
           @band = "¡El Administrador ha sido cargado con exito!"
         elsif params[:sAdmin]
           usuario.update(category:"superAdmin")
@@ -88,7 +88,7 @@ class App < Sinatra::Base
       end
       set_user
       erb:assign
-    else 
+    else
       erb:loged
     end
   end
@@ -97,10 +97,10 @@ class App < Sinatra::Base
   get '/assign' do
     set_user
     erb :assign
-  end 
+  end
 
   get '/sign_in' do  #sesion iniciada get
-     #filtra la tabla 
+     #filtra la tabla
     orderbydate=Document.select(:filename,:realtime).order(:realtime).all
     #genera un arreglo con el campo deseado
     @arr= orderbydate.map{|x| x.filename}.reverse
@@ -124,7 +124,7 @@ class App < Sinatra::Base
   end
 
   get "/index" do
-    #filtra la tabla 
+    #filtra la tabla
     orderbydate=Document.select(:filename,:realtime).order(:realtime).all
     #genera un arreglo con el campo deseado
     @arr= orderbydate.map{|x| x.filename}.reverse
@@ -154,7 +154,7 @@ class App < Sinatra::Base
   post '/modifyemail' do
     usuario = User.find(id: session[:user_id])
     if usuario != nil && checkpass(params["passwordActual"])
-      usuario.update(email: params["emailNew1"])  
+      usuario.update(email: params["emailNew1"])
       @band = "¡El email ha sido Actualizado con exito!"
     else
       @band = "La contraseña o el email son Incorrectos!"
@@ -169,7 +169,7 @@ class App < Sinatra::Base
   post '/modifypassword' do
     usuario = User.find(id: session[:user_id])
     if usuario != nil && checkpass(params["passwordActual"])
-      usuario.update(password: params["passwordNew1"])  
+      usuario.update(password: params["passwordNew1"])
       @band = "¡El password ha sido Actualizado con exito!"
     else
       @band = "La contraseña ingresada es incorrecta"
@@ -185,7 +185,7 @@ class App < Sinatra::Base
     if (session[:user_category] == "admin" || session[:user_category] == "superAdmin")
       erb:uploadrecord
     else
-    #filtra la tabla 
+    #filtra la tabla
     orderbydate=Document.select(:filename,:resolution,:realtime).order(:realtime).all
     #genera un arreglo con el campo deseado
     @arr= orderbydate.map{|x| x.filename}.reverse
@@ -276,7 +276,7 @@ class App < Sinatra::Base
 
   get "/prueba" do
     #User[20].delete
-    #Document[47].delete 
+    #Document[47].delete
     #Document.select(:filename).delete
     #PARA MODIFICAR UN REGISTRO
     #user = User.last
@@ -290,7 +290,7 @@ class App < Sinatra::Base
     #u = usuario.name
 
     Document.all.to_s
-    
+
   end
 
 
