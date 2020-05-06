@@ -20,6 +20,24 @@ class App < Sinatra::Base
     erb :index
   end
 
+  get '/myrecords' do
+    ds = Document.select(:filename,:resolution,:realtime).where(fk_users_id: session[:user_id])
+    #seguir..
+    #genera un arreglo con el campo deseado
+    @arr= ds.map{|x| x.filename}.reverse
+    erb:myrecords
+  end
+
+  post '/myrecords' do
+    if params[:delete]
+      params["elem"]
+      Document.find(filename: params["elem"]).delete
+      redirect "/myrecords"
+    else 
+      "no se pudo eliminar el documento"
+    end
+  end
+
   post '/sign_in' do #inicio de sesion
     #filtra la tabla 
     orderbydate=Document.select(:filename,:resolution,:realtime).order(:realtime).all
@@ -193,7 +211,7 @@ class App < Sinatra::Base
 
   post '/uploadImg' do     #cargar imagenes a la base de datos
     @temp = session[:user_imgpath]
-    if File.exist?("public#{@temp}") 
+    if File.exist?("public#{@temp}") && session[:user_imgpath] != nil
       File.delete("public#{@temp}")
     end
     tempfile = params[:myImg][:tempfile]
@@ -223,10 +241,11 @@ class App < Sinatra::Base
   post '/upload' do     #cargar documetos a la base de datos (supongo que tags tambien)
     if (session[:user_category] == "admin" || session[:user_category] == "superAdmin")
       erb :uploadrecord
+      @usr_id = session[:user_id].to_s
       request.body.rewind
       hash = Rack::Utils.parse_nested_query(request.body.read)
       params = JSON.parse hash.to_json
-      document = Document.new(resolution: params ["resolution"],path: params["path"],filename: params["filena"], description: params["description"], realtime: params["realtime"] )
+      document = Document.new(resolution: params ["resolution"],path: params["path"],filename: params["filena"], description: params["description"], realtime: params["realtime"], fk_users_id: @usr_id)
       if document.save
         redirect "/uploadrecord"
       else
@@ -269,7 +288,8 @@ class App < Sinatra::Base
     #usuario = User.first(id: session[:user_id])
     #u = usuario.name
 
-    User.all.to_s
+    Document.all.to_s
+    
   end
 
 
