@@ -17,7 +17,7 @@ class App < Sinatra::Base
     orderbydate=Document.select(:filename,:resolution,:realtime).order(:realtime).all
     #genera un arreglo con el campo deseado
     @arr= orderbydate.map{|x| x.filename}.reverse
-    erb :index
+    erb :index, :layout => :layout_public_records
   end
 
   get '/myrecords' do
@@ -51,9 +51,9 @@ class App < Sinatra::Base
       session[:user_password] = usuario.password
       session[:user_imgpath] = usuario.imgpath
       set_user
-      erb :loged
+      erb :loged, :layout => :layout_public_records
     else
-      erb :index
+      erb :loged, :layout => :layout_public_records
     end
   end
 
@@ -106,16 +106,16 @@ class App < Sinatra::Base
     @arr= orderbydate.map{|x| x.filename}.reverse
     if session[:user_id]
       set_user
-      erb :loged
+      erb :loged, :layout => :layout_public_records
     else
-      erb :index
+      erb :loged, :layout => :layout_public_records
     end
   end
 
 
   get '/sign_out' do  #cierre de sesion
       session.clear
-      erb:index
+      erb:index , :layout => :layout_public_records
   end
 
 
@@ -129,7 +129,7 @@ class App < Sinatra::Base
     #genera un arreglo con el campo deseado
     @arr= orderbydate.map{|x| x.filename}.reverse
     session.clear
-    erb :index
+    erb :index , :layout => :layout_public_records
   end
 
   get "/about" do
@@ -189,7 +189,7 @@ class App < Sinatra::Base
     orderbydate=Document.select(:filename,:resolution,:realtime).order(:realtime).all
     #genera un arreglo con el campo deseado
     @arr= orderbydate.map{|x| x.filename}.reverse
-      erb:index
+      erb:index , :layout => :layout_public_records
     end
   end
 
@@ -234,7 +234,7 @@ class App < Sinatra::Base
       @realtime=Time.now
       erb :uploadrecord
     else
-      erb:index
+      erb:index , :layout => :layout_public_records
     end
   end
 
@@ -252,7 +252,7 @@ class App < Sinatra::Base
         [500, {}, "Internal server Error"]
       end
     else
-      erb:index
+      erb:index , :layout => :layout_public_records
     end
   end
 
@@ -276,7 +276,8 @@ class App < Sinatra::Base
 
   get "/prueba" do
     #User[20].delete
-    #Document[47].delete    
+    #Document[47].delete 
+    #Document.select(:filename).delete
     #PARA MODIFICAR UN REGISTRO
     #user = User.last
     #user.update category: 'admin'

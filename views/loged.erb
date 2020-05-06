@@ -1,13 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Pagina que ve el USUARIO cuando se loguea</title>
-</head>
-
-<body>
-	<div class="column-container">
-
-	  <div class="column1" >
 			<form action="/mydata" method="get" >
 			  	<button class="button">Mi Perfil</button>
 			</form><br>
@@ -36,30 +26,3 @@
 			  <button onclick="get()" class="button">Cerrar Sesion</button>
 			</form><br>
 
-	  </div>
-	  <div class="column2">
-	  <ul id="li1">
-			
-	  <li >
-		  <h1 id="section_headder">Lista Publica de Actas Facultad de Ciencias Exactas</h1>
-	  </li> 
-	  <li>
-		  <ol id="lista_publica">
-			  <% @arr.each do |elem| %>
-			  <li> 
-				  <p ><strong><u> Resolución:</u></strong> <strong><%=Document.first(filename: elem).resolution%></strong></p>
-					  
-				  <p>Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%>
-					  <a href="file/<%= elem%>"><strong>Descargar</strong></a>
-				  </p>
-			  </li>
-			  <% end %>
-		  </ol>
-	  </li>
-  </ul>
-	  </div>
-
-	</div>
-</body>
-
-</html>

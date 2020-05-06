@@ -7,14 +7,30 @@
 <link href="<%= url('/css/style.css') %>" rel="stylesheet" type="text/css" />
 </head>
 <body>
-  <header>
-    <div class="menu" >
-        <ul class = "ullista">
-          <li class= "lista"><a href="/about" >about</a></li>
-      	  <li class= "lista"><a href="/index" >index</a></li>
-        </ul>
-    </div>
-  </header>
+<div class="header-container">
+	<div class="header-logo">
+    <!--<p>aca va un logo</p> -->
+	</div>
+    <div class="header-tittle">
+    <h1 >Universidad Nacional de Rio Cuarto</h1>
+    <p>Sistema de actas Publicas</p>
+	</div>
+	<div class="header-menu">
+		<ul class = "ullista">
+			  <li class= "lista"><a href="/about" >about</a></li>
+			  <li class= "lista"><a href="/index" >index</a></li>
+		  </ul>
+	</div>
+	<div class="clearfix"></div>
+</div>
+<div class="clearfix"></div>
+
+
 <%= yield %>
+
+<div class="clearfix"></div>
+<div class="footer-container">
+
+</div>
 </body>
 </html>
