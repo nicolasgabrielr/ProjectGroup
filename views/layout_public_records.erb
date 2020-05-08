@@ -2,7 +2,9 @@
 <html>
 <head>
 
-<title></title>
+<title>
+	Sistema de Actas
+</title>
 
 <link href="<%= url('/css/style.css') %>" rel="stylesheet" type="text/css" />
 </head>
@@ -41,14 +43,25 @@
 				<h1 id="section_headder">Facultad de Ciencias Exactas</h1>
 			</li> 
 			<li>
-				<ul id="lista_publica">
+				<ul class="lista_publica">
 					<% @arr.each do |elem| %>
-					<li> 
-						<p ><strong><u> Resolución:</u></strong> <strong><%=Document.first(filename: elem).resolution%></strong></p>
-						    Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%>
-							<a href="file/<%= elem%>"><strong>Descargar</strong></a>
-						</p>
+					
+					<li class="li-box"> 
+						<div class="record-box">
+							<div class="clearfix"></div>
+							<div class="record-data">
+								<p><strong><u> Resolución:</u></strong> <strong><%=Document.first(filename: elem).resolution%></strong></p>
+								  <p> Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%> </p>
+							</div>
+							<div class="options-records-box-public">
+								
+								<a href="file/<%= elem%>"><strong>Descargar</strong></a>
+							</div>
+							<div class="clearfix"></div>
+					  </div>
 					</li>
+					
+
 					<% end %>
 				</ul>
 			</li>

@@ -1,27 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-  <div class="column-container">
-    <div class="column1" >
-     <form action="/sign_in" method="get">
-            <p><button class="button"> Back to User </button></p>
-     </form>
-   </div>
-      <body>
+
           <div class="columnmid">
             <div class="about-section">
               <h1>Perfil de <%= @username %></h1> <img src="<%= @foto %>" alt="" style="width:20%">
             </div>
             <form action="/modifypassword" method="get" >
-              <button class="button">Modify Password</button>
+              <button class="button">Modificar Contraseña</button>
             </form>
             <form action="/modifyemail" method="get" >
-              <button class="button">Modify Email</button>
+              <button class="button">Modificar Email</button>
             </form>
             <form action="/modifyphoto" method="get" >
-                <button class="button">Modify current Photo</button>
+                <button class="button">Cambiar foto de Perfil</button>
             </form>
           </div>
-        </div>
-</html>

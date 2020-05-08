@@ -1,24 +1,6 @@
-<!DOCTYPE html>
-
-<html>
-
-<head>
-
-    <title>Validar Email</title>
-
-    <meta charset="utf-8">
-
     <style>
 
     .error {color:red;}
-
-    form {width:400px;font-family:Arial;}
-
-    form input {font-family:Arial;}
-
-    form>div {margin:5px;}
-
-    form>div:last-child {text-align:center;margin-top:10px;}
 
     </style>
 
@@ -107,18 +89,30 @@
     }
 
     </script>
+<div class="modify-box">
+<div class="left">
+    <p> </p>
+</div>
 
-</head>
-    <body>
+<div class="center">
+
+    <div class="modify-password">
         <form name="formName" action="/modifyemail" method="post" onsubmit='return validatePassword()'>
-            <div>Password Actual: <input type="password" name="passwordActual"></div>
+            <div>Ingrese su Contraseña: <input type="password" name="passwordActual"></div>
+            <div></div>
             <div>Nuevo email: <input type="text" name="emailNew1"></div>
             <div>Repite email: <input type="text" name="emailNew2"></div>
-            <input class="button" type="submit" value="Modificar Email"><br>
+            <div><input type="submit" value="Modificar Email"></div>
         </form>
+       
+        <!--
         <form action="/mydata" method="get">
-            <p><button class="button"> Back </button></p>
+            <p><button class="button"> Volver a Mi Perfil </button></p>
             <form><%= @band %></form></ul>
         </form>
-    </body>
-</html>
+        -->
+    </div>
+</div>
+<div class="right"></div>
+<div class="clearfix"></div>
+</div>

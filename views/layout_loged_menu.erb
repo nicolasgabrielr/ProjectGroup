@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>
+	Sistema de Actas
+</title>
+
+<link href="<%= url('/css/style.css') %>" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div class="header-container">
+	<div class="header-logo">
+	<!--	<img src="/resources/logo2.png" alt="notifications logo" height="64" width="47">-->
+	</div>
+    <div class="header-tittle">
+		<h1 >Universidad Nacional de Rio Cuarto </h1>
+        <p>Sistema de actas Publicas</p>
+	</div>
+	<div class="header-menu">
+		<ul class = "ullista">
+			  <li class= "lista"><a href="/about" >about</a></li>
+			  <li class= "lista"><a href="/sign_in" >index</a></li>
+		  </ul>
+	</div>
+	<div class="clearfix"></div>
+</div>
+
+
+<div class="clearfix"></div>
+
+<div class="column-container">
+	<div class="column1" >
+		<form action="/mydata" method="get" >
+			<button class="button">Mi Perfil</button>
+		</form><br>
+
+		<form action=""  >
+		<button onclick="get()" class="button">Notificaciones</button>
+		</form><br>
+
+		<form action="/sign_in" >
+			<input type= "<%= @admin %>" value="Actas Publicas" class="button">
+		</form><br>
+
+		<form action="/uploadrecord" >
+		<input type= "<%= @admin %>" value="Subir Acta" class="button">
+		</form><br>
+
+		<form  action="/myrecords" method="get">
+		<input  type= "<%= @admin %>" value="Gestionar Actas" class="button">
+		</form><br>
+
+		<form  action="/assign" method="get">
+		<input  type= "<%= @superAdmin %>" value="Gestionar Usuarios"class="button">
+		</form><br>
+
+		<form action="/index"  >
+		<button onclick="get()" class="button">Cerrar Sesion</button>
+		</form><br>
+    </div>
+	<div class="column2">
+	<%= yield %>
+	</div>
+	<div class="clearfix"></div>
+	<div class="footer-container"></div>
+
+</div>
+</body>
+</html>

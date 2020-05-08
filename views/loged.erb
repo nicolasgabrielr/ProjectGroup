@@ -1,28 +1,30 @@
-			<form action="/mydata" method="get" >
-			  	<button class="button">Mi Perfil</button>
-			</form><br>
+		<ul id="li1">
+			
+			<li >
+				<h1 id="section_headder">Facultad de Ciencias Exactas</h1>
+			</li> 
+			<li>
+				<ul class="lista_publica">
+					<% @arr.each do |elem| %>
+					
+					<li class="li-box"> 
+						<div class="record-box">
+							<div class="clearfix"></div>
+							<div class="record-data">
+								<p><strong><u> Resolución:</u></strong> <strong><%=Document.first(filename: elem).resolution%></strong></p>
+								  <p> Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%> </p>
+							</div>
+							<div class="options-records-box-public">
+								
+								<a href="file/<%= elem%>"><strong>Descargar</strong></a>
+							</div>
+							<div class="clearfix"></div>
+					  </div>
+					</li>
+					
 
-			<form action="/notificationlist"  >
-			  <button onclick="get()" class="button">Notificaciones</button>
-			</form><br>
-
-			<form action="/uploadrecord" >
-			  <input type= "<%= @admin %>" value="Subir Acta" class="button">
-			</form><br>
-
-			<form action="" >
-			  <input type= "<%= @admin %>" value="Mis Actas" class="button">
-			</form><br>
-
-			<form  action="/myrecords" method="get">
-			  <input  type= "<%= @admin %>" value="Ver Actas Subidas" class="button">
-			</form><br>
-
-			<form  action="/assign" method="get">
-			  <input  type= "<%= @superAdmin %>" value="Gestionar Usuarios"class="button">
-			</form><br>
-
-			<form action="/index"  >
-			  <button onclick="get()" class="button">Cerrar Sesion</button>
-			</form><br>
+					<% end %>
+				</ul>
+			</li>
+		</ul>
 

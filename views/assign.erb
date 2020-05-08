@@ -1,47 +1,37 @@
-<!DOCTYPE html>
-<html>
-<body>
-	<div class="column-container">
-	  <div class="column1" >
-			<form action="/mydata" method="get" >
-			  	<button class="button">Mi Perfil</button>
-			</form><br>
-			<!-- miren este boton -->
-			<form action="/notificationlist"  >
-			  <button onclick="get()" class="button">Notificaciones</button>
-			</form><br>
+<div class="modify-box">
+	<div class="left">
+		<p> </p>
+	</div>
 
-			<form action="/uploadrecord" >
-			  <input type= "<%= @admin %>" value="Subir Acta" class="button">
-			</form><br>
+	<div class="center">
 
-			<form  action="/recordlist" method="get">
-			  <input  type= "<%= @admin %>" value="Ver Actas Subidas" class="button">
-			</form><br>
-
-			<form  action="/assign" method="get">
-			  <input  type= "<%= @superAdmin %>" value="Gestionar Usuarios"class="button">
-			</form><br>
-
-			<form action="/index"  >
-			  <button onclick="get()" class="button">Cerrar Sesion</button>
-			</form><br>
-
-	  </div>
-
-		   <div class="columnmid">
-        	<h2>Opciones disponibles:</h2><br><br>
+		<div class="modify-password">
+			<h2 style="text-align:center;">Opciones disponibles:</h2><br><br>
 
 			<form name="formEmail" action="/assign" method="post">
-  				<label for="passwordActual">Password Actual:</label><br>
+				<label for="passwordActual">Password Actual:</label>
 				<input class="buttonmid" type="password" name="passwordActual"><br><br>
-				<label for="emailnewAdmin">Email del Usuario:</label><br>
+				<label for="emailnewAdmin">Email del Usuario:</label>
 				<input class="buttonmid" type="text" name="emailnewAdmin"><br><br><br>
-			 	<input class="buttonmid" type="submit" name="admin" value="Asignar Administrador"/>
-				<input class="buttonmid" type="submit" name="sAdmin" value="Asignar Super Administrador" />
-				<input class="buttonmid" type="submit" name="dUser" value="Eliminar User"/><br>
 				<form><%= @band %></form></ul>
 			</form>
-			</div>
-</body>
-</html>
+		
+		
+		
+			<ul>
+				<li>
+					<input  type="submit" name="dUser" value="Eliminar Usuario"/><br>
+				</li>
+				<li>
+					<input  type="submit" name="admin" value="Asignar Administrador"/>
+				</li>
+				<li>
+					<input  type="submit" name="sAdmin" value="Asignar Super Administrador" />
+				</li>
+			</ul>
+		</div>
+		<div class="clearfix"></div>
+	</div>	
+	<div class="right"></div>
+	<div class="clearfix"></div>
+</div>

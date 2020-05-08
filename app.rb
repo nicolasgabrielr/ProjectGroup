@@ -21,11 +21,12 @@ class App < Sinatra::Base
   end
 
   get '/myrecords' do
+    set_user
     ds = Document.select(:filename,:resolution,:realtime).where(fk_users_id: session[:user_id])
     #seguir..
     #genera un arreglo con el campo deseado
     @arr= ds.map{|x| x.filename}.reverse
-    erb:myrecords
+    erb:myrecords , :layout => :layout_loged_menu
   end
 
   post '/myrecords' do
@@ -51,9 +52,9 @@ class App < Sinatra::Base
       session[:user_password] = usuario.password
       session[:user_imgpath] = usuario.imgpath
       set_user
-      erb :loged, :layout => :layout_public_records
+      erb:loged , :layout => :layout_loged_menu
     else
-      erb :loged, :layout => :layout_public_records
+      redirect "/"
     end
   end
 
@@ -62,6 +63,7 @@ class App < Sinatra::Base
   end
 
   post '/assign' do #asignacion de admin o super admin
+    set_user
     @band
     #filtra la tabla
     orderbydate=Document.select(:filename,:resolution,:realtime).order(:realtime).all
@@ -87,16 +89,16 @@ class App < Sinatra::Base
         @band = "El password es incorrecto o el usuario no existe"
       end
       set_user
-      erb:assign
+      erb:assign , :layout => :layout_loged_menu
     else
-      erb:loged
+      erb:loged , :layout => :layout_loged_menu
     end
   end
 
 
   get '/assign' do
     set_user
-    erb :assign
+    erb :assign , :layout => :layout_loged_menu
   end
 
   get '/sign_in' do  #sesion iniciada get
@@ -106,9 +108,9 @@ class App < Sinatra::Base
     @arr= orderbydate.map{|x| x.filename}.reverse
     if session[:user_id]
       set_user
-      erb :loged, :layout => :layout_public_records
+      erb:loged , :layout => :layout_loged_menu
     else
-      erb :loged, :layout => :layout_public_records
+      erb:index , :layout => :layout_public_records
     end
   end
 
@@ -144,11 +146,13 @@ class App < Sinatra::Base
   get '/mydata' do
     @username = session[:user_name]
     @foto = session[:user_imgpath]
-    erb:mydata
+    set_user
+    erb:mydata , :layout => :layout_loged_menu
   end
 
   get '/modifyemail' do
-    erb:modifyemail
+    set_user
+    erb:modifyemail , :layout => :layout_loged_menu
   end
 
   post '/modifyemail' do
@@ -159,11 +163,13 @@ class App < Sinatra::Base
     else
       @band = "La contraseña o el email son Incorrectos!"
     end
-    erb:modifyemail
+    set_user
+    erb:modifyemail , :layout => :layout_loged_menu
   end
 
   get '/modifypassword' do
-    erb:modifypassword
+    set_user
+    erb:modifypassword , :layout => :layout_loged_menu
   end
 
   post '/modifypassword' do
@@ -174,7 +180,8 @@ class App < Sinatra::Base
     else
       @band = "La contraseña ingresada es incorrecta"
     end
-    erb:modifypassword
+    set_user
+    erb:modifypassword , :layout => :layout_loged_menu
   end
 
   get '/modifyphoto' do
@@ -182,6 +189,7 @@ class App < Sinatra::Base
   end
 
   get '/uploadrecord' do  #carga de ducumentos
+    set_user
     if (session[:user_category] == "admin" || session[:user_category] == "superAdmin")
       erb:uploadrecord
     else
@@ -222,7 +230,8 @@ class App < Sinatra::Base
     @username = session[:user_name]
     session[:user_imgpath] = "/usr/#{@filename}"
     @foto = session[:user_imgpath]
-    erb:mydata
+    set_user
+    erb:mydata , :layout => :layout_loged_menu
   end
 
   post '/load' do   #vista previa del documento para extraer datos y tags
@@ -289,7 +298,7 @@ class App < Sinatra::Base
     #usuario = User.first(id: session[:user_id])
     #u = usuario.name
 
-    Document.all.to_s
+    User.all.to_s
 
   end
 

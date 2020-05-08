@@ -273,7 +273,7 @@ ul{
 
 
 /* css de las listas publicas */
-#lista_publica {
+.lista_publica {
   counter-reset: li;
   list-style: none;
   *list-style: decimal;
@@ -283,7 +283,7 @@ ul{
   text-shadow: 0 1px 0 rgba(255,255,255,.5);
 }
 
-#lista_publica ol {
+.lista_publica ol {
   margin: 0 0 0 2em;
  
 }
@@ -306,7 +306,7 @@ ul{
   border-color: #ddd;
 }
 
-#lista_publica li{
+.li-box{
   
   width: 90%;
   position: relative;
@@ -322,24 +322,78 @@ ul{
   border-bottom-style: ridge;
   border-bottom-color:rgb(235, 235, 235);
 }
-#lista_publica p {
+.record-box p {
   color:black;
   padding: 0px;
- /* border-style: dotted;
-  border-color: #fa8072;*/
-}
-#lista_publica a {
-  color:black;
-  float: right;
-  width: 90px;
   /*border-style: dotted;
   border-color: #fa8072;*/
 }
-#lista_publica li:hover{
+.record-box a {
+  color:black;
+  float: right;
+  padding-right: .4em;
+  /*border-style: dotted;
+  border-color: #fa8072;*/
+ }
+.record-box{
+  padding: 0px;
+  width: 100%;
+}
+.record-data{
+  padding-top: 20px;
+  float: left;
+  width: 40%;
+  padding: 0px;
+ /* border-style: dotted;
+  border-color: orange; */
+}
+.options-records-box {
+ /* padding-top: 18px;*/
+  float: right;
+  width: 58%;
+  /*border-style: dotted;
+  border-color: green;*/
+}
+.options-records-box-public {
+  /* padding-top: 18px;*/
+   float: right;
+   width: 58%;
+   /*border-style: dotted;
+   border-color: green;*/
+ }
+.options-records-box-public a{
+  padding-top: 28px;
+}
+/* lista de opciones para cada acta */
+.options-records-box a{
+  padding-top: 20px;
+}
+.options-records-box form{
+  padding-top: 18px;
+}
+.options-records-list {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+  /*border-style: dotted;
+  border-color: blue;*/
+}
+
+.options-records-list li {
+  list-style: none;
+  
+  margin: 0px;
+  padding: 0px;
+  float: right;
+  padding-left: 12px;
+  /*border-style: dotted;
+  border-color: purple;*/
+}
+.lista_publica li:hover{
   background: #ccc;
 }
 
-#lista_publica li:after{
+.lista_publica li:after{
   position: absolute;
   content: '';
   border: .5em solid transparent;
@@ -349,11 +403,96 @@ ul{
   transition: all .3s ease-out;
 }
 
-#lista_publica li:hover:after{
+.lista_publica li:hover:after{
   left: -.5em;
   border-left-color: #fa8072;
 }
 #section_headder{
   text-align: left;
   padding-left: 40px;
+ }
+ .none{
+   list-style: none;
+   padding: 0px;
+ }
+  .modify-password {
+    width: 100%;
+  }
+  .modify-password ul {
+    padding-left: 50px;
+  }
+  .modify-password ul li{
+    padding-top: 10px;
+  }
+ .modify-password form {
+   width:90%;
+   font-family:Arial;
+   float: right;
+   
+  }
+
+ .modify-password form input {
+   font-family:Arial;
+   float: right;
+   }
+
+ .modify-password form div {
+   margin:5px;
+   width: 100%;
+   padding-top: 20px;
+  }
+
+ .modify-password form div:last-child {text-align:center;margin-top:10px;}
+ .modify-box{
+   padding-top: 30px;
+   width: 100%;
+ }
+ .left{
+   float:left;
+  width: 15%;
+  /*border-style: dotted;
+  border-color:red;*/
+  min-height: 20px;
+ }
+ .center{
+  float:left;
+  width: 65%;
+  /*border-style: dotted;
+  border-color: green;*/
+ }
+ .right{
+  float:left;
+  width: 10%;
+ /* border-style: dotted;
+  border-color: blue;*/
+ }
+ .button-delete{
+  font-size:10px;
+  font-family:Verdana,Helvetica;
+  font-weight:bold;
+  color:white;
+  background:#be5151;
+  border:0px;
+  width:80px;
+  height:19px;
+ }
+ .button-download{
+  font-size:10px;
+  font-family:Verdana,Helvetica;
+  font-weight:bold;
+  color:white;
+  background:#3f9e3f;
+  border:0px;
+  width:80px;
+  height:19px;
+ }
+ .button-modify{
+  font-size:10px;
+  font-family:Verdana,Helvetica;
+  font-weight:bold;
+  color:white;
+  background:#acb620;
+  border:0px;
+  width:80px;
+  height:19px;
  }
