@@ -420,9 +420,10 @@ ul{
   }
   .modify-password ul {
     padding-left: 50px;
+    float: right;
   }
   .modify-password ul li{
-    padding-top: 10px;
+    padding-top: 20px;
   }
  .modify-password form {
    width:90%;
@@ -471,7 +472,7 @@ ul{
   font-family:Verdana,Helvetica;
   font-weight:bold;
   color:white;
-  background:#be5151;
+  background:#bd2b2b;
   border:0px;
   width:80px;
   height:19px;
@@ -481,7 +482,7 @@ ul{
   font-family:Verdana,Helvetica;
   font-weight:bold;
   color:white;
-  background:#3f9e3f;
+  background:#cfab7b;
   border:0px;
   width:80px;
   height:19px;
@@ -491,7 +492,7 @@ ul{
   font-family:Verdana,Helvetica;
   font-weight:bold;
   color:white;
-  background:#acb620;
+  background:#00304e;
   border:0px;
   width:80px;
   height:19px;
