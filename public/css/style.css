@@ -225,13 +225,14 @@ ul{
 }
 /*-------  Body   --------*/
 .column-container{
+  display: flex;
   width: auto;
 }
 
 .column1 {
   float: left;
   width: 15%;
-  min-height: 700px;
+  min-height: 600px;
   padding: 7px;
   box-sizing: border-box;
   background-color: rgb(160, 160, 160);
@@ -241,7 +242,7 @@ ul{
 .column2 {
   float: left;
   width: auto;
-  min-height: 700px;
+  min-height: 600px;
   padding: 7px;
   width: 70%;
   box-sizing: border-box;
@@ -249,7 +250,7 @@ ul{
 .columnmid {
   float: left;
   width: auto;
-  min-height: 700px;
+  min-height: 600px;
   padding: 7px;
   width: 70%;
   box-sizing: border-box;
@@ -274,12 +275,15 @@ ul{
 
 /* css de las listas publicas */
 .lista_publica {
+
+  height:580px;
+  overflow-y: auto;
   counter-reset: li;
   list-style: none;
   *list-style: decimal;
   font: 15px 'trebuchet MS', 'lucida sans';
   padding: 0;
-  margin-bottom: 4em;
+  margin-bottom: 0px;
   text-shadow: 0 1px 0 rgba(255,255,255,.5);
 }
 
@@ -300,14 +304,13 @@ ul{
   margin: 0 0 0 2em;
   # background-color: blue;
   width: 100%;
-  min-height: 670px;
+  min-height: 580px;
   border-style: ridge;
   
   border-color: #ddd;
 }
 
 .li-box{
-  
   width: 90%;
   position: relative;
   display: block;
@@ -362,7 +365,7 @@ ul{
    border-color: green;*/
  }
 .options-records-box-public a{
-  padding-top: 28px;
+  padding-top: 18px;
 }
 /* lista de opciones para cada acta */
 .options-records-box a{
