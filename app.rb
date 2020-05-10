@@ -20,37 +20,49 @@ class App < Sinatra::Base
     erb :index, :layout => :layout_public_records
   end
 
-  get '/myrecords' do
-    set_user
-    ds = Document.select(:filename,:resolution,:realtime).where(fk_users_id: session[:user_id])
-    #seguir..
-    #genera un arreglo con el campo deseado
-    @arr= ds.map{|x| x.filename}.reverse
-    erb:myrecords , :layout => :layout_loged_menu
-  end
-
-  post '/myrecords' do
-    if params[:delete]
-      params["elem"]
-      Document.find(filename: params["elem"]).delete
-      redirect "/myrecords"
+  def deleteDoc(name)
+    if File.exist?("public/file/#{name}")
+      Document.find(filename: name).delete #delete from db
+      File.delete("public/file/#{name}") #delete from system
     else
-      "no se pudo eliminar el documento"
+      "cannot delete this Doc"
     end
   end
 
+  def getCurrentUser()
+    current_usr = User.find(id: session[:user_id])
+  end
+
+  def checkpass(key)
+    getCurrentUser.password == key
+  end
+
+  get '/myrecords' do
+    set_user
+    ds = Document.select(:filename,:resolution,:realtime).where(fk_users_id: session[:user_id])
+    @arr= ds.map{|x| x.filename}.reverse     #genera un arreglo con el campo deseado
+    erb:myrecords , :layout => :layout_loged_menu
+  end
+
+
+  post '/myrecords' do
+    if params[:delete]
+      deleteDoc(params["elem"]) #elem is name of document
+      redirect "/myrecords"
+    else 
+      "No se pudo eliminar el documento"
+    end
+  end
+  
   post '/sign_in' do #inicio de sesion
     #filtra la tabla
     orderbydate=Document.select(:filename,:resolution,:realtime).order(:realtime).all
     #genera un arreglo con el campo deseado
-    @arr= orderbydate.map{|x| x.filename}.reverse
+    @arr = orderbydate.map{|x| x.filename}.reverse
     usuario = User.find(email: params["email"])
     if usuario.password == params["password"]
       session[:user_name] = usuario.name
-      session[:user_category]=usuario.category
       session[:user_id] = usuario.id
-      session[:user_password] = usuario.password
-      session[:user_imgpath] = usuario.imgpath
       set_user
       erb:loged , :layout => :layout_loged_menu
     else
@@ -58,18 +70,12 @@ class App < Sinatra::Base
     end
   end
 
-  def checkpass(key)
-    session[:user_password] == key
-  end
-
   post '/assign' do #asignacion de admin o super admin
-    set_user
     @band
     #filtra la tabla
     orderbydate=Document.select(:filename,:resolution,:realtime).order(:realtime).all
-    #genera un arreglo con el campo deseado
     @arr= orderbydate.map{|x| x.filename}.reverse
-    if (session[:user_category] == "admin" || session[:user_category] == "superAdmin")
+    if (getCurrentUser.category == "admin" || getCurrentUser.category == "superAdmin")
       if checkpass(params["passwordActual"])
         usuario = User.find(email: params["emailnewAdmin"])
         if params[:dUser] && usuario != nil
@@ -144,8 +150,8 @@ class App < Sinatra::Base
   end
 
   get '/mydata' do
-    @username = session[:user_name]
-    @foto = session[:user_imgpath]
+    @username = getCurrentUser.name
+    @foto = getCurrentUser.imgpath
     set_user
     erb:mydata , :layout => :layout_loged_menu
   end
@@ -156,9 +162,8 @@ class App < Sinatra::Base
   end
 
   post '/modifyemail' do
-    usuario = User.find(id: session[:user_id])
-    if usuario != nil && checkpass(params["passwordActual"])
-      usuario.update(email: params["emailNew1"])
+    if checkpass(params["passwordActual"])
+      getCurrentUser.update(email: params["emailNew1"])
       @band = "¡El email ha sido Actualizado con exito!"
     else
       @band = "La contraseña o el email son Incorrectos!"
@@ -173,9 +178,8 @@ class App < Sinatra::Base
   end
 
   post '/modifypassword' do
-    usuario = User.find(id: session[:user_id])
-    if usuario != nil && checkpass(params["passwordActual"])
-      usuario.update(password: params["passwordNew1"])
+    if checkpass(params["passwordActual"])
+      getCurrentUser.update(password: params["passwordNew1"])
       @band = "¡El password ha sido Actualizado con exito!"
     else
       @band = "La contraseña ingresada es incorrecta"
@@ -190,7 +194,7 @@ class App < Sinatra::Base
 
   get '/uploadrecord' do  #carga de ducumentos
     set_user
-    if (session[:user_category] == "admin" || session[:user_category] == "superAdmin")
+    if (getCurrentUser.category == "admin" || getCurrentUser.category == "superAdmin")
       erb:uploadrecord
     else
     #filtra la tabla
@@ -218,24 +222,18 @@ class App < Sinatra::Base
   end
 
   post '/uploadImg' do     #cargar imagenes a la base de datos
-    @temp = session[:user_imgpath]
-    if File.exist?("public#{@temp}") && session[:user_imgpath] != nil
-      File.delete("public#{@temp}")
+    if getCurrentUser.imgpath != nil && File.exist?("public#{getCurrentUser.imgpath}")
+      File.delete("public#{getCurrentUser.imgpath}")
     end
     tempfile = params[:myImg][:tempfile]
     @filename = params[:myImg][:filename]
     cp(tempfile.path, "public/usr/#{@filename}")
-    usuario = User.find(id: session[:user_id])
-    usuario.update(imgpath: "/usr/#{@filename}")
-    @username = session[:user_name]
-    session[:user_imgpath] = "/usr/#{@filename}"
-    @foto = session[:user_imgpath]
-    set_user
-    erb:mydata , :layout => :layout_loged_menu
+    getCurrentUser.update(imgpath: "/usr/#{@filename}")
+    redirect "/mydata"
   end
 
   post '/load' do   #vista previa del documento para extraer datos y tags
-    if (session[:user_category] == "admin" || session[:user_category] == "superAdmin")
+    if (getCurrentUser.category == "admin" || getCurrentUser.category == "superAdmin")
       tempfile = params[:pdf][:tempfile]
       @filename = params[:pdf][:filename]
       cp(tempfile.path, "public/file/#{@filename}")
@@ -247,15 +245,17 @@ class App < Sinatra::Base
     end
   end
 
-  post '/upload' do     #cargar documetos a la base de datos (supongo que tags tambien)
-    if (session[:user_category] == "admin" || session[:user_category] == "superAdmin")
+  post '/upload' do     #upload documents and taggs users
+    if (getCurrentUser.category == "admin" || getCurrentUser.category == "superAdmin")
       erb :uploadrecord
-      @usr_id = session[:user_id].to_s
       request.body.rewind
       hash = Rack::Utils.parse_nested_query(request.body.read)
       params = JSON.parse hash.to_json
-      document = Document.new(resolution: params ["resolution"],path: params["path"],filename: params["filena"], description: params["description"], realtime: params["realtime"], fk_users_id: @usr_id)
+      @tagged = params["tagg"]
+      document = Document.new(resolution: params ["resolution"],path: params["path"],filename: params["filena"], description: params["description"], realtime: params["realtime"], fk_users_id: getCurrentUser.id)
       if document.save
+        docc = Document.last
+        @tagged.map{|x| docc.add_user(User.find(dni: x))} #tagged involved users
         redirect "/uploadrecord"
       else
         [500, {}, "Internal server Error"]
@@ -266,7 +266,7 @@ class App < Sinatra::Base
   end
 
   def set_user
-    case session[:user_category]
+    case getCurrentUser.category
       when "superAdmin" then
         @admin = "submit"
         @superAdmin = "submit"
@@ -299,7 +299,6 @@ class App < Sinatra::Base
     #u = usuario.name
 
     User.all.to_s
-
   end
 
 
