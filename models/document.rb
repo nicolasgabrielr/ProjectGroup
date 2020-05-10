@@ -6,4 +6,5 @@ class Document < Sequel::Model
     validates_unique [:resolution, :filename, :path, :realtime]
   end
   many_to_many :users
+  set_primary_key :id
 end
