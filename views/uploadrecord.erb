@@ -2,35 +2,35 @@
     <div class="column-container">
     <!-------  seleccionar archivo   ------->
       <div class="column1">
-        <form class="button"  action="/load" method="post" enctype="multipart/form-data">
-          <input type="file" name="pdf" value=""class="button" accept="application/pdf">
-          <input type="submit" value="Visualizar"class="button">
-        </form>
-        <form class="" action="/pre_upload" method="post">
-        </form><br>
         <form action="/sign_in" method="get" >
-        <button class="button">Cancelar</button>
-      </form><br>
+          <button class="button">Cancelar</button>
+        </form><br>
+        <form id = "form" class="button" action="/load" method="post" enctype="multipart/form-data">
+          <input type="file" id="file" name="pdf" value=""class="button" accept="application/pdf">
+        </form>
       </div>
       <!--------   Previsualizar archivo   ----------->
-      <div class="column2">
-        <embed src="<%= @src %>" type="application/pdf" width="100%" height="600px" />
-      </div>
-      <!--------- Taggear y subir  --------->
+        <div class="column2">
+          <embed src="<%= @src %>" type="application/pdf" width="100%" height="600px"/>
+        </div>
+
       <div class="column1">
-        <form class="button" action="/upload" method="post">
+         <form class="button" action="/upload" method="post">
           <label for="fname">Fecha:</label><br>
-          <input type="text" name="realtime" value="<%= @realtime %>" class="button"readonly><br>
+          <input type="text" name="realtime" value="<%= @realtime.strftime("%d/%m/%y") %>" class="button"readonly><br>
           <label for="fname">Descripcion:</label><br>
           <input type="text" name="description" value="" class="button"><br>
           <label for="fname">N° de Resolucion:</label><br>
           <input type="text" name="resolution" value="" class="button"><br>
           <input type="text" name="path" value ="<%= @src %>" class="button" hidden>
-          <input type="text" name="filena" value ="<%= @filename %>" class="button" readonly><br>
+          <input type="text" name="filena" value ="<%= @filename %>" class="button" readonly hidden><br>
           <input type="submit" value="Subir y Taggear"class="button">
         </form>
   	  </div>
     </div>
 
-
-  
+<script>
+  document.getElementById("file").onchange = function() {
+    document.getElementById("form").submit();
+  };
+</script>

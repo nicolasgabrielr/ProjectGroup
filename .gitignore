@@ -1,3 +1,5 @@
 /.bundle
 SRSEsp.md
 /Extras
+/public/file/*
+/public/usr/*

@@ -211,6 +211,7 @@ class App < Sinatra::Base
   get '/uploadrecord' do  #carga de ducumentos
     set_user
     if (getCurrentUser.category == "admin" || getCurrentUser.category == "superAdmin")
+      @realtime=Time.now
       erb:uploadrecord
     else
     #filtra la tabla
@@ -263,7 +264,6 @@ class App < Sinatra::Base
 
   post '/upload' do     #upload documents and taggs users
     if (getCurrentUser.category == "admin" || getCurrentUser.category == "superAdmin")
-      erb :uploadrecord
       request.body.rewind
       hash = Rack::Utils.parse_nested_query(request.body.read)
       params = JSON.parse hash.to_json

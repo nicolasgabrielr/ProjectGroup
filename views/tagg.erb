@@ -7,10 +7,10 @@
      
       <div class="column1" style="width: 30%;">
         <form action="/sign_in" method="get" >
-            <button class="">Cancelar</button>
+            <button class="button">Cancelar</button>
             </form><br>
         <form class="" action="/tagg" method="post">
-          <label for="fname">Fecha:</label><br>
+          <label for="fname">Fecha de subida:</label><br>
           <input type="text" name="realtime" value="<%= @record.realtime.strftime("%d/%m/%y") %>" class="button"readonly><br>
           <label for="fname">Descripcion:</label><br>
           <input type="text" name="description" value="<%= @record.description %>" class="button"><br>
