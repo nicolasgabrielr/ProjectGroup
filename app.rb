@@ -37,6 +37,13 @@ class App < Sinatra::Base
     getCurrentUser.password == key
   end
 
+  def taggingUsr(usr,document)
+    user_tagg = User.find(dni: usr)
+    if user_tagg != nil
+      document.add_user(user_tagg)
+    end
+  end
+
   get '/myrecords' do
     set_user
     ds = Document.select(:filename,:resolution,:realtime).where(fk_users_id: session[:user_id])
@@ -64,7 +71,7 @@ class App < Sinatra::Base
     @tagged = params["tagg"]
     docc = Document.find(id: params["doc"])
     if @tagged != nil
-      @tagged.map{|x| docc.add_user(User.find(dni: x))} #tagged involved users
+      @tagged.map{|x| taggingUsr(x,docc)} #tagged involved users
     end
     docc.update(description: params["description"], resolution: params["resolution"])
     redirect "/myrecords"
@@ -270,9 +277,6 @@ class App < Sinatra::Base
       @tagged = params["tagg"]
       document = Document.new(resolution: params ["resolution"],path: params["path"],filename: params["filena"], description: params["description"], realtime: params["realtime"], fk_users_id: getCurrentUser.id)
       if document.save
-        if File.exist?("public/#{params["filena"]}")
-          File.delete("public/#{params["filena"]}") #delete from system
-        end
         @record = document
         erb:tagg
       else
@@ -316,7 +320,7 @@ class App < Sinatra::Base
     #usuario = User.first(id: session[:user_id])
     #u = usuario.name
 
-    User.document.select[:name]
+    User.all.to_s
   end
   get '/tablas' do
     @out = ""

@@ -6,34 +6,28 @@
 	<div class="center">
 
 		<div class="modify-password">
-			<h2 style="text-align:center;">Opciones disponibles:</h2><br><br>
 
 			<form name="formEmail" action="/assign" method="post">
 				<label for="passwordActual">Password Actual:</label>
-				<input class="buttonmid" type="password" name="passwordActual"><br><br>
+				<input class="button" type="password" name="passwordActual"><br><br>
 				<label for="emailnewAdmin">Email del Usuario:</label>
-				<input class="buttonmid" type="text" name="emailnewAdmin"><br><br><br>
+				<input class="button" type="text" name="emailnewAdmin"><br><br><br>
 					
-				<div class="clearfix"></div>
-		
 			
-				
-			
-			<ul>
-				<li>
-					<input  type="submit" name="dUser" value="Eliminar Usuario"/><br>
-				</li>
-				<li>
-					<input  type="submit" name="admin" value="Asignar Administrador"/>
-				</li>
-				<li>
-					<input  type="submit" name="sAdmin" value="Asignar Super Administrador" />
-				</li>
-			</ul>
-		    </form>
+				<h2 style="text-align:center;">Opciones disponibles:</h2>
+
+				<ul >
+					<li>
+						<input class="buttonAsD" type="submit" name="dUser" value="Eliminar Usuario"/><br>
+						<input class="buttonAs" type="submit" name="admin" value="Asignar Administrador"/><br>
+						<input class="buttonAs" type="submit" name="sAdmin" value="Asignar Super Administrador" /><br>
+					</li>
+				</ul>
+			</form>
 			<form><%= @band %></form>
+
 		</div>
-	
+
 		<div class="clearfix"></div>
 	</div>	
 	<div class="right"></div>

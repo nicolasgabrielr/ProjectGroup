@@ -32,6 +32,21 @@ body {
   box-sizing: border-box;
 }
 
+.buttonAs{
+  width: 313%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  box-sizing: border-box;
+}
+
+.buttonAsD{
+  width: 313%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  box-sizing: border-box;
+  color: red;
+}
+
 .container::after, .row::after {
   content: "";
   clear: both;
@@ -497,12 +512,12 @@ ul{
   color:white;
   background:#00304e;
   border:0px;
-  width:80px;
+  width:100px;
   height:19px;
  }
  /* Style the "Add" button */
 .addBtn {
-  padding: 10px;
+  padding: 8px;
   width: 25%;
   background: #d9d9d9;
   color: #555;

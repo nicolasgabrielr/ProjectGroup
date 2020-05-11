@@ -6,32 +6,53 @@
       </div>
      
       <div class="column1" style="width: 30%;">
-        <form action="/sign_in" method="get" >
+        <form action="/myrecords" method="get" >
             <button class="button">Cancelar</button>
             </form><br>
         <form class="" action="/tagg" method="post">
           <label for="fname">Fecha de subida:</label><br>
           <input type="text" name="realtime" value="<%= @record.realtime.strftime("%d/%m/%y") %>" class="button"readonly><br>
           <label for="fname">Descripcion:</label><br>
-          <input type="text" name="description" value="<%= @record.description %>" class="button"><br>
+          <input type="text" name="description" value="<%= @record.description %>"  class="button"><br>
           <label for="fname">N° de Resolucion:</label><br>
           <input type="text" name="resolution" value="<%= @record.resolution %>" class="button"><br>
           <input type="text" name="doc" value ="<%= @record.id %>" class="button" hidden><br>
-          <h3>Notificar Personas: </h3>
+          <h3>Notificar Personas:</h3>
           
-          <div id="myDIV" style="min-height: 250px;">
-            <input type="text" id="myInput" placeholder="Inserte DNI">
+          <div id="myDIV">
+            <input class="button"type="text" id="myInput" placeholder="Inserte DNI...">
             <span onclick="newElement()" class="addBtn">Add</span>
           </div>
-            <ul id="myUL" >
+            <ul id="myUL"style="min-height:200px;" >
             </ul>
-            <input type="submit" value="subir"class="button">
+            <input type="submit" value="Guardar"class="button">
         </form>
         </div>
         
     </div>
 
 <script>
+
+// Create a "close" button and append it to each list item
+var myNodelist = document.getElementsByTagName("LI");
+var i;
+for (i = 0; i < myNodelist.length; i++) {
+  var span = document.createElement("SPAN");
+  var txt = document.createTextNode("\u00D7");
+  span.className = "close";
+  span.appendChild(txt);
+  myNodelist[i].appendChild(span);
+}
+
+// Click on a close button to hide the current list item
+var close = document.getElementsByClassName("close");
+var i;
+for (i = 0; i < close.length; i++) {
+  close[i].onclick = function() {
+    var div = this.parentElement;
+    div.style.display = "none";
+  }
+}
 // Create a new list item when clicking on the "Add" button
 function newElement() {
   var x = document.createElement("input");
@@ -50,6 +71,19 @@ function newElement() {
   x.setAttribute("type","hidden");
   x.setAttribute("name","tagg[]");
   x.setAttribute("value",inputValue);
- }
+
+  var span = document.createElement("SPAN");
+  var txt = document.createTextNode("\u00D7");
+  span.className = "close";
+  span.appendChild(txt);
+  li.appendChild(span);
+
+  for (i = 0; i < close.length; i++) {
+    close[i].onclick = function() {
+      var div = this.parentElement;
+      div.style.display = "none";
+    }
+  }
+}
 </script>
 
