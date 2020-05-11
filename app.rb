@@ -211,7 +211,6 @@ class App < Sinatra::Base
   get '/uploadrecord' do  #carga de ducumentos
     set_user
     if (getCurrentUser.category == "admin" || getCurrentUser.category == "superAdmin")
-      @realtime=Time.now
       erb:uploadrecord
     else
     #filtra la tabla
@@ -251,11 +250,11 @@ class App < Sinatra::Base
 
   post '/load' do   #vista previa del documento para extraer datos y tags
     if (getCurrentUser.category == "admin" || getCurrentUser.category == "superAdmin")
+      @time = Time.now
       tempfile = params[:pdf][:tempfile]
-      @filename = params[:pdf][:filename]
+      @filename = "#{@time}#{params[:pdf][:filename]}"
       cp(tempfile.path, "public/file/#{@filename}")
       @src =  "/file/#{@filename}"
-      @realtime=Time.now
       erb :uploadrecord
     else
       erb:index , :layout => :layout_public_records
@@ -264,11 +263,16 @@ class App < Sinatra::Base
 
   post '/upload' do     #upload documents and taggs users
     if (getCurrentUser.category == "admin" || getCurrentUser.category == "superAdmin")
+      erb :uploadrecord
       request.body.rewind
       hash = Rack::Utils.parse_nested_query(request.body.read)
       params = JSON.parse hash.to_json
+      @tagged = params["tagg"]
       document = Document.new(resolution: params ["resolution"],path: params["path"],filename: params["filena"], description: params["description"], realtime: params["realtime"], fk_users_id: getCurrentUser.id)
       if document.save
+        if File.exist?("public/#{params["filena"]}")
+          File.delete("public/#{params["filena"]}") #delete from system
+        end
         @record = document
         erb:tagg
       else
@@ -312,7 +316,7 @@ class App < Sinatra::Base
     #usuario = User.first(id: session[:user_id])
     #u = usuario.name
 
-    Document.all.to_s
+    User.document.select[:name]
   end
   get '/tablas' do
     @out = ""
