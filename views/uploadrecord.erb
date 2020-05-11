@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
+
     <div class="column-container">
     <!-------  seleccionar archivo   ------->
       <div class="column1">
@@ -33,37 +27,10 @@
           <input type="text" name="resolution" value="" class="button"><br>
           <input type="text" name="path" value ="<%= @src %>" class="button" hidden>
           <input type="text" name="filena" value ="<%= @filename %>" class="button" readonly><br>
-          antes de subir debera revisar el documento y taggear a los involucrados
-          <input type="submit" value="subir"class="button">
-          <div id="myDIV" >
-            <input type="text" id="myInput" placeholder="Title...">
-            <span onclick="newElement()" class="addBtn">Add Tag DNI</span>
-          </div>
-            <ul id="myUL" >
-            </ul>
+          <input type="submit" value="Subir y Taggear"class="button">
         </form>
   	  </div>
     </div>
-  </body>
-</html>
-<script>
-// Create a new list item when clicking on the "Add" button
-function newElement() {
-  var x = document.createElement("input");
-  var li = document.createElement("li");
-  var inputValue = document.getElementById("myInput").value;
-  var t = document.createTextNode(inputValue);
 
-  li.appendChild(t);
-  if (inputValue === '') {
-    alert("You must write something!");
-  } else {
-    document.getElementById("myUL").appendChild(li);
-    document.getElementById("myUL").appendChild(x);
-  }
-  document.getElementById("myInput").value = "";
-  x.setAttribute("type","hidden");
-  x.setAttribute("name","tagg[]");
-  x.setAttribute("value",inputValue);
- }
-</script>
+
+  

@@ -1,0 +1,26 @@
+<form class="" action="post" method="post">
+<div id="myDIV" >
+  <input type="text" id="myInput" placeholder="Title...">
+  <span onclick="newElement()" class="addBtn">Add Tag DNI</span>
+</div>
+  <ul id="myUL" >
+  <input type="text" name="tagged" value ="<%= @array %>  << myInput" class="button" hidden>
+  </ul>
+</form>
+
+<script>
+// Create a new list item when clicking on the "Add" button
+function newElement() {
+  var arreglo=<%= @array %>  << document.getElementById("myInput").value;
+  var li = document.createElement("li");
+  var inputValue = <input type="text" name="tagged" value ="arreglo" class="button" hidden></input>document.getElementById("myInput").value;
+  var t = document.createTextNode(inputValue);
+  li.appendChild(t);
+  if (inputValue === '') {
+    alert("You must write something!");
+  } else {
+    document.getElementById("myUL").appendChild(li);
+  }
+  document.getElementById("myInput").value = "";
+ }
+</script>

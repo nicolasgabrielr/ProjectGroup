@@ -52,8 +52,24 @@ class App < Sinatra::Base
     else 
       "No se pudo eliminar el documento"
     end
+    if params[:tagg]
+      
+      @record=Document.find(filename: params["elem"])
+      @record.path.to_s
+      erb:tagg
+    end  
   end
   
+  post '/tagg' do
+    @tagged = params["tagg"]
+    docc = Document.find(id: params["doc"])
+    if @tagged != nil
+      @tagged.map{|x| docc.add_user(User.find(dni: x))} #tagged involved users
+    end
+    docc.update(description: params["description"], resolution: params["resolution"])
+    redirect "/myrecords"
+  end
+
   post '/sign_in' do #inicio de sesion
     #filtra la tabla
     orderbydate=Document.select(:filename,:resolution,:realtime).order(:realtime).all
@@ -251,12 +267,10 @@ class App < Sinatra::Base
       request.body.rewind
       hash = Rack::Utils.parse_nested_query(request.body.read)
       params = JSON.parse hash.to_json
-      @tagged = params["tagg"]
       document = Document.new(resolution: params ["resolution"],path: params["path"],filename: params["filena"], description: params["description"], realtime: params["realtime"], fk_users_id: getCurrentUser.id)
       if document.save
-        docc = Document.last
-        @tagged.map{|x| docc.add_user(User.find(dni: x))} #tagged involved users
-        redirect "/uploadrecord"
+        @record = document
+        erb:tagg
       else
         [500, {}, "Internal server Error"]
       end
@@ -298,8 +312,22 @@ class App < Sinatra::Base
     #usuario = User.first(id: session[:user_id])
     #u = usuario.name
 
-    User.all.to_s
+    Document.all.to_s
   end
-
+  get '/tablas' do
+    @out = ""
+    User.each { |u| @out+=u.email+"<br/>" }
+    @out +="<br/>"
+    Document.each { |d| @out+=d.path+"<br/>" }
+    
+    @out +="<br/>"+ "listado de documentos ----> usuarios" + "<br/>"
+    
+    Document.each { |d| @out+= d.path + " ------relacionado con----- " + d.users.to_s + "<br/>" }
+    
+    @out +="<br/>"+ "listado de usuarios ----> documentos" + "<br/>"
+    
+    User.each { |u| @out+= u.email + " -----relacionado con----- " + u.documents.to_s + "<br/>" }
+    @out +="<br/>"
+    end 
 
 end

@@ -1,0 +1,55 @@
+ <div class="column-container">
+    
+         
+      <div class="column2">
+        <embed src="<%= @record.path %>" type="application/pdf" width="100%" height="600px" />
+      </div>
+     
+      <div class="column1" style="width: 30%;">
+        <form action="/sign_in" method="get" >
+            <button class="">Cancelar</button>
+            </form><br>
+        <form class="" action="/tagg" method="post">
+          <label for="fname">Fecha:</label><br>
+          <input type="text" name="realtime" value="<%= @record.realtime.strftime("%d/%m/%y") %>" class="button"readonly><br>
+          <label for="fname">Descripcion:</label><br>
+          <input type="text" name="description" value="<%= @record.description %>" class="button"><br>
+          <label for="fname">N° de Resolucion:</label><br>
+          <input type="text" name="resolution" value="<%= @record.resolution %>" class="button"><br>
+          <input type="text" name="doc" value ="<%= @record.id %>" class="button" hidden><br>
+          <h3>Notificar Personas: </h3>
+          
+          <div id="myDIV" style="min-height: 250px;">
+            <input type="text" id="myInput" placeholder="Inserte DNI">
+            <span onclick="newElement()" class="addBtn">Add</span>
+          </div>
+            <ul id="myUL" >
+            </ul>
+            <input type="submit" value="subir"class="button">
+        </form>
+        </div>
+        
+    </div>
+
+<script>
+// Create a new list item when clicking on the "Add" button
+function newElement() {
+  var x = document.createElement("input");
+  var li = document.createElement("li");
+  var inputValue = document.getElementById("myInput").value;
+  var t = document.createTextNode(inputValue);
+
+  li.appendChild(t);
+  if (inputValue === '') {
+    alert("You must write something!");
+  } else {
+    document.getElementById("myUL").appendChild(li);
+    document.getElementById("myUL").appendChild(x);
+  }
+  document.getElementById("myInput").value = "";
+  x.setAttribute("type","hidden");
+  x.setAttribute("name","tagg[]");
+  x.setAttribute("value",inputValue);
+ }
+</script>
+
