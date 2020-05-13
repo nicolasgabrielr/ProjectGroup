@@ -6,12 +6,12 @@ class UserTest < MiniTest::Unit::TestCase
     @user = User.new
     @user1 = User.new
     # Act
-    @user.name = 'aaa'
-    @user.email = 'miperrodinamita@pr.com'
-    @user.dni = 24222222
-    @user.surname = 'ppp'
-    @user.password = 'asas'
-    @user.username = 'aaa'
+    @user.name = 'Jeremy'
+    @user.email = 'email@email.com'
+    @user.dni = 99999999
+    @user.surname = 'Evans'
+    @user.password = '1234'
+    @user.username = 'jevans'
 
     @user1.name = 'aaa'
     @user1.email = 'uncorreo@zzz.com'
@@ -21,43 +21,49 @@ class UserTest < MiniTest::Unit::TestCase
     @user1.username = 'bbb'
 
   end
-    def test_existence
-      # Act
-      a = @user.valid?  #TRUE
-      @user.name = nil
-      b = @user.valid?  #false !name
-      @user.name = 'aaa'
-      @user.email = nil
-      c = @user.valid? #false !email
-      @user.email = 'miperrodinamita@pr.com'
-      @user.dni = nil
-      d = @user.valid? #false !dni
-      @user.dni = 24222222
-      @user.surname = nil
-      e = @user.valid?  #false !surname
-      @user.surname = 'ppp'
-      @user.password = nil
-      f = @user.valid?  #false !password
-      @user.password = 'asas'
+    def test_username_existence
       @user.username = nil
-      g = @user.valid? #false !username
-      @user.username = 'aaa'
       # Assert
-      assert_equal !a || b || c || d || e || f || g, false
+      assert_equal @user.valid?,false
     end
 
-    def test_email_format
-      # Act
-      @user.email = ''   #invalid email
-      a =  @user.valid?  #false
-      @user.email = 'qq' #invalid email
-      b =  @user.valid? #false
-      @user.email = 'qq@qq' #invalid email
-      c =  @user.valid? #false
-      @user.email = nil #invalid email
-      d = @user.valid? #false
-      @user.email = 'miperrodinamita@pr.com' #valid email
+    def test_name_existence
+      @user.name = ""
       # Assert
-      assert_equal a || b || c || d, false  #false == false => true
+      assert_equal @user.valid?,false
+    end
+
+    def test_surname_existence
+      @user.surname = ""
+      # Assert
+      assert_equal @user.valid?,false
+    end
+
+    def test_dni_existence
+      @user.dni = nil
+      # Assert
+      assert_equal @user.valid?,false
+    end
+
+    def test_email_existence
+      #Act
+      @user.email = nil
+      # Assert
+      assert_equal @user.valid?,false
+    end
+
+
+    def test_email_format_invalid
+        #Act
+      @user.email = "sasas"   #invalid email
+        #Assert
+      assert_equal @user.valid?, false
+    end
+
+    def test_email_format_valid
+        #Act
+      @user.email = "email@eamil.com"   #invalid email
+        #Assert
+      assert_equal @user.valid?, true
     end
 end
