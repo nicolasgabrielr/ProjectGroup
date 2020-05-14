@@ -14,17 +14,41 @@ class App < Sinatra::Base
 
   before do
     request.path_info
-    if !session[:user_id] && request.path_info != '/index' && request.path_info != '/sign_in' && request.path_info != '/' && request.path_info != '/about' && request.path_info != '/newUser'
+    if user_not_logged_in? && restricted_path_for_guest?
       redirect '/index'
     elsif session[:user_id]
       @current_usr = User.find(id: session[:user_id])
       set_user
-      if @current_usr.category != "superAdmin" && request.path_info == '/assign'
+      if not_eauthorized_category_for_admin? && superAdmin_path?
         redirect '/index'
-      elsif @current_usr.category != "superAdmin" && @current_usr.category != "admin" && (request.path_info == '/tagg' || request.path_info == '/upload'|| request.path_info == '/load'|| request.path_info == '/uploadrecord')
+      elsif not_eauthorized_category_for_user? && admin_path?
         redirect '/index'
       end
     end
+  end
+
+  def user_not_logged_in?
+    !session[:user_id]
+  end
+
+  def superAdmin_path?
+    request.path_info == '/assign'
+  end
+
+  def admin_path?
+    request.path_info == '/tagg' || request.path_info == '/upload'|| request.path_info == '/load'|| request.path_info == '/uploadrecord'
+  end
+
+  def restricted_path_for_guest?
+    request.path_info != '/index' && request.path_info != '/sign_in' && request.path_info != '/' && request.path_info != '/about' && request.path_info != '/newUser'
+  end
+
+  def not_eauthorized_category_for_admin?
+    @current_usr.category != "superAdmin"
+  end
+
+  def not_eauthorized_category_for_user?
+    @current_usr.category != "superAdmin" && @current_usr.category != "admin"
   end
 
   def set_user
