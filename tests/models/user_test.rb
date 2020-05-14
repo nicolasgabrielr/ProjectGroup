@@ -55,15 +55,17 @@ class UserTest < MiniTest::Unit::TestCase
 
     def test_email_format_invalid
         #Act
-      @user.email = "sasas"   #invalid email
+      @user.email = "sasas"  
         #Assert
       assert_equal @user.valid?, false
     end
 
     def test_email_format_valid
         #Act
-      @user.email = "email@eamil.com"   #invalid email
+      @user.email = "email@eamil.com"
         #Assert
       assert_equal @user.valid?, true
     end
+
+
 end
