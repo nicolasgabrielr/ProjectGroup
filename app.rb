@@ -17,7 +17,7 @@ class App < Sinatra::Base
     if user_not_logged_in? && restricted_path_for_guest?
       redirect '/index'
     elsif session[:user_id]
-      @current_usr = User.find(id: session[:user_id])
+      @current_user = User.find(id: session[:user_id])
       set_user
       if not_eauthorized_category_for_admin? && superAdmin_path?
         redirect '/index'
@@ -40,19 +40,19 @@ class App < Sinatra::Base
   end
 
   def restricted_path_for_guest?
-    request.path_info != '/index' && request.path_info != '/sign_in' && request.path_info != '/' && request.path_info != '/about' && request.path_info != '/newUser'
+    request.path_info != '/index' && request.path_info != '/sign_in' && request.path_info != '/' && request.path_info != '/about' && request.path_info != '/newUser' && request.path_info != '/prueba'
   end
 
   def not_eauthorized_category_for_admin?
-    @current_usr.category != "superAdmin"
+    @current_user.category != "superAdmin"
   end
 
   def not_eauthorized_category_for_user?
-    @current_usr.category != "superAdmin" && @current_usr.category != "admin"
+    @current_user.category != "superAdmin" && @current_user.category != "admin"
   end
 
   def set_user
-    case @current_usr.category
+    case @current_user.category
       when "superAdmin" then
         @admin = "submit"
         @superAdmin = "submit"
@@ -66,22 +66,24 @@ class App < Sinatra::Base
         @usuario = session[:user_name]
   end
 
+  def get_public_documents 
+    public_docs = (Document.select(:filename,:resolution,:realtime).where(deleted:false)).order(:realtime).all
+     @arr = public_docs.map{|x| x.filename}.reverse 
+  end
 
   def checkpass(key)
-    @current_usr.password == key
+    @current_user.password == key
   end
 
   get "/" do
-    #filtra la tabla
-    orderbydate=Document.select(:filename,:resolution,:realtime).order(:realtime).all
     #genera un arreglo con el campo deseado
-    @arr= orderbydate.map{|x| x.filename}.reverse
+    get_public_documents
     erb :index, :layout => :layout_public_records
   end
 
   get '/myrecords' do
-    ds = Document.select(:filename,:resolution,:realtime).where(fk_users_id: session[:user_id])
-    @arr= ds.map{|x| x.filename}.reverse     #genera un arreglo con el campo deseado
+    ds = Document.select(:filename,:resolution,:realtime).where(fk_users_id: session[:user_id],deleted: false)
+    @arr = ds.map{|x| x.filename}.reverse     #genera un arreglo con el campo deseado
     erb:myrecords , :layout => :layout_loged_menu
   end
 
@@ -112,15 +114,12 @@ class App < Sinatra::Base
   end
 
   post '/sign_in' do #inicio de sesion
-    #filtra la tabla
-    orderbydate=Document.select(:filename,:resolution,:realtime).order(:realtime).all
-    #genera un arreglo con el campo deseado
-    @arr = orderbydate.map{|x| x.filename}.reverse
+    get_public_documents
     usuario = User.find(email: params["email"])
     if usuario.password == params["password"]
       session[:user_name] = usuario.name
       session[:user_id] = usuario.id
-      @current_usr = User.find(id: session[:user_id])
+      @current_user = User.find(id: session[:user_id])
       set_user
       erb:loged , :layout => :layout_loged_menu
     else
@@ -163,10 +162,7 @@ class App < Sinatra::Base
   end
 
   get '/sign_in' do  #sesion iniciada get
-     #filtra la tabla
-    orderbydate=Document.select(:filename,:realtime).order(:realtime).all
-    #genera un arreglo con el campo deseado
-    @arr= orderbydate.map{|x| x.filename}.reverse
+    get_public_documents
     if session[:user_id]
       set_user
       erb:loged , :layout => :layout_loged_menu
@@ -186,10 +182,7 @@ class App < Sinatra::Base
   end
 
   get "/index" do
-    #filtra la tabla
-    orderbydate=Document.select(:filename,:realtime).order(:realtime).all
-    #genera un arreglo con el campo deseado
-    @arr= orderbydate.map{|x| x.filename}.reverse
+    get_public_documents
     session.clear
     erb :index , :layout => :layout_public_records
   end
@@ -203,8 +196,8 @@ class App < Sinatra::Base
   end
 
   get '/mydata' do
-    @username = @current_usr.name
-    @foto = @current_usr.imgpath
+    @username = @current_user.name
+    @foto = @current_user.imgpath
     erb:mydata , :layout => :layout_loged_menu
   end
 
@@ -214,7 +207,7 @@ class App < Sinatra::Base
 
   post '/modifyemail' do
     if checkpass(params["passwordActual"])
-      @current_usr.update(email: params["emailNew1"])
+      @current_user.update(email: params["emailNew1"])
       @band = "¡El email ha sido Actualizado con exito!"
     else
       @band = "La contraseña o el email son Incorrectos!"
@@ -229,7 +222,7 @@ class App < Sinatra::Base
 
   post '/modifypassword' do
     if checkpass(params["passwordActual"])
-      @current_usr.update(password: params["passwordNew1"])
+      @current_user.update(password: params["passwordNew1"])
       @band = "¡El password ha sido Actualizado con exito!"
     else
       @band = "La contraseña ingresada es incorrecta"
@@ -262,13 +255,13 @@ class App < Sinatra::Base
   end
 
   post '/uploadImg' do     #cargar imagenes a la base de datos
-    if @current_usr.imgpath != nil && File.exist?("public#{getCurrentUser.imgpath}")
+    if @current_user.imgpath != nil && File.exist?("public#{getCurrentUser.imgpath}")
       File.delete("public#{getCurrentUser.imgpath}")
     end
     tempfile = params[:myImg][:tempfile]
     @filename = params[:myImg][:filename]
     cp(tempfile.path, "public/usr/#{@filename}")
-    @current_usr.update(imgpath: "/usr/#{@filename}")
+    @current_user.update(imgpath: "/usr/#{@filename}")
     redirect "/mydata"
   end
 
@@ -287,7 +280,7 @@ class App < Sinatra::Base
       params = JSON.parse hash.to_json
       @tagged = params["tagg"]
       cp("public/temp/#{params["path"]}","public/file/#{params["path"]}")
-      document = Document.new(resolution: params ["resolution"],path: "/file/#{params["path"]}",filename: params["filena"], description: params["description"], realtime: params["realtime"], fk_users_id: @current_usr.id)
+      document = Document.new(resolution: params ["resolution"],path: "/file/#{params["path"]}",filename: params["filena"], description: params["description"], realtime: params["realtime"], fk_users_id: @current_user.id)
       if document.save
         @record = document
         erb:tagg
@@ -298,8 +291,9 @@ class App < Sinatra::Base
 
   def deleteDoc(name)
     if File.exist?("public/file/#{name}")
-      Document.find(filename: name).delete #delete from db
-      File.delete("public/file/#{name}") #delete from system
+      deleting_doc = Document.find(filename: name) 
+      deleting_doc.update(deleted: true) #delete from db
+      #File.delete("public/file/#{name}") #delete from system
     else
       "cannot delete this Doc"
     end
@@ -321,7 +315,6 @@ class App < Sinatra::Base
     #pp=Document.where(users: User[28]).all
     #pp.last.path
     #User[28].documents
-    pp =DB['select document_id from users inner join documents_users on users.id = documents_users.user_id where user_id = 28 and see_check = false']
     #User.each { |u| @out+=u.email+"<br/>" }
     #a.chars.last(5).join
     #User[20].delete
@@ -335,7 +328,10 @@ class App < Sinatra::Base
     #usuario.update(category:"admin")
     #usuario = User.first(id: session[:user_id])
     #u = usuario.name
-    #User.all.to_s
+    Document.find(resolution: "412421").update(deleted:true)
+
+
+    Document.all.to_s
   end
   get '/tablas' do
     @out = ""

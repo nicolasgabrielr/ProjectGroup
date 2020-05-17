@@ -1,45 +1,156 @@
+<style>
 
+.error {color:red;}
+
+</style>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
   </head>
   <body>
-<div class="column-container">
+    <div class="column-container">
+      <div class="column1">
+      </div>
+      <div class="column2">
+        <form name="newUser" action="/newUser" method="post" onsubmit='return valideNewUser()'><br>
+         <label for="fname" >Completa el formulario</label><br><br>
 
-  <div class="column1">
-    <form action="/newUser" method="post"><br>
-     <label for="fname" >Complete the form</label><br><br>
+        <div label for="fname">Apellido:</label><br>
+         <input type="text" name="surname"class="button"></input>
+        </div><br>
 
-     <label for="fname">Last name:</label><br>
-     <input type="text" name="surname"class="button"></input><br>
+        <div label for="fname">Nombre:</label><br>
+          <input type="text" name="name"class="button"></input>
+        </div><br>
 
-     <label for="fname">First name:</label><br>
-     <input type="text" name="name"class="button"></input><br>
+        <div label for="fname">Usuario:</label><br>
+         <input type="text" name="username"class="button"></input>
+        </div><br>
 
-     <label for="fname">Username:</label><br>
-     <input type="text" name="username"class="button"></input><br>
+        <div label for="fname">DNI:</label><br>
+         <input type="text" name="dni"class="button"></input>
+        </div><br>
 
-     <label for="fname">DNI:</label><br>
-     <input type="text" name="dni"class="button"></input><br>
+        <div label for="fname">Email:</label><br>
+         <input type="text" name="email"class="button"></input>
+        </div><br>
 
-     <label for="fname">Email:</label><br>
-     <input type="text" name="email"class="button"></input><br>
+        <div label for="fname">Contraseña:</label><br>
+         <input type="password" name="key"class="button"></input>
+        </div><br>
 
-     <label for="fname">Password:</label><br>
-     <input type="password" name="key"class="button"></input><br>
+        <div label for="fname">Repetir Contraseña:</label><br>
+         <input type="password" name="password"class="button"></input>
+        </div><br><br>
 
-     <label for="fname">Repeat password:</label><br>
-     <input type="password" name="password"class="button"></input><br><br>
-
-     <input type="submit" value="submit"class="button"></input><br><br>
-    </form>
-  </div>
-  <div class="column2" >
-
-  </div>
-
-</div>
-
-
+         <input type="submit" value="Registrarse"class="button"></input><br><br>
+        </form>
+      </div>
+    </div>
   </body>
 </html>
+
+    <script>
+
+    /**
+
+     * Function que inserta un error por encima del elemento recibido
+
+     * @param element -> texto que haga referencia al elemento
+
+     * @param error -> texto del error
+
+     */
+
+    const showError = (element, error) => {
+
+        const errorEl=document.createElement("div");
+
+        errorEl.setAttribute("class","error");
+
+        errorEl.innerHTML=error;
+
+        document.querySelector(element).parentElement.prepend(errorEl);
+
+    }
+ 
+
+    const valideNewUser = () => {
+
+        //Cogemos los valores actuales del formulario
+
+        const surname1=document.newUser.surname.value;
+
+        const name1=document.newUser.name.value;
+
+        const username1=document.newUser.username.value;
+
+        const dni1 = document.newUser.dni.value;
+
+        const emNew1 = document.newUser.email.value;
+
+        const pasNew1=document.newUser.key.value;
+
+        const pasNew2=document.newUser.password.value;
+
+        const patron1=new RegExp("[0-9]+");   //Patron para los numeros
+
+        const patron2=new RegExp("[a-zA-Z]+");    //Patron para las letras
+
+        const patron3=new RegExp("[@]+");     //Patron para el email
+
+
+        // Eliminamos los posible errores
+
+        for (let el of document.querySelectorAll("div[class=error]")) {
+
+            el.remove();
+
+        }
+ 
+
+        if (pasNew1!=pasNew2 || pasNew1.length<6 || pasNew1.search(patron1)<0 || pasNew1.search(patron2)<0 ||
+          dni1.search(patron1)<0 || dni1.length<7 || surname1.search(patron2)<0 || name1.search(patron2)<0 ||
+           emNew1.length<6 || emNew1.search(patron1)<2 || emNew1.search(patron2)<3) {
+
+            if (pasNew1=="") {
+
+                showError("input[name=key]", "Inserte una contraseña");
+
+            }
+
+            if (pasNew1.length<6) {
+
+                showError("input[name=key]", "La longitud mínima tiene que ser de 6 caracteres");
+
+            } else if (pasNew1!=pasNew2) {
+
+                showError("input[name=key]", "Las contraseñas no coinciden");
+
+            } else if (pasNew1.search(patron1)<0 || pasNew1.search(patron2)<0) {
+
+                showError("input[name=key]", "La contraseña tiene que tener numeros y letras");
+
+            } else if (dni1 == "" || dni1.length<7) {
+
+              showError("input[name=dni]", "Ingrese un DNI valido");
+
+            } else if (name1.search(patron2)<0 || surname1.search(patron2)<0) {
+
+              showError("input[name=apellido]", "El nombre y apellido solo deben contener letras");
+
+            } else if (emNew1.search(patron1)<2 || emNew1.search(patron2)<3 || emNew1=="") {
+
+              showError("input[name=email]", "Ingrese un email valido");
+
+             }
+
+            return false;
+
+        }
+
+        return true;
+
+    }
+
+    </script>

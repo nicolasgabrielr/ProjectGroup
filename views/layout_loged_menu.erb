@@ -36,8 +36,8 @@
 			<button class="button">Mi Perfil</button>
 		</form><br>
 
-		<form action=""  >
-		<button onclick="get()" class="button">Notificaciones</button>
+		<form action="" method="get" onclick="myFunction()">
+			<button class="button">Notificaciones</button>
 		</form><br>
 
 		<form action="/sign_in" method="get">
@@ -45,19 +45,19 @@
 		</form><br>
 
 		<form action="/uploadrecord" >
-		<input type= "<%= @admin %>" value="Subir Acta" class="button">
+			<input type= "<%= @admin %>" value="Subir Acta" class="button">
 		</form><br>
 
 		<form  action="/myrecords" method="get">
-		<input  type= "<%= @admin %>" value="Gestionar Actas" class="button">
+			<input  type= "<%= @admin %>" value="Gestionar Actas" class="button">
 		</form><br>
 
 		<form  action="/assign" method="get">
-		<input  type= "<%= @superAdmin %>" value="Gestionar Usuarios"class="button">
+			<input  type= "<%= @superAdmin %>" value="Gestionar Usuarios"class="button">
 		</form><br>
 
 		<form action="/index"  >
-		<button onclick="get()" class="button">Cerrar Sesion</button>
+			<button onclick="get()" class="button">Cerrar Sesion</button>
 		</form><br>
     </div>
 	<div class="column2">
@@ -66,7 +66,13 @@
 	
 
 </div>
-<div class="clearfix"></div>
-<div class="footer-container"></div>
+	<div class="clearfix"></div>
+	<div class="footer-container"></div>
 </body>
 </html>
+
+<script>
+function myFunction() {
+  alert("Esta funcion se encuentra actualmente en desarrollo");
+}
+</script>
