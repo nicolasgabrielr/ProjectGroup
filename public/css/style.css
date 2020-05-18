@@ -532,3 +532,15 @@ ul{
   .addBtn:hover {
   background-color: #bbb;
   } 
+  .registerbox{
+    width: 100%;
+  }
+  .inputbox{
+    width: 30%;
+    float: left;
+    }
+  .errorbox{
+    width: 55%;
+    float: left; 
+    padding-left: 5px;
+  }
