@@ -9,7 +9,7 @@
     <!-------  seleccionar archivo   ------->
       <div class="column1">
         <form action="/sign_in" method="get" >
-          <button class="button">Cancelar</button>
+          <button class="button1">Cancelar</button>
         </form><br>
         <form id="form" class="button" action="/load" method="post" enctype="multipart/form-data">
           <input id="fpdf" type="file" name="pdf" value=""class="button" accept="application/pdf">
@@ -30,7 +30,7 @@
           <input type="text" name="resolution" value="" class="button"><br>
           <input type="text" name="path" value ="<%= @filename %>" class="button" hidden>
           <input type="text" name="filena" value ="<%= @filename %>" class="button" readonly hidden><br>
-          <input type="submit" value="Subir y Notificar"class="button">
+          <input type="submit" value="Subir y Notificar"class="button1">
         </form>
       </div>
     </div>

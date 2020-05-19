@@ -7,7 +7,7 @@
   <body>
       <div class="column1">
         <form action="/mydata" method="get">
-          <p><button class="button"> Cancelar </button></p>
+          <p><button class="button1"> Cancelar </button></p>
         </form>
       </div>
       <!--------   Cargar Foto y Visualizar   ----------->
@@ -16,7 +16,8 @@
         <form class="button" action="/uploadImg" method="post" enctype="multipart/form-data">
           <input type="file" name="myImg" value="" class="button" accept="image/jpg" onchange="loadFile(event)">
           <img id="output" width="20%" height="150px"/>
-          <input type="submit" value="Cargar"class="button">
+          <div class="clearfix"></div>
+          <input type="submit" value="Cargar"class="button1" style="width: 40%;" >
         </form>
     </div>
   </body>

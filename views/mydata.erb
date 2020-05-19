@@ -1,15 +1,41 @@
+<div class="column2" style="width: 100%;">
+  <div class="profile-box">
+    
+    <div class="image-box">
+       <img src="<%= @foto %>"  width="200" height="180">
+       <form action="/modifyphoto" method="get" >
+        <button class="button-user" style="color:#cf7b7b;background-color: rgba(255, 0, 0, 0);">>>Cambiar Imagen</button>
+        </form>
+    </div>
 
-          <div class="columnmid">
-            <div class="about-section">
-              <h1>Perfil de <%= @username %></h1> <img src="<%= @foto %>" alt="" style="width:20%">
-            </div>
-            <form action="/modifypassword" method="get" >
-              <button class="button">Modificar Contraseña</button>
-            </form>
-            <form action="/modifyemail" method="get" >
-              <button class="button">Modificar Email</button>
-            </form>
-            <form action="/modifyphoto" method="get" >
-                <button class="button">Cambiar foto de Perfil</button>
-            </form>
-          </div>
+    <div class="user-info">
+      <h1 ><%= @username %></h1>
+        <div class="show-user" style="width: 96%; border-top-style:outset;
+        border-top-color: #cfab7b;">
+        <ul style=" float: left;"> 
+          <p><h3>Apellido: </h3> <h5>.<%= @surname %></h5> </p>
+          <p><h3>Nombre: </h3> <h5>.<%= @name %></h5> </p>
+          <p><h3>Dni: </h3> <h5>.<%= @dni %></h5></p>
+        </ul>
+        </div>
+      
+       
+     
+
+    </div>
+    
+    <div class="clearfix"></div>
+    
+    <div class="user-options-box">
+          <ul>
+            <li ><form action="/modifypassword" method="get" >
+              <button class="button-user">Modificar Contraseña</button>
+            </form></li>
+            <li > <form action="/modifyemail" method="get" >
+              <button class="button-user">Modificar Email</button>
+            </form></li>
+          </ul>
+    </div>
+
+  </div>
+</div>

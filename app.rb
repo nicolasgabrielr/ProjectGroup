@@ -196,6 +196,9 @@ class App < Sinatra::Base
   get '/mydata' do
     @username = @current_user.name
     @foto = @current_user.imgpath
+    @name = @current_user.name
+    @surname = @current_user.surname
+    @dni = @current_user.dni
     erb:mydata , :layout => :layout_loged_menu
   end
 
