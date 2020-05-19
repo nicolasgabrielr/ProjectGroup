@@ -1,6 +1,7 @@
+  <head>
+    <title>Editar - Notificar | Sistema de Actas</title>
+  </head>
  <div class="column-container">
-    
-         
       <div class="column2">
         <embed src="<%= @record.path %>" type="application/pdf" width="100%" height="600px" />
       </div>
@@ -17,11 +18,11 @@
           <label for="fname">N° de Resolucion:</label><br>
           <input type="text" name="resolution" value="<%= @record.resolution %>" class="button"><br>
           <input type="text" name="doc" value ="<%= @record.id %>" class="button" hidden><br>
-          <h3>Notificar Personas:</h3>
+          <h3>Notificar a personas:</h3>
           
           <div id="myDIV">
-            <input class="button"type="text" id="myInput" placeholder="Inserte DNI...">
-            <span onclick="newElement()" class="addBtn">Add</span>
+            <input class="button"type="text" id="myInput" placeholder="Ingrese DNI sin espacios ni puntos..." style="width: 70%;">
+            <span onclick="newElement()" class="addBtn">Añadir</span>
           </div>
             <ul id="myUL"style="min-height:200px;" >
             </ul>
