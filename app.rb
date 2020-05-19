@@ -87,18 +87,16 @@ class App < Sinatra::Base
     erb:myrecords , :layout => :layout_loged_menu
   end
 
-
   post '/myrecords' do
     if params[:delete]
-      deleteDoc(params["elem"]) #elem is name of document
+      delete_document(params["elem"]) #elem is name of document
       redirect "/myrecords"
     else
       "No se pudo eliminar el documento"
     end
     if params[:tagg]
-
-      @record=Document.find(filename: params["elem"])
-      @record.path.to_s
+      @record = Document.find(filename: params["elem"])
+      get_documents_bydoc(@record)
       erb:tagg
     end
   end
@@ -107,7 +105,7 @@ class App < Sinatra::Base
     @tagged = params["tagg"]
     docc = Document.find(id: params["doc"])
     if @tagged != nil
-      @tagged.map{|x| taggingUsr(x,docc)} #tagged involved users
+      @tagged.map{|x| tagg_user(x,docc)} #tagged involved users
     end
     docc.update(description: params["description"], resolution: params["resolution"])
     redirect "/myrecords"
@@ -126,7 +124,6 @@ class App < Sinatra::Base
       redirect "/"
     end
   end
-
 
   post '/assign' do #asignacion de admin o super admin
     @band
@@ -151,11 +148,9 @@ class App < Sinatra::Base
       else
         @band = "El password es incorrecto o el usuario no existe"
       end
-      set_user
-      erb:assign , :layout => :layout_loged_menu
-
+    set_user
+    erb:assign , :layout => :layout_loged_menu
   end
-
 
   get '/assign' do
     erb :assign , :layout => :layout_loged_menu
@@ -170,7 +165,6 @@ class App < Sinatra::Base
       erb:index , :layout => :layout_public_records
     end
   end
-
 
   get '/sign_out' do  #cierre de sesion
     session.clear
@@ -255,8 +249,8 @@ class App < Sinatra::Base
   end
 
   post '/uploadImg' do     #cargar imagenes a la base de datos
-    if @current_user.imgpath != nil && File.exist?("public#{getCurrentUser.imgpath}")
-      File.delete("public#{getCurrentUser.imgpath}")
+    if @current_user.imgpath != nil && File.exist?("public#{@current_user.imgpath}")
+      File.delete("public#{@current_user.imgpath}")
     end
     tempfile = params[:myImg][:tempfile]
     @filename = params[:myImg][:filename]
@@ -266,30 +260,30 @@ class App < Sinatra::Base
   end
 
   post '/load' do   #vista previa del documento para extraer datos y tags
-      @time = Time.now
-      tempfile = params[:pdf][:tempfile]
-      @filename = "#{@time}#{params[:pdf][:filename]}"
-      cp(tempfile.path, "public/temp/#{@filename}")
-      erb :uploadrecord
+    @time = Time.now
+    tempfile = params[:pdf][:tempfile]
+    @filename = "#{@time}#{params[:pdf][:filename]}"
+    cp(tempfile.path, "public/temp/#{@filename}")
+    erb :uploadrecord
   end
 
   post '/upload' do     #upload documents and taggs users
-      erb :uploadrecord
-      request.body.rewind
-      hash = Rack::Utils.parse_nested_query(request.body.read)
-      params = JSON.parse hash.to_json
-      @tagged = params["tagg"]
-      cp("public/temp/#{params["path"]}","public/file/#{params["path"]}")
-      document = Document.new(resolution: params ["resolution"],path: "/file/#{params["path"]}",filename: params["filena"], description: params["description"], realtime: params["realtime"], fk_users_id: @current_user.id)
-      if document.save
-        @record = document
-        erb:tagg
-      else
-        [500, {}, "Internal server Error"]
-      end
+    erb :uploadrecord
+    request.body.rewind
+    hash = Rack::Utils.parse_nested_query(request.body.read)
+    params = JSON.parse hash.to_json
+    @tagged = params["tagg"]
+    cp("public/temp/#{params["path"]}","public/file/#{params["path"]}")
+    document = Document.new(resolution: params ["resolution"],path: "/file/#{params["path"]}",filename: params["filena"], description: params["description"], realtime: params["realtime"], fk_users_id: @current_user.id)
+    if document.save
+      @record = document
+      erb:tagg
+    else
+      [500, {}, "Internal server Error"]
+    end
   end
 
-  def deleteDoc(name)
+  def delete_document(name)
     if File.exist?("public/file/#{name}")
       deleting_doc = Document.find(filename: name) 
       deleting_doc.update(deleted: true) #delete from db
@@ -299,14 +293,16 @@ class App < Sinatra::Base
     end
   end
 
-
-  def taggingUsr(usr,document)
+  def tagg_user(usr,document)
     user_tagg = User.find(dni: usr)
     if user_tagg != nil
       document.add_user(user_tagg)
     end
   end
 
+  def get_documents_bydoc(doc)
+    @dni_docc = User.select(:dni).where(id: Notification.select(:user_id).where(document_id: doc.id))
+  end
 
 
 ## Pruebas para ver las tablas
@@ -328,11 +324,8 @@ class App < Sinatra::Base
     #usuario.update(category:"admin")
     #usuario = User.first(id: session[:user_id])
     #u = usuario.name
-    Document.find(resolution: "412421").update(deleted:true)
-
-
-    Document.all.to_s
   end
+
   get '/tablas' do
     @out = ""
     User.each { |u| @out+= u.email + "--" + u.category.to_s +  "<br/>" }

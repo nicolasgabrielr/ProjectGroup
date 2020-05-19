@@ -24,8 +24,17 @@
             <input class="button"type="text" id="myInput" placeholder="Ingrese DNI sin espacios ni puntos..." style="width: 70%;">
             <span onclick="newElement()" class="addBtn">Añadir</span>
           </div>
-            <ul id="myUL"style="min-height:200px;" >
-            </ul>
+          <div class="notifications" style="width: 90%;padding-top: 20px";>
+            <h5>Personas notificadas y/o a notificar:</h5>
+            <div class="person" style="min-height: 200px;float: left;width: 45%";>
+              <ul><% @dni_docc.each do |elem| %>
+                <lu><%=elem.dni%><br></lu>
+                </ul>
+              <% end %>
+              <ul id="myUL"style="min-height:150px; color:green; padding-top: 10px" >
+              </ul>
+             </div>
+          </div>
             <input type="submit" value="Guardar"class="button">
         </form>
         </div>
