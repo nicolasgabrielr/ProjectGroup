@@ -553,7 +553,7 @@ ul{
   .image-box{
     padding-top: 8px;
     width: 25%;
-    min-height: 215px;
+    height: 215px;
     float: left;
   }
   .user-info{
