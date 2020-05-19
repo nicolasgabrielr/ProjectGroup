@@ -114,14 +114,18 @@ class App < Sinatra::Base
   post '/sign_in' do #inicio de sesion
     get_public_documents
     usuario = User.find(email: params["email"])
-    if usuario.password == params["password"]
+    if usuario != nil && (usuario.password == params["password"])
       session[:user_name] = usuario.name
       session[:user_id] = usuario.id
       @current_user = User.find(id: session[:user_id])
       set_user
       erb:loged , :layout => :layout_loged_menu
+    elsif usuario == nil
+      @log_err = "El usuario ingresado no existe"
+      erb:index , :layout => :layout_public_records
     else
-      redirect "/"
+      @log_err = "La contraseña ingresada es incorrecta"
+      erb:index , :layout => :layout_public_records
     end
   end
 
