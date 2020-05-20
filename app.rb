@@ -18,12 +18,22 @@ class App < Sinatra::Base
       redirect '/index'
     elsif session[:user_id]
       @current_user = User.find(id: session[:user_id])
+      alert_notification
       set_user
       if not_eauthorized_category_for_admin? && superAdmin_path?
         redirect '/index'
       elsif not_eauthorized_category_for_user? && admin_path?
         redirect '/index'
       end
+    end
+  end
+
+  def alert_notification
+    notification_unchecked = Notification.where(user_id: session[:user_id], checked: false).all
+    if notification_unchecked
+      n=0
+      notification_unchecked.each{|d| n=n+1}
+      @alert = n
     end
   end
 
@@ -90,13 +100,22 @@ class App < Sinatra::Base
   end
 
   post '/user_documents' do
-    if params["dato"]
-      doc_id = Document.first(path: "/#{params["dato"]}")
+    if params["path"]
+      doc_id = Document.first(path: "/#{params["path"]}")
       notification_checked = Notification.first(user_id: session[:user_id], document_id: doc_id.id)
       notification_checked.update(checked: true)
     end
-    @path =  "/#{params["dato"]}"
+    @path =  "/#{params["path"]}"
     erb:view_doc , :layout => :layout_loged_menu
+  end
+
+  post '/check_documents' do
+    if params["path"]
+      doc_id = Document.first(path: "/#{params["path"]}")
+      notification_checked = Notification.first(user_id: session[:user_id], document_id: doc_id.id)
+      notification_checked.update(checked: true)
+    end
+    redirect '/user_documents'
   end
 
   get '/myrecords' do
@@ -129,6 +148,11 @@ class App < Sinatra::Base
     redirect "/myrecords"
   end
 
+  get '/loged' do
+    get_public_documents
+    erb:loged , :layout => :layout_loged_menu
+  end
+
   post '/sign_in' do #inicio de sesion
     get_public_documents
     usuario = User.find(email: params["email"])
@@ -137,6 +161,7 @@ class App < Sinatra::Base
       session[:user_id] = usuario.id
       @current_user = User.find(id: session[:user_id])
       set_user
+      alert_notification
       erb:loged , :layout => :layout_loged_menu
     elsif usuario == nil
       @log_err = "El usuario ingresado no existe"
@@ -349,6 +374,15 @@ class App < Sinatra::Base
     #usuario.update(category:"admin")
     #usuario = User.first(id: session[:user_id])
     #u = usuario.name
+  end
+
+  get '/rename' do
+    docs = Document.all
+    docs.each do |i|
+      i.update(resolution: (i.id + 100000).to_s)
+      i.update(description: "UNRC acta res/#{(i.id + 100000).to_s}")
+    end
+     "rename ok"
   end
 
   get '/tablas' do

@@ -10,15 +10,22 @@
         <div class="record-box">
           <div class="clearfix"></div>
           <div class="record-data">
-            <p><strong><u> Resolución:</u></strong> <strong  ><%=Document.first(filename: elem).resolution%></strong></p>
-            <p><strong>Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%></strong></p>
+            <p style="color:blue"><strong><u> Resolución:</u></strong> <strong  ><%=Document.first(filename: elem).resolution%></strong></p>
+            <p style="color:blue">Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%></p>
+            <p style="color:blue">Descripcion: <%=Document.first(filename: elem).description%></p>
           </div>
           <div class="options-records-box">
             <ul class="options-records-list">
               <li class="option">
                 <form  action="/user_documents" method="post">
-                  <input type="text" name="dato" value="file/<%= elem%>" hidden>
-                  <input  type= "submit" value="ver" class="button-download">
+                  <input type="text" name="path" value="file/<%= elem%>" hidden>
+                  <input  type= "submit" value="Ver acta" class="button-download">
+            		</form><br>
+              </li>
+              <li class="option">
+                <form  action="/check_documents" method="post">
+                  <input type="text" name="path" value="file/<%= elem%>" hidden>
+                  <input  type= "submit" value="Visto" class="button-delete">
             		</form><br>
               </li>
               <li class="option">
@@ -41,13 +48,14 @@
           <div class="record-data">
             <p><u> Resolución:</u><%=Document.first(filename: elem).resolution%></p>
             <p>Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%></p>
+            <p>Descripcion: <%=Document.first(filename: elem).description%></p>
           </div>
           <div class="options-records-box">
             <ul class="options-records-list">
               <li class="option">
                 <form  action="/user_documents" method="post">
-                  <input type="text" name="dato" value="file/<%= elem%>" hidden>
-                  <input  type= "submit" value="ver" class="button-download">
+                  <input type="text" name="path" value="file/<%= elem%>" hidden>
+                  <input  type= "submit" value="Ver acta" class="button-download">
             		</form><br>
               </li>
               <li class="option">
