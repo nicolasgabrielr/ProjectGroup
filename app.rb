@@ -92,9 +92,9 @@ class App < Sinatra::Base
   end
 
   get '/user_documents' do
-    user_docs = (Document.select(:filename,:resolution,:realtime).where(id: Notification.select(:document_id).where(user_id: session[:user_id], checked: false))).all
+    user_docs = (Document.select(:filename,:resolution,:realtime).where(id: Notification.select(:document_id).where(user_id: session[:user_id], checked: false),deleted: false)).all
     @not_checkeds = user_docs.map{|x| x.filename}.reverse     #genera un arreglo con el campo deseado
-    user_docs = (Document.select(:filename,:resolution,:realtime).where(id: Notification.select(:document_id).where(user_id: session[:user_id], checked: true))).all
+    user_docs = (Document.select(:filename,:resolution,:realtime).where(id: Notification.select(:document_id).where(user_id: session[:user_id], checked: true),deleted: false)).all
     @checkeds = user_docs.map{|x| x.filename}.reverse
     erb:user_documents , :layout => :layout_loged_menu
   end
@@ -119,7 +119,7 @@ class App < Sinatra::Base
   end
 
   get '/myrecords' do
-    ds = Document.select(:filename,:resolution,:realtime).where(fk_users_id: session[:user_id],deleted: false)
+    ds = Document.select(:filename,:resolution,:realtime).where(user_id: session[:user_id],deleted: false)
     @arr = ds.map{|x| x.filename}.reverse     #genera un arreglo con el campo deseado
     erb:myrecords , :layout => :layout_loged_menu
   end
@@ -332,7 +332,7 @@ class App < Sinatra::Base
     params = JSON.parse hash.to_json
     @tagged = params["tagg"]
     cp("public/temp/#{params["path"]}","public/file/#{params["path"]}")
-    document = Document.new(resolution: params ["resolution"],path: "/file/#{params["path"]}",filename: params["filena"], description: params["description"], realtime: params["realtime"], fk_users_id: @current_user.id)
+    document = Document.new(resolution: params ["resolution"],path: "/file/#{params["path"]}",filename: params["filena"], description: params["description"], realtime: params["realtime"], user_id: @current_user.id)
     if document.save
       @record = document
       erb:tagg
@@ -344,6 +344,8 @@ class App < Sinatra::Base
   def delete_document(name)
     if File.exist?("public/file/#{name}")
       deleting_doc = Document.find(filename: name)
+      ds = Notification.where(document_id: deleting_doc.id).all
+      ds.each { |n| n.update(checked: true)}
       deleting_doc.update(deleted: true) #delete from db
       #File.delete("public/file/#{name}") #delete from system
     else
