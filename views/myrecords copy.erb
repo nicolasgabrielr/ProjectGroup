@@ -20,7 +20,7 @@
       <input type="text" placeholder="Buscar acta por numero de resolución.." name="search">
       <button type="submit"><i class="fa fa-search"></i></button>
     </form><br>
-    <%if @arr[0] == nil && @not_found_docs %>
+    <%if @arr[0] == nil %>
       <form><a style="color:red;padding-left: 37px;"> <%=@not_found_docs%> </a></form><br>
       <form action="/myrecords" method="get" style="width: 20%;padding-left: 37px">
         <button class="button1">Volver</button>

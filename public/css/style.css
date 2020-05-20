@@ -170,7 +170,7 @@ ul{
   width: 100%;
   border-bottom-style: ridge;
   border-bottom-color:#cfab7b;
-  height: 90px;
+  min-height: 90px;
 
 }
 .header-logo{
@@ -187,7 +187,7 @@ ul{
 
   float: left;
   width: 70%;
-  height: 88px;
+  min-height: 88px;
   box-sizing: border-box;
 }
 .header-tittle h1{
@@ -205,7 +205,7 @@ ul{
 .header-menu{
   float: left;
   width: 20%;
-  height: 88px;
+  min-height: 88px;
   box-sizing: border-box;
 }
 .header-menu ul{
@@ -288,7 +288,64 @@ ul{
   clear: both;
 }
 
+.notification-list {
 
+  
+  overflow-y: auto;
+  counter-reset: li;
+  list-style: none;
+  *list-style: decimal;
+  font: 15px 'trebuchet MS', 'lucida sans';
+  padding: 0;
+  margin-bottom: 0px;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+  /*border-style: dotted;
+  border-color: #fa8072;*/
+}
+
+.notification-list ol {
+  margin: 0 0 0 2em;
+
+}
+.notification-list li:hover{
+  background: #ccc;
+}
+
+.notification-list li:after{
+  position: absolute;
+  content: '';
+  border: .5em solid transparent;
+  left: -1em;
+  top: 50%;
+  margin-top: -.5em;
+  transition: all .3s ease-out;
+}
+
+.notification-list li:hover:after{
+  left: -.5em;
+  border-left-color: #fa8072;
+}
+#li2 li h1{
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(197, 196, 196);
+  border-bottom-style: ridge;
+  border-bottom-color: #cfab7b;
+  color: rgb(39, 38, 38);
+}
+#li2{
+  margin: 0 0 0 2em;
+  # background-color: blue;
+  width: 100%;
+  min-height: 580px;
+  border-style: ridge;
+
+  border-color: #ddd;
+}
+.notifications-box{
+  height:580px;
+  overflow-y: auto;
+}
 /* css de las listas publicas */
 .lista_publica {
 
@@ -301,6 +358,8 @@ ul{
   padding: 0;
   margin-bottom: 0px;
   text-shadow: 0 1px 0 rgba(255,255,255,.5);
+  /*border-style: dotted;
+  border-color: #fa8072;*/
 }
 
 .lista_publica ol {
@@ -373,6 +432,19 @@ ul{
   /*border-style: dotted;
   border-color: green;*/
 }
+/*#option2{
+  padding: 0%;
+  margin: 0px;
+  border-style: dotted;
+  border-color: green;
+}
+#option2 form{
+  margin: 0px;
+  padding: 0px;
+  border-style: dotted;
+  border-color: orange;
+  padding-top: 25px;
+}*/
 .options-records-box-public {
   /* padding-top: 18px;*/
    float: right;
@@ -486,6 +558,16 @@ ul{
  /* border-style: dotted;
   border-color: blue;*/
  }
+ .button-mark-read{
+  font-size:10px;
+  font-family:Verdana,Helvetica;
+  font-weight:bold;
+  color:white;
+  background:hsl(162, 75%, 42%);
+  border:0px;
+  width:80px;
+  height:19px;
+ }
  .button-delete{
   font-size:10px;
   font-family:Verdana,Helvetica;
@@ -537,11 +619,11 @@ ul{
     width: 100%;
   }
   .inputbox{
-    width: 30%;
+    width: 47%;
     float: left;
     }
   .errorbox{
-    width: 55%;
+    width: 50%;
     float: left;
     padding-left: 5px;
   }

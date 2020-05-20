@@ -14,7 +14,14 @@
 				<input class="button" type="text" name="emailnewAdmin" placeholder="Email del usuario:"><br><br><br>
 					
 				<h3 style="text-align:center;">Opciones disponibles:</h3>
-
+				<div class="user-options-box" style="border-style: none;">
+					<ul style="padding-left: 0px;">
+						<li><input class="button-user" style="border-radius: 4px 4px 4px 4px;color: rgb(255, 82, 2); height: 25px" type="submit" name="dUser" value="Eliminar Usuario"/></li>
+						<li><input class="button-user" style="border-radius: 4px 4px 4px 4px;height: 25px;"type="submit" name="admin" value="Asignar Administrador"/></li>
+						<li><input class="button-user" style="border-radius: 4px 4px 4px 4px;height: 25px;"type="submit" name="sAdmin" value="Asignar Super Administrador" /></li>
+					</ul>
+			  </div>
+<!--
 				<ul >
 					<li>
 						<input class="buttonAsD" type="submit" name="dUser" value="Eliminar Usuario"/><br>
@@ -22,6 +29,7 @@
 						<input class="buttonAs" type="submit" name="sAdmin" value="Asignar Super Administrador" /><br>
 					</li>
 				</ul>
+			-->				
 			</form>
 			<form><%= @band %></form>
 

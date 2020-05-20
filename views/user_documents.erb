@@ -1,34 +1,48 @@
-<ul id="li1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+<style>
+  body {
+    font-family: Arial;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+</style>
+
+<ul id="li2">
+  
   <li >
     <h1 id="section_headder">Mis Notificaciones</h1>
   </li>
+  <div class="notifications-box">
   <li>
-    <ol class="li1">
+    <ol class="notification-list">
       <% @not_checkeds.each do |elem| %>
-      <li class="li-box">
+      <li class="li-box"> 
         <div class="record-box">
           <div class="clearfix"></div>
           <div class="record-data">
-            <p style="color:blue"><strong><u> Resolución:</u></strong> <strong  ><%=Document.first(filename: elem).resolution%></strong></p>
-            <p style="color:blue">Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%></p>
-            <p style="color:blue">Descripcion: <%=Document.first(filename: elem).description%></p>
+            <p ><strong><u> Resolución:</u></strong> <strong  ><%=Document.first(filename: elem).resolution%></strong></p>
+            <p ><strong>Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%></strong></p>
+            <p ><strong>Descripcion: <%=Document.first(filename: elem).description%></strong></p>
           </div>
           <div class="options-records-box">
             <ul class="options-records-list">
-              <li class="option">
+              <li id="option2">
                 <form  action="/user_documents" method="post">
                   <input type="text" name="path" value="file/<%= elem%>" hidden>
                   <input  type= "submit" value="Ver acta" class="button-download">
             		</form><br>
               </li>
-              <li class="option">
+              <li id="option2">
                 <form  action="/check_documents" method="post">
                   <input type="text" name="path" value="file/<%= elem%>" hidden>
-                  <input  type= "submit" value="Visto" class="button-delete">
+                  <input  type= "submit" value="Marcar leído" class="button-mark-read">
             		</form><br>
               </li>
-              <li class="option">
+              <li id="option2">
                 <input type="text" name="elem" value ="<%= elem %>" class="button" hidden>
               </li>
             </ul>
@@ -40,9 +54,9 @@
     </ol>
   </li>
   <li>
-    <ol class="li1">
+    <ol class="notification-list">
       <% @checkeds.each do |elem| %>
-      <li class="li-box">
+      <li class="li-box"> 
         <div class="record-box">
           <div class="clearfix"></div>
           <div class="record-data">
@@ -52,7 +66,7 @@
           </div>
           <div class="options-records-box">
             <ul class="options-records-list">
-              <li class="option">
+              <li id="option2">
                 <form  action="/user_documents" method="post">
                   <input type="text" name="path" value="file/<%= elem%>" hidden>
                   <input  type= "submit" value="Ver acta" class="button-download">
@@ -69,4 +83,5 @@
       <% end %>
     </ol>
   </li>
+</div>
 </ul>
