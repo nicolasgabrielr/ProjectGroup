@@ -36,7 +36,7 @@
 			<button class="button1">Mi Perfil</button>
 		</form><br>
 
-		<form action="" method="get" onclick="myFunction()">
+		<form action="/user_documents" method="get">
 			<button class="button1">Notificaciones</button>
 		</form><br>
 
@@ -52,23 +52,17 @@
 			<input  type= "<%= @superAdmin %>" value="Gestionar Usuarios"class="button1">
 		</form><br>
 
-		<form action="/index"  >
+		<form action="/index">
 			<button onclick="get()" class="button1">Cerrar Sesion</button>
 		</form><br>
     </div>
 	<div class="column2">
 	<%= yield %>
 	</div>
-	
+
 
 </div>
 	<div class="clearfix"></div>
 	<div class="footer-container"></div>
 </body>
 </html>
-
-<script>
-function myFunction() {
-  alert("Esta funcion se encuentra actualmente en desarrollo");
-}
-</script>

@@ -7,5 +7,6 @@ class User < Sequel::Model
     validates_format /\A.*@.*\..*\z/, :email, message: 'is not a valid email'
   end
   many_to_many :documents
+  one_to_many :notifications
   set_primary_key :id
 end

@@ -66,9 +66,9 @@ class App < Sinatra::Base
         @usuario = session[:user_name]
   end
 
-  def get_public_documents 
+  def get_public_documents
     public_docs = (Document.select(:filename,:resolution,:realtime).where(deleted:false)).order(:realtime).all
-     @arr = public_docs.map{|x| x.filename}.reverse 
+     @arr = public_docs.map{|x| x.filename}.reverse
   end
 
   def checkpass(key)
@@ -79,6 +79,24 @@ class App < Sinatra::Base
     #genera un arreglo con el campo deseado
     get_public_documents
     erb :index, :layout => :layout_public_records
+  end
+
+  get '/user_documents' do
+    user_docs = (Document.select(:filename,:resolution,:realtime).where(id: Notification.select(:document_id).where(user_id: session[:user_id], checked: false))).all
+    @not_checkeds = user_docs.map{|x| x.filename}.reverse     #genera un arreglo con el campo deseado
+    user_docs = (Document.select(:filename,:resolution,:realtime).where(id: Notification.select(:document_id).where(user_id: session[:user_id], checked: true))).all
+    @checkeds = user_docs.map{|x| x.filename}.reverse
+    erb:user_documents , :layout => :layout_loged_menu
+  end
+
+  post '/user_documents' do
+    if params["dato"]
+      doc_id = Document.first(path: "/#{params["dato"]}")
+      notification_checked = Notification.first(user_id: session[:user_id], document_id: doc_id.id)
+      notification_checked.update(checked: true)
+    end
+    @path =  "/#{params["dato"]}"
+    erb:view_doc , :layout => :layout_loged_menu
   end
 
   get '/myrecords' do
@@ -292,7 +310,7 @@ class App < Sinatra::Base
 
   def delete_document(name)
     if File.exist?("public/file/#{name}")
-      deleting_doc = Document.find(filename: name) 
+      deleting_doc = Document.find(filename: name)
       deleting_doc.update(deleted: true) #delete from db
       #File.delete("public/file/#{name}") #delete from system
     else

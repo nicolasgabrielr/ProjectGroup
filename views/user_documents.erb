@@ -1,0 +1,64 @@
+<ul id="li1">
+
+  <li >
+    <h1 id="section_headder">Mis Notificaciones</h1>
+  </li>
+  <li>
+    <ol class="li1">
+      <% @not_checkeds.each do |elem| %>
+      <li class="li-box">
+        <div class="record-box">
+          <div class="clearfix"></div>
+          <div class="record-data">
+            <p><strong><u> Resolución:</u></strong> <strong  ><%=Document.first(filename: elem).resolution%></strong></p>
+            <p><strong>Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%></strong></p>
+          </div>
+          <div class="options-records-box">
+            <ul class="options-records-list">
+              <li class="option">
+                <form  action="/user_documents" method="post">
+                  <input type="text" name="dato" value="file/<%= elem%>" hidden>
+                  <input  type= "submit" value="ver" class="button-download">
+            		</form><br>
+              </li>
+              <li class="option">
+                <input type="text" name="elem" value ="<%= elem %>" class="button" hidden>
+              </li>
+            </ul>
+          </div>
+          <div class="clearfix"></div>
+          </div>
+      </li>
+      <% end %>
+    </ol>
+  </li>
+  <li>
+    <ol class="li1">
+      <% @checkeds.each do |elem| %>
+      <li class="li-box">
+        <div class="record-box">
+          <div class="clearfix"></div>
+          <div class="record-data">
+            <p><u> Resolución:</u><%=Document.first(filename: elem).resolution%></p>
+            <p>Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%></p>
+          </div>
+          <div class="options-records-box">
+            <ul class="options-records-list">
+              <li class="option">
+                <form  action="/user_documents" method="post">
+                  <input type="text" name="dato" value="file/<%= elem%>" hidden>
+                  <input  type= "submit" value="ver" class="button-download">
+            		</form><br>
+              </li>
+              <li class="option">
+                <input type="text" name="elem" value ="<%= elem %>" class="button" hidden>
+              </li>
+            </ul>
+          </div>
+          <div class="clearfix"></div>
+          </div>
+      </li>
+      <% end %>
+    </ol>
+  </li>
+</ul>
