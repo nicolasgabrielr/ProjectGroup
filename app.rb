@@ -124,19 +124,27 @@ class App < Sinatra::Base
     erb:myrecords , :layout => :layout_loged_menu
   end
 
-  post '/myrecords' do
+  post '/myrecords' do   
     if params[:delete]
       delete_document(params["elem"]) #elem is name of document
       redirect "/myrecords"
     else
       "No se pudo eliminar el documento"
     end
-    if params[:tagg]
+    if params[:taggear]
       @record = Document.find(filename: params["elem"])
       get_documents_bydoc(@record)
       erb:tagg
-    end
+    elsif params[:search]
+      ds = Document.select(:filename,:resolution,:realtime).where(resolution: params[:search],deleted: false)
+      @arr = ds.map{|x| x.filename}.reverse
+      if @arr[0] == nil
+        @not_found_docs = "No se encontraron actas con dicha resolución.."
+      end
+      erb:myrecords , :layout => :layout_loged_menu
+    end 
   end
+
 
   post '/tagg' do
     @tagged = params["tagg"]

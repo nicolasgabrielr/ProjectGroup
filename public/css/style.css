@@ -605,10 +605,7 @@ ul{
     background-color: #34495E;
     text-align: center;
     cursor: pointer;
-
   }
-
-
 
   .notification {
     border: none;
@@ -636,4 +633,40 @@ ul{
     border-radius: 50%;
     background: red;
     color: white;
+  }
+
+  form.searchbyres {
+    padding-left: 37px;
+    padding-top: 15px;
+  }
+  
+  form.searchbyres input[type=text] {
+    padding: 10px;
+    font-size: 17px;
+    border: 1px solid grey;
+    float: left;
+    width: 84%;
+    background: #f1f1f1;
+  }
+
+  form.searchbyres button {
+    float: left;
+    width: 10%;
+    padding: 10px;
+    background: #34495E;
+    color: white;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none;
+    cursor: pointer;
+  }
+
+  form.searchbyres button:hover {
+    background: #0b7dda;
+  }
+
+  form.searchbyres::after {
+    content: "";
+    clear: both;
+    display: table;
   }
