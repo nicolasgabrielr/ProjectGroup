@@ -1,20 +1,25 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    backports (3.17.2)
     dotenv (2.7.5)
     ffi (1.12.2)
     listen (3.2.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
+    minitest (5.14.1)
+    multi_json (1.14.1)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
     nio4r (2.5.2)
     pg (1.2.3)
-    puma (4.3.3)
+    puma (4.3.5)
       nio4r (~> 2.0)
     rack (2.2.2)
     rack-protection (2.0.7)
       rack
+    rack-test (1.1.0)
+      rack (>= 1.0, < 3)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
@@ -27,6 +32,14 @@ GEM
       rack (~> 2.0)
       rack-protection (= 2.0.7)
       tilt (~> 2.0)
+    sinatra-contrib (2.0.7)
+      backports (>= 2.8.2)
+      multi_json
+      mustermann (~> 1.0)
+      rack-protection (= 2.0.7)
+      sinatra (= 2.0.7)
+      tilt (~> 2.0)
+    sqlite3 (1.4.2)
     tilt (2.0.10)
 
 PLATFORMS
@@ -34,11 +47,15 @@ PLATFORMS
 
 DEPENDENCIES
   dotenv (= 2.7.5)
+  minitest
   pg
-  puma (= 4.3.3)
+  puma (= 4.3.5)
+  rack-test
   rerun
   sequel
   sinatra (= 2.0.7)
+  sinatra-contrib
+  sqlite3
 
 RUBY VERSION
    ruby 2.6.4p104
