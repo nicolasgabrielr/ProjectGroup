@@ -1,38 +1,36 @@
-<div class="column2" style="width: 100%;">
-  <div class="profile-box">
-    
-    <div class="image-box">
-       <img src="<%= @foto %>"  width="90%" height="80%">
-       <form action="/modifyphoto" method="get" >
-        <button class="button-user" style="color:#cf7b7b;background-color: rgba(255, 0, 0, 0);">>>Cambiar Imagen</button>
-        </form>
-    </div>
-
-    <div class="user-info">
-      <h1 ><%= @username %></h1>
-        <div class="show-user" style="width: 96%; border-top-style:outset;
-        border-top-color: #cfab7b;">
-        <ul style=" float: left;"> 
-          <p><h3>Apellido: </h3> <h5>.<%= @surname %></h5> </p>
-          <p><h3>Nombre: </h3> <h5>.<%= @name %></h5> </p>
-          <p><h3>Dni: </h3> <h5>.<%= @dni %></h5></p>
-        </ul>
+<div class="column2 col s12">
+  <div class="col s12 m10" style="color: #212121;height: 300px;">
+    <h3 style="padding-left: 10px;" class="header"><%= @username %></h3>
+    <div class="card horizontal">
+      <div class="card-image col s3" style="padding: 0em 0em 0em 0em;">
+        <img src="<%= @foto %>" width="100%" height="250px">
+      </div>
+      <div class="card-stacked">
+        <div class="card-content row" style="padding-left: 1.5em;">
+          <ul class="col s6"style=" float: left;"> 
+            <p style="font-weight: bold;"><%= @surname %></p> <br>
+            <p style="font-weight: bold;"><%= @name %></p> <br>
+            <p style="font-weight: bold;"><%= @dni %></p><br>
+          </ul>
         </div>
-      
-       
-     
-
+        <div class="card-action" >
+          <form action="/modifyphoto" method="get" >
+            <button class="button-user" style="padding-left: 1em; color:#cf7b7b;background-color: rgba(255, 0, 0, 0);">>>Cambiar Imagen</button>
+          </form>
+        </div>
+      </div>
     </div>
-    
+  </div>
+
     <div class="clearfix"></div>
     
     <div class="user-options-box">
           <ul>
             <li ><form action="/modifypassword" method="get" >
-              <button class="button-user">Modificar Contraseña</button>
+              <button class="btn waves-effect waves-light col s12 card-panel brown lighten-4" style="color: #212121;">Modificar Contraseña</button>
             </form></li>
             <li > <form action="/modifyemail" method="get" >
-              <button class="button-user">Modificar Email</button>
+              <button class="btn waves-effect waves-light col s12 card-panel brown lighten-4" style="color: #212121;">Modificar Email</button>
             </form></li>
           </ul>
     </div>
