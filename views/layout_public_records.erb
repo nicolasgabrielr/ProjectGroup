@@ -3,44 +3,49 @@
 <head>
 
 <title>
-	Login | Sistema de Actas
+	Home | Sistema de Actas
 </title>
+ <!--Import Google Icon Font-->
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+ <!--Import materialize.css-->
+ <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
 
-<link href="<%= url('/css/style.css') %>" rel="stylesheet" type="text/css" />
+ <!--Let browser know website is optimized for mobile-->
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
 
-<div class="header-container">
+<div class="header-container z-depth-5">
 	<div class="header-logo">
 	<!--	<img src="/resources/logo2.png" alt="notifications logo" height="64" width="47">-->
 	</div>
     <div class="header-tittle">
-		<h1>Universidad Nacional de Rio Cuarto </h1>
-        <p>Sistema de actas Publicas</p>
+		<h1 style="color: #ffffff;">Universidad Nacional de Rio Cuarto</h1>
+		<p>Sistema de actas Publicas</p>
+		<div class="clearfix"></div>
 	</div>
 	<div class="header-menu">
 		<ul class = "ullista">
 			  <li class= "lista"><a href="/about" >about</a></li>
-			  <li class= "lista"><a href="/index" >index</a></li>
+			  <li class= "lista"><a href="/sign_in" >index</a></li>
 		  </ul>
 	</div>
 	<div class="clearfix"></div>
 </div>
-
-
 <div class="clearfix"></div>
 
-	<div class="column-container">
+<div class="row">
 
-	<div class="column1" >
+	<div class="column1 z-depth-2 col s2" >
     	<%= yield %>
     </div>
-<div class="column2">
+	<div class="column2 col s9">
 		
-		<ul id="li1">
+		<ul class="z-depth-1" id="li1">
 			
 			<li >
-				<h1 id="section_headder">Facultad de Ciencias Exactas</h1>
+				<h4 class="z-depth-2 " id="section_headder" style="margin:0em; border-bottom-style: ridge;
+				border-bottom-color: #cfab7b;">Facultad de Ciencias Exactas</h4>
 			</li> 
 			<li>
 				<ul class="lista_publica">
@@ -51,8 +56,9 @@
 							<div class="clearfix"></div>
 							<div class="record-data">
 								<p><strong><u> Resolución:</u></strong> <strong><%=Document.first(filename: elem).resolution%></strong></p>
-								  <p> Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%> </p>
-							</div>
+								<p> Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%> </p>
+								<p >Descripcion: <%=Document.first(filename: elem).description%></p>
+								</div>
 							<div class="options-records-box-public">
 								
 								<a href="file/<%= elem%>"><strong>Descargar</strong></a>
@@ -69,17 +75,34 @@
 		</div>
 
 	</div>
-
-
 </div>
+</div>
+
 <div class="clearfix"></div>
-<div class="footer-container">
-	<div class="header-menu">
-		<ul class = "ullista">
-			  <li class= "lista"><a href="/about" >about</a></li>
-			  <li class= "lista"><a href="/index" >index</a></li>
+<footer class="page-footer" style="background: #212121;">
+	<div class="container">
+	  <div class="row">
+		<div class="col l6 s12">
+		  <h5 class="white-text">Sistema de Actas U.N.R.C</h5>
+		  <p class="grey-text text-lighten-4">Servicio de Notificacion de actas.</p>
+		</div>
+		<div class="col l4 offset-l2 s12">
+		  <h5 class="white-text">Links</h5>
+		  <ul>
+			<li><a class="grey-text text-lighten-3" href="/about">About Us</a></li>
+			<li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+			<li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+			<li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
 		  </ul>
+		</div>
+	  </div>
 	</div>
-</div>
+	<div class="footer-copyright">
+	  <div class="container">
+	  © 2020 Copyright
+	  <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+	  </div>
+	</div>
+  </footer>
 </body>
 </html>

@@ -11,14 +11,17 @@
   }
 </style>
 
-<ul id="li1">
+<ul class="z-depth-1" id="li1">
   <li >
-    <h1 id="section_headder">Mis Actas</h1>
-  </li>
-  <%if @superAdmin == "submit" %>
-    <form class="searchbyres" action="/myrecords" method="post">
-      <input type="text" placeholder="Buscar acta por numero de resolución.." name="search">
-      <button type="submit"><i class="fa fa-search"></i></button>
+  <div  class="search-area z-depth-2">
+    <h4 class="z-depth-2" id="section_headder">Mis Actas</h4>
+    <%if @superAdmin == "submit" %>
+    <form class="searchbyres" action="/search_record" method="post">
+      <div class="col s2"> <a>Fecha inicio </a><input type="date" placeholder="Fecha de inicio" name="initiate_date" value="<%= @initial_date %>"> </div>
+       <div class="col s2"><a>Fecha fin </a><input type="date" placeholder="Fecha de fin" name="end_date" value="<%= @end_date %>"></div>
+       <div class="col s2"><input type="text" placeholder="Resolución:" name="resolution"></div>
+       <div class="col s2"><input type="text" placeholder="Autor: (username)" name="author"></div>
+       <div class="col s2"><button type="submit"><i class="fa fa-search"></i></button></div>
     </form><br>
     <%if @arr[0] == nil && @not_found_docs %>
       <form><a style="color:red;padding-left: 37px;"> <%=@not_found_docs%> </a></form><br>
@@ -27,8 +30,10 @@
       </form><br>
     <% end %>
   <% end %>
+  </div>  
+  </li>
   <li>
-    <ol class="lista_publica">
+    <ol class="lista_publica" style="height:510px">
       <% @arr.each do |elem| %>
       <li class="li-box"> 
         <div class="record-box">
@@ -36,6 +41,7 @@
           <div class="record-data">
             <p><strong><u> Resolución:</u></strong> <strong><%=Document.first(filename: elem).resolution%></strong></p>             
             <p>Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%></p>
+            <p >Descripcion: <%=Document.first(filename: elem).description%></p>
           </div>
           <div class="options-records-box">
             <ul class="options-records-list">
@@ -48,7 +54,7 @@
               <li class="option">
                 <input type="text" name="elem" value ="<%= elem %>" class="button" hidden>
                 <form action="/myrecords" method="post">
-                  <input class="button-modify" type="submit"  name="taggear" value="Editar || Notificar">
+                  <input class="button-modify" type="submit"  name="taggear" value="Editar / Notificar">
                   <input type="text" name="elem" value ="<%=elem %>" class="button" hidden>
                 </form>
               </li>

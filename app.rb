@@ -19,6 +19,7 @@ class App < Sinatra::Base
     elsif session[:user_id]
       @current_user = User.find(id: session[:user_id])
       alert_notification
+      set_menu
       set_user
       if not_eauthorized_category_for_admin? && superAdmin_path?
         redirect '/index'
@@ -50,7 +51,7 @@ class App < Sinatra::Base
   end
 
   def restricted_path_for_guest?
-    request.path_info != '/index' && request.path_info != '/sign_in' && request.path_info != '/' && request.path_info != '/about' && request.path_info != '/newUser' && request.path_info != '/prueba'
+    request.path_info != '/index' && request.path_info != '/sign_in' && request.path_info != '/' && request.path_info != '/about' && request.path_info != '/newUser' && request.path_info != '/tablas'
   end
 
   def not_eauthorized_category_for_admin?
@@ -68,6 +69,23 @@ class App < Sinatra::Base
         @superAdmin = "submit"
       when "admin" then
         @admin = "submit"
+        @superAdmin = "hidden"
+      else
+        @admin = "hidden"
+        @superAdmin = "hidden"
+      end
+        @usuario = session[:user_name]
+  end
+  def set_menu
+    if user_not_logged_in?
+      redirect '/index'
+    end
+    case @current_user.category
+      when "superAdmin" then
+        @admin = "visible"
+        @superAdmin = "visible"
+      when "admin" then
+        @admin = "visible"
         @superAdmin = "hidden"
       else
         @admin = "hidden"
@@ -121,6 +139,7 @@ class App < Sinatra::Base
   get '/myrecords' do
     ds = Document.select(:filename,:resolution,:realtime).where(user_id: session[:user_id],deleted: false)
     @arr = ds.map{|x| x.filename}.reverse     #genera un arreglo con el campo deseado
+    get_initial_and_final_date
     erb:myrecords , :layout => :layout_loged_menu
   end
 
@@ -135,16 +154,32 @@ class App < Sinatra::Base
       @record = Document.find(filename: params["elem"])
       get_documents_bydoc(@record)
       erb:tagg
-    elsif params[:search]
-      ds = Document.select(:filename,:resolution,:realtime).where(resolution: params[:search],deleted: false)
+    end
+  end
+
+  post '/search_record' do
+    if params[:resolution] != ""
+      ds = Document.by_resolution(params[:resolution])
       @arr = ds.map{|x| x.filename}.reverse
       if @arr[0] == nil
         @not_found_docs = "No se encontraron actas con dicha resolución.."
       end
-      erb:myrecords , :layout => :layout_loged_menu
-    end 
+    elsif params[:initiate_date] || params[:end_date]
+      ds = []
+      user_by_author = User.find(username: params[:author])
+      if user_by_author 
+        ds = Document.by_date_and_user(params[:initiate_date], params[:end_date], user_by_author.id)
+      elsif (params[:author] == "")
+        ds = Document.by_date(params[:initiate_date], params[:end_date])
+      end
+      @arr = ds.map{|x| x.filename}.reverse
+      if @arr[0] == nil
+        @not_found_docs = "No se encontraron actas relacionadas con su busqueda.."
+      end
+    end
+    get_initial_and_final_date
+    erb:myrecords , :layout => :layout_loged_menu
   end
-
 
   post '/tagg' do
     @tagged = params["tagg"]
@@ -168,6 +203,7 @@ class App < Sinatra::Base
       session[:user_name] = usuario.name
       session[:user_id] = usuario.id
       @current_user = User.find(id: session[:user_id])
+      set_menu
       set_user
       alert_notification
       erb:loged , :layout => :layout_loged_menu
@@ -204,6 +240,7 @@ class App < Sinatra::Base
         @band = "El password es incorrecto o el usuario no existe"
       end
     set_user
+    set_menu
     erb:assign , :layout => :layout_loged_menu
   end
 
@@ -215,6 +252,7 @@ class App < Sinatra::Base
     get_public_documents
     if session[:user_id]
       set_user
+      set_menu
       erb:loged , :layout => :layout_loged_menu
     else
       erb:index , :layout => :layout_public_records
@@ -245,6 +283,7 @@ class App < Sinatra::Base
   end
 
   get '/mydata' do
+    @isAdmin = @current_user.category
     @username = @current_user.name
     @foto = @current_user.imgpath
     @name = @current_user.name
@@ -265,6 +304,7 @@ class App < Sinatra::Base
       @band = "La contraseña o el email son Incorrectos!"
     end
     set_user
+    set_menu
     erb:modifyemail , :layout => :layout_loged_menu
   end
 
@@ -364,6 +404,11 @@ class App < Sinatra::Base
     @dni_docc = User.select(:dni).where(id: Notification.select(:user_id).where(document_id: doc.id))
   end
 
+  def get_initial_and_final_date
+    @initial_date = Document.first.realtime.strftime("%Y-%m-%d")
+    @end_date = ((Time.now) + 86400).strftime("%Y-%m-%d")
+  end
+
 
 ## Pruebas para ver las tablas
 
@@ -378,12 +423,13 @@ class App < Sinatra::Base
     #Document.select(:filename).delete
     #PARA MODIFICAR UN REGISTRO
     #user = User.last
-    #user.update category: 'admin'
+    #user.update(category: superAdmin)
     #PARA MOSTRAR UN REGISTRO
     #usuario = User.first(id:2)
     #usuario.update(category:"admin")
     #usuario = User.first(id: session[:user_id])
     #u = usuario.name
+    User.all.to_s
   end
 
   get '/rename' do

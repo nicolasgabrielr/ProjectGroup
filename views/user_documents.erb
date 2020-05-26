@@ -11,22 +11,22 @@
   }
 </style>
 
-<ul id="li2">
+<ul class="z-depth-1" id="li2">
   
-  <li >
-    <h1 id="section_headder">Mis Notificaciones</h1>
+  <li class=" z-depth-2">
+  <h4 id="section_headder" style="padding-top: 0px; margin: 15px 0em 0em 0em;">Mis Notificaciones</h4>
   </li>
-  <div class="notifications-box">
+  <div class="notifications-box" >
   <li>
-    <ol class="notification-list">
+    <ol class="notification-list" style="padding-top:0em ">
       <% @not_checkeds.each do |elem| %>
-      <li class="li-box"> 
+      <li class="li-box z-depth-1"> 
         <div class="record-box">
           <div class="clearfix"></div>
-          <div class="record-data">
-            <p ><strong><u> Resolución:</u></strong> <strong  ><%=Document.first(filename: elem).resolution%></strong></p>
-            <p ><strong>Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%></strong></p>
-            <p ><strong>Descripcion: <%=Document.first(filename: elem).description%></strong></p>
+          <div class="record-data" style="font-weight: bold;"> 
+            <p ><u> Resolución:</u> <%=Document.first(filename: elem).resolution%></p>
+            <p >Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%></p>
+            <p >Descripcion: <%=Document.first(filename: elem).description%></p>
           </div>
           <div class="options-records-box">
             <ul class="options-records-list">
@@ -39,7 +39,11 @@
               <li id="option2">
                 <form  action="/check_documents" method="post">
                   <input type="text" name="path" value="file/<%= elem%>" hidden>
-                  <input  type= "submit" value="Marcar leído" class="button-mark-read">
+                  <input  type= "submit" value="Marcar leído" class="button-mark-read" >
+                  <!--<button style="padding-left: 0em;"class="btn waves-effect waves-light " type="submit" name="action" >
+                    <i style="margin-left:0em ; padding: 0em;" class="material-icons right">done_all
+                    </i>
+                  </button>-->
             		</form><br>
               </li>
               <li id="option2">

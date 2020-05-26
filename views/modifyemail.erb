@@ -90,19 +90,16 @@
 
     </script>
 <div class="modify-box">
-<div class="left">
-    <p> </p>
-</div>
 
-<div class="center">
-
-    <div class="modify-password">
-        <form name="formName" action="/modifyemail" method="post" onsubmit='return validatePassword()'>
-            <div>Ingrese su Contraseña: <input type="password" name="passwordActual"></div>
-            <div></div>
-            <div>Nuevo email: <input type="text" name="emailNew1"></div>
-            <div>Repite email: <input type="text" name="emailNew2"></div>
-            <div><input class="button-user" style="border-radius: 4px 4px 4px 4px;"type="submit" value="Modificar Email"></div>
+<div class="center col s6 offset-s2">
+        <div class="modify-password" >
+            <form name="formName" action="/modifyemail" method="post" onsubmit='return validatePassword()'>
+            <h5 style="text-align:left; padding-bottom:.5em;border-bottom: 1px solid #212121; border-radius: 0;">Modificar eMail</h5>
+            <div><p style="font-weight: bolder;margin: 0em; ">Ingrese su Contraseña </p> <input style="margin-bottom:3em; height: 32px;"type="password" name="passwordActual"></div>
+            
+            <div><p style="font-weight: bolder;margin: 0em; ">Nuevo email </p> <input style="margin-bottom:15px; height: 32px;"type="text" name="emailNew1"></div>
+            <div><p style="font-weight: bolder;margin: 0em; ">Repite email </p><input style="margin-bottom:15px; height: 32px;"type="text" name="emailNew2"></div>
+            <div><input class="btn waves-effect waves-light col s12 card-panel brown lighten-4" style="color:#212121;" type="submit" value="Modificar Email"></div>
         </form>
        
         

@@ -1,35 +1,22 @@
-<div class="modify-box">
-	<div class="left">
-		<p> </p>
-	</div>
+<div class="modify-box s10">
+	
 
-	<div class="center">
+	<div class="column2 col s6 offset-s2">
 
 		<div class="modify-password">
 
 			<form name="formEmail" action="/assign" method="post">
+			<h5 style="text-align:left; margin-bottom:1em;border-bottom: 1px solid #212121; border-radius: 0;">Gestionar Usuarios</h5>
 				<label for="passwordActual"></label>
-				<input class="button" type="password" name="passwordActual" placeholder="Ingrese su contraseña:"><br><br>
+				<input autocomplete="nope"style="margin-bottom:5px; height: 32px;"class="button" type="password" name="passwordActual" placeholder="Ingrese su contraseña:"><br><br>
 				<label for="emailnewAdmin"></label>
-				<input class="button" type="text" name="emailnewAdmin" placeholder="Email del usuario:"><br><br><br>
+				<input autocomplete="nope"style="margin-bottom:5px; height: 32px;"class="button" type="text" name="emailnewAdmin" placeholder="Email del usuario:"><br><br><br>
 					
-				<h3 style="text-align:center;">Opciones disponibles:</h3>
-				<div class="user-options-box" style="border-style: none;">
-					<ul style="padding-left: 0px;">
-						<li><input class="button-user" style="border-radius: 4px 4px 4px 4px;color: rgb(255, 82, 2); height: 25px" type="submit" name="dUser" value="Eliminar Usuario"/></li>
-						<li><input class="button-user" style="border-radius: 4px 4px 4px 4px;height: 25px;"type="submit" name="admin" value="Asignar Administrador"/></li>
-						<li><input class="button-user" style="border-radius: 4px 4px 4px 4px;height: 25px;"type="submit" name="sAdmin" value="Asignar Super Administrador" /></li>
-					</ul>
-			  </div>
-<!--
-				<ul >
-					<li>
-						<input class="buttonAsD" type="submit" name="dUser" value="Eliminar Usuario"/><br>
-						<input class="buttonAs" type="submit" name="admin" value="Asignar Administrador"/><br>
-						<input class="buttonAs" type="submit" name="sAdmin" value="Asignar Super Administrador" /><br>
-					</li>
-				</ul>
-			-->				
+				<h5 style="text-align:left; padding-bottom:1em;border-bottom: 1px solid #212121; border-radius: 0;">Opciones disponibles:</h5>
+				<input class="btn waves-effect waves-light card-panel brown lighten-4" style="color: rgb(109, 36, 2);" type="submit" name="dUser" value="Eliminar Usuario"/>
+				<input class="btn waves-effect waves-light card-panel brown lighten-4" style="color: #212121;"type="submit" name="admin" value="Asignar Administrador"/>
+				<input class="btn waves-effect waves-light card-panel brown lighten-4" style="color: #212121;"type="submit" name="sAdmin" value="Asignar Super Administrador" />
+				
 			</form>
 			<form><%= @band %></form>
 

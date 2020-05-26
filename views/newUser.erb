@@ -9,108 +9,106 @@
   </head>
   <body>
     <div class="column-container">
-      <div class="column1">
+      <div class="column1 col s2 z-depth-2">
         <form action="/index" method="get">
-          <p><button class="button1"> Cancelar </button></p>
+          <button class="btn waves-effect waves-light col s12 card-panel brown lighten-4" style="color: #212121;">Cancelar</button>
         </form>
       </div>
-      <div class="column2" style="width: 100%;" >
-        <div class="offset" style="height: 100px; width: 20%; float: left;">
-          <p> </p>
-        </div>
+      <div class="column2 col s10" >
          <!-- Formulario de registro-->
-        <div class="register-box" style="min-height: 100px; width: 70%; float: left;">
-         <div class="tittle" style="width: 47%;border-bottom-style: ridge;
+        <div class="register-box col s8 offset-s2">
+         <div class="tittle col s6" style="border-bottom-style: ridge;
          border-bottom-color: #cfab7b; ">
           <form name="newUser" action="/newUser" method="post" onsubmit='return valideNewUser()'><br>
           <label for="register" ><strong> Completa el formulario</strong></label><br><br>
         </div>
+        <div class="clearfix"></div>
            <!-- Input de apellido-->
           <div class="registerbox" >
-          <div class="inputbox" label for="register"></label><br>
-          <input type="text" name="surname"class="button" placeholder="Apellido:"></input>
-          </div><br>
-          <div class="errorbox" >
-            <p></p>
-            <br>
-            <input  name="error-surname" class="button" hidden></input>
+            <div class="inputbox col s6" label for="register"></label>
+            <input style="margin-bottom:5px; height: 32px;" type="text" name="surname"class="button" placeholder="Apellido:"></input>
+            </div>
+            <div class="errorbox col s6" >
+              <p></p>
+              <br>
+              <input  name="error-surname" class="button" hidden></input>
+            </div>
+            <div class="clearfix"></div>
           </div>
-          <div class="clearfix"></div>
-          </div> <br>
            <!--input de nombre-->
           <div class="registerbox" >
-          <div class="inputbox" label for="register"></label><br>
-            <input type="text" name="name"class="button" placeholder="Nombre:"></input>
-          </div><br>
-          <div class="errorbox" >
+          <div class="inputbox col s6" label for="register"></label>
+            <input style="margin-bottom:5px; height: 32px;" type="text" name="name"class="button" placeholder="Nombre:"></input>
+          </div>
+          <div class="errorbox col s6" >
             <p></p>
             <br>
             <input  name="error-name" class="button" hidden></input>
           </div>
           <div class="clearfix"></div>
-          </div> <br>
+          </div>
            <!--Input de Usuario-->
           <div class="registerbox" > 
-          <div class="inputbox" label for="register"></label><br>
-          <input type="text" name="username"class="button" placeholder="Usuario"></input>
-          </div><br>
-          <div class="errorbox" >
+          <div class="inputbox col s6" label for="register"></label>
+          <input style="margin-bottom:5px; height: 32px;"type="text" name="username"class="button" placeholder="Usuario"></input>
+          </div>
+          <div class="errorbox col s6" >
             <p></p>
             <br>
             <input  name="error-username" class="button" hidden></input>
           </div>
           <div class="clearfix"></div>
-          </div> <br>
+          </div> 
            <!--Input de DNI-->
           <div class="registerbox" > 
-          <div  class="inputbox" label for="register"></label><br>
-          <input type="text" name="dni"class="button" placeholder="DNI:"></input>
-          </div><br>
-          <div class="errorbox" >
+          <div  class="inputbox col s6" label for="register"></label>
+          <input style="margin-bottom:5px; height: 32px;"type="text" name="dni"class="button" placeholder="DNI:"></input>
+          </div>
+          <div class="errorbox col s6" >
             <p></p>
             <br>
             <input  name="error-dni" class="button" hidden></input>
           </div>
           <div class="clearfix"></div>
-          </div> <br>
+          </div>
            <!--Input de eMail-->
           <div class="registerbox" >
-          <div class="inputbox" label for="register"></label><br>
-          <input type="text" name="email"class="button" placeholder="Email:"></input>
-          </div><br>
+          <div class="inputbox col s6" label for="register"></label>
+          <input style="margin-bottom:5px; height: 32px;"type="text" name="email"class="button" placeholder="Email:"></input>
+          </div>
           <div class="error-box" >
             <p></p>
             <br>
             <input  name="error-email" class="button" hidden></input>
           </div>
           <div class="clearfix"></div>
-          </div> <br>
+          </div> 
           <!--Input de Contraseña-->
           <div class="registerbox" >
-            <div class="inputbox" label for="register"></label><br>
-              <input type="password" name="key"class="button" placeholder="Contraseña:"></input>
+            <div class="inputbox col s6" label for="register"></label>
+              <input style="margin-bottom:5px; height: 32px;"type="password" name="key"class="button" placeholder="Contraseña:"></input>
             </div>
-            <div class="errorbox" >
+            <div class="errorbox col s6" >
               <p></p>
               <br>
               <input  name="errorkey" class="button" hidden></input>
             </div>
             <div class="clearfix"></div>
-          </div> <br>
+          </div> 
            <!--Input de Repetir Contraseña-->
           <div class="registerbox" >
-          <div class="inputbox" label for="register"></label><br>
-          <input type="password" name="password"class="button" placeholder="Repita la contraseña:"></input>
-          </div><br><br>
-          <div class="errorbox" >
+          <div class="inputbox col s6" label for="register"></label>
+          <input style="margin-bottom:5px; height: 32px;"type="password" name="password"class="button" placeholder="Repita la contraseña:"></input>
+          </div>
+          <div class="errorbox col s6" >
             <p></p>
             <br>
             <input  name="error-password" class="button" hidden></input>
           </div>
           <div class="clearfix"></div>
-          </div> <br>
+          </div> 
 
-          <input type="submit" value="Registrarse"class="button1" style="width: 47%;"></input><br><br>
+          <button class="btn waves-effect waves-light col s6 card-panel brown lighten-4 " style="color: #212121;">registrarse</button><br><br>
           </form>
         </div> 
       </div>
