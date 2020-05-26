@@ -9772,12 +9772,12 @@ ul{
 
 .search-area{
   padding-top: 0px;
-  text-align: center;
+  text-align: left;
   font-family: Arial, Helvetica, sans-serif;
   background-color: rgb(240, 234, 232);
   border-bottom-style: ridge;
   border-bottom-color: #cfab7b;
-  color: rgb(39, 38, 38);
+  color: #212121;
 }
 #li1 li h4{
   padding-top: 0px;
@@ -10150,8 +10150,8 @@ ul{
 
   form.searchbyres {
     padding-left: 37px;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 10px;
+    padding-bottom: 0px;
   }
   
   form.searchbyres input[type=text] {

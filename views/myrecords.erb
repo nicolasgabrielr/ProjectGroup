@@ -17,12 +17,14 @@
     <h4 class="z-depth-2" id="section_headder">Mis Actas</h4>
     <%if @superAdmin == "submit" %>
     <form class="searchbyres" action="/search_record" method="post">
-      <div class="col s2"> <a>Fecha inicio </a><input type="date" placeholder="Fecha de inicio" name="initiate_date" value="<%= @initial_date %>"> </div>
-       <div class="col s2"><a>Fecha fin </a><input type="date" placeholder="Fecha de fin" name="end_date" value="<%= @end_date %>"></div>
-       <div class="col s2"><input type="text" placeholder="Resolución:" name="resolution"></div>
-       <div class="col s2"><input type="text" placeholder="Autor: (username)" name="author"></div>
-       <div class="col s2"><button type="submit"><i class="fa fa-search"></i></button></div>
-    </form><br>
+       <div class="col s2"><a style="color: #212121;">Desde </a><input  type="date" placeholder="Fecha de inicio" name="initiate_date" value="<%= @initial_date %>"> </div>
+       <div class="col s2"><a style="color: #212121;">Hasta </a><input type="date" placeholder="Fecha de fin" name="end_date" value="<%= @end_date %>"></div>
+       <div class="s8" style="padding-top:2.7em">
+       <div class="col s3" style="padding-left:2em ;"><input style="width: 100%;"type="text" placeholder="Resolución:" name="resolution"></div>
+       <div class="col s3"style="padding:0em ;"><input style="width: 100%;"type="text" placeholder="Autor: (username)" name="author"></div>
+       <div class=""style="padding:0em ;"><button type="submit"><i class="fa fa-search"></i></button></div>
+      </div>
+    </form>
     <%if @arr[0] == nil && @not_found_docs %>
       <form><a style="color:red;padding-left: 37px;"> <%=@not_found_docs%> </a></form><br>
       <form action="/myrecords" method="get" style="width: 20%;padding-left: 37px">
@@ -33,7 +35,7 @@
   </div>  
   </li>
   <li>
-    <ol class="lista_publica" style="height:510px">
+    <ol class="lista_publica" style="height:500px">
       <% @arr.each do |elem| %>
       <li class="li-box"> 
         <div class="record-box">
