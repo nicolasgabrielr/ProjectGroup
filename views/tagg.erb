@@ -3,38 +3,38 @@
   </head>
  
       <div class="column2 col s9" >
-        <embed style="height: 650px; " src="<%= @record.path %>" type="application/pdf" width="100%" height="600px" />
+        <embed class="height650" src="<%= @record.path %>" type="application/pdf" width="100%" height="600px" />
       </div>
 
       <div class="column1 col s3 z-depth-2">
         <form action="/myrecords" method="get" >
-        <button class="btn waves-effect waves-light col s12 card-panel brown lighten-4" style="color: #212121;">Cancelar / Omitir</button>
+        <button class="btn btn1 waves-effect waves-light col s12 card-panel brown lighten-4">Cancelar / Omitir</button>
             </form><br>
-        <form class="" action="/tagg" method="post">
+        <form id="tagform"class="taggform" action="/tagg" method="post">
           <label for="fname">Fecha de subida:</label><br>
-          <input style="margin-bottom:5px; height: 32px;" type="text" name="realtime" value="<%= @record.realtime.strftime("%d/%m/%y") %>" class="button"readonly><br>
+          <input type="text" name="realtime" value="<%= @record.realtime.strftime("%d/%m/%y") %>" class="button"readonly><br>
           <label for="fname">Descripcion:</label><br>
-          <input style="margin-bottom:5px; height: 32px;" type="text" name="description" value="<%= @record.description %>"  class="button"><br>
+          <input type="text" name="description" value="<%= @record.description %>"  class="button"><br>
           <label for="fname">N° de Resolucion:</label><br>
-          <input style="margin-bottom:5px; height: 32px;" type="text" name="resolution" value="<%= @record.resolution %>" class="button"><br>
+          <input type="text" name="resolution" value="<%= @record.resolution %>" class="button"><br>
           <input type="text" name="doc" value ="<%= @record.id %>" class="button" hidden><br>
           <h5>Notificar a personas:</h5>
 
           <div id="myDIV">
-            <input class="button"type="text" id="myInput" placeholder="Ingrese DNI sin espacios ni puntos..." style="width: 70%;">
+            <input class="button col s8"type="text" id="myInput" placeholder="Ingrese DNI sin espacios ni puntos..." >
             <span onclick="newElement()" class="addBtn brown lighten-4">Añadir</span>
           </div>
           <div class="notifications col s12" >
-            <div class="col s6" style="float: left; border-right: 1px solid #cfab7b;border-radius: 0;overflow-y: auto;">
-              <p style=" border-bottom: 1px solid #cfab7b; border-radius: 0;font-weight: bold;">A notificar</p>
+            <div class="col s6 to-notify-list" >
+              <p>A notificar</p>
               <div class="dni-box">
-                <ul id="myUL"style="color:#26a69a;" >
+                <ul id="myUL">
                   <div class="clearfix"></div>
                 </ul>
               </div>  
             </div>
-            <div class="col s6" style="float: left; overflow-y: auto;">
-            <p style=" border-bottom: 1px solid #cfab7b; border-radius: 0;  font-weight: bold;">Ya notificadas:</p>
+            <div class="col s6 notificated-list">
+            <p>Ya notificadas:</p>
               <div class="dni-box">
               <ul><%if @dni_docc != nil %>
                 <%@dni_docc.each do |elem| %>
@@ -45,7 +45,7 @@
             </div>
             </div>
           </div>
-          <button class="btn waves-effect waves-light col s12 card-panel brown lighten-4" style="color: #212121;">Guardar</button>
+          <button id="tagging" class="btn btn1 waves-effect waves-light col s12 card-panel brown lighten-4">Guardar</button>
         </form>
         </div>
 <script>
@@ -102,4 +102,36 @@ function newElement() {
     }
   }
 }
+</script>
+<script type="text/javascript">
+  window.onload = function(){
+      (function(){
+          var show = function(el){
+              return function(msg){ el.innerHTML = msg + '<br />' + el.innerHTML; }
+          }(document.getElementById('msgs'));
+          var ws = new WebSocket('ws://' + window.location.host + window.location.pathname);
+          ws.onopen = function() { show('websocket opened'); };
+          ws.onclose = function() { show('websocket closed'); }
+          ws.onmessage = function(m) { 
+      <%notification_unchecked = Notification.where(user_id: session[:user_id], checked: false).all
+           if notification_unchecked
+        n=0
+        notification_unchecked.each{|d| n=n+1}
+        @newalert = n
+        end %>
+              var txt = document.createTextNode(<%= @newalert%>);
+              var x = document.createElement("p");
+              document.getElementById("count").setAttribute("style","display:none;");
+              x.appendChild(txt);
+              x.setAttribute("id","count");
+              document.getElementById("notification").appendChild(x);
+          };
+          var sender = function(f){
+              var input = document.getElementById('tagging');
+              input.onclick = function(){ ws.send(1);};
+              return false;
+          }
+          }(document.getElementById('tagform'));
+      })();
+  }
 </script>

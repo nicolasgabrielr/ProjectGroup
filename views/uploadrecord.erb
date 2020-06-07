@@ -1,8 +1,3 @@
-<!DOCTYPE html>
-<html>
-  <style>
-    
-    </style>
   <head>
     <title>
       Subir Acta | Sistema de Actas
@@ -17,7 +12,7 @@
 
 
         <form action="/sign_in" method="get" >
-          <button class="btn waves-effect waves-light col s12 card-panel brown lighten-4" style="color: #212121;">Cancelar</button>
+          <button class="btn waves-effect waves-light col s12 card-panel brown lighten-4 btn1">Cancelar</button>
         </form><br>
       </div>
       <!--------   Previsualizar archivo   ----------->
@@ -30,14 +25,14 @@
       <div class="column1 z-depth-2 col s2">
         <form class="button" action="/upload" method="post">
           <label for="fname">Fecha:</label>
-          <input style="margin-bottom:5px; height: 32px;"type="text" name="realtime" value="<%= @time %>" class="button"readonly>
+          <input type="text" name="realtime" value="<%= @time %>" class="button"readonly>
           <label for="fname">Descripcion:</label>
-          <input style="margin-bottom:5px; height: 32px;"type="text" name="description" value="" class="button">
+          <input type="text" name="description" value="" class="button">
           <label for="fname">N° de Resolucion:</label>
-          <input style="margin-bottom:5px; height: 32px;"type="text" name="resolution" value="" class="button">
+          <input type="text" name="resolution" value="" class="button">
           <input type="text" name="path" value ="<%= @filename %>" class="button" hidden>
           <input type="text" name="filena" value ="<%= @filename %>" class="button" readonly hidden>
-          <button class="btn waves-effect waves-light col s12 card-panel brown lighten-4" style="color: #212121;">Subir</button>
+          <button class="btn waves-effect waves-light col s12 card-panel brown lighten-4 btn1">Subir</button>
         </form>
       </div>
     </div>

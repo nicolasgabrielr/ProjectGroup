@@ -7,18 +7,18 @@
   <body>
       <div class="column1 col s2 z-depth-2">
         <form action="/mydata" method="get">
-          <button class="btn waves-effect waves-light col s12 card-panel brown lighten-4" style="color: #212121;">Cancelar</button>
+          <button class="btn1 btn waves-effect waves-light col s12 card-panel brown lighten-4">Cancelar</button>
         </form>
       </div>
       <!--------   Cargar Foto y Visualizar   ----------->
       <div class="column2 col s6 offset-s1">
         
      
-          <div class="col s6 offset-s2" style="padding-top: 1em;">
+          <div class="upload-image col s6 offset-s2">
             <label>Seleccione su Nueva imagen</label>
             <form action="/uploadImg" method="post" enctype="multipart/form-data">
               <div class="file-field input-field">
-                <div class="btn waves-effect waves-light card-panel brown lighten-4" style="color: #212121;">
+                <div class="btn waves-effect waves-light card-panel brown lighten-4 btn1">
                   <span>Imagen</span>
                   <input type="file" name="myImg" value="" class="button" accept="image/*" onchange="loadFile(event)">
                 </div>
@@ -28,7 +28,7 @@
               </div>
               <img class="z-depth-3" id="output" class="col s6" height="150px"/>
               <div class="clearfix"></div>
-              <button class="btn waves-effect waves-light col s12 card-panel brown lighten-4" style="color: #212121;">Subir</button>
+              <button class="btn waves-effect waves-light col s12 card-panel brown lighten-4 btn1">Subir</button>
             </form>
           </div>
         

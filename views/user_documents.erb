@@ -14,16 +14,16 @@
 <ul class="z-depth-1" id="li2">
   
   <li class=" z-depth-2">
-  <h4 id="section_headder" style="padding-top: 0px; margin: 15px 0em 0em 0em;">Mis Notificaciones</h4>
+  <h4 id="section_headder" >Mis Notificaciones</h4>
   </li>
   <div class="notifications-box" >
   <li>
-    <ol class="notification-list" style="padding-top:0em ">
+    <ol class="notification-list">
       <% @not_checkeds.each do |elem| %>
       <li class="li-box z-depth-1"> 
         <div class="record-box">
           <div class="clearfix"></div>
-          <div class="record-data" style="font-weight: bold;"> 
+          <div class="record-data-unread"> 
             <p ><u> Resolución:</u> <%=Document.first(filename: elem).resolution%></p>
             <p >Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%></p>
             <p >Descripcion: <%=Document.first(filename: elem).description%></p>

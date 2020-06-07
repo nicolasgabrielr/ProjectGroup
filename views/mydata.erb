@@ -1,21 +1,21 @@
 <div class="column2 col s12">
-  <div class="col s12 m10" style="color: #212121;height: 300px;">
-    <h3 style="padding-left: 10px;" class="header"><%= @username %></h3>
+  <div class="col s12 m10 my-data-box">
+    <h3 class="header"><%= @username %></h3>
     <div class="card horizontal">
-      <div class="card-image col s3" style="padding: 0em 0em 0em 0em;">
+      <div class="card-image col s3 my-image-box">
         <img src="<%= @foto %>" width="100%" height="250px">
       </div>
       <div class="card-stacked">
-        <div class="card-content row" style="padding-left: 1.5em;">
-          <ul class="col s6"style=" float: left;"> 
-            <p style="font-weight: bold;"><%= @surname %></p> <br>
-            <p style="font-weight: bold;"><%= @name %></p> <br>
-            <p style="font-weight: bold;"><%= @dni %></p><br>
+        <div class="card-content row my-info-box">
+          <ul class="col s6"> 
+            <p><%= @surname %></p> <br>
+            <p><%= @name %></p> <br>
+            <p><%= @dni %></p><br>
           </ul>
         </div>
         <div class="card-action" >
           <form action="/modifyphoto" method="get" >
-            <button class="button-user" style="padding-left: 1em; color:#cf7b7b;background-color: rgba(255, 0, 0, 0);">>>Cambiar Imagen</button>
+            <button class="button-user transparent-link">>>Cambiar Imagen</button>
           </form>
         </div>
       </div>
@@ -27,10 +27,10 @@
     <div class="user-options-box">
           <ul>
             <li ><form action="/modifypassword" method="get" >
-              <button class="btn waves-effect waves-light col s12 card-panel brown lighten-4" style="color: #212121;">Modificar Contraseña</button>
+              <button class="btn btn1 waves-effect waves-light col s12 card-panel brown lighten-4">Modificar Contraseña</button>
             </form></li>
             <li > <form action="/modifyemail" method="get" >
-              <button class="btn waves-effect waves-light col s12 card-panel brown lighten-4" style="color: #212121;">Modificar Email</button>
+              <button class="btn btn1 waves-effect waves-light col s12 card-panel brown lighten-4">Modificar Email</button>
             </form></li>
           </ul>
     </div>

@@ -6,16 +6,16 @@
 		<div class="modify-password">
 
 			<form name="formEmail" action="/assign" method="post">
-			<h5 style="text-align:left; margin-bottom:1em;border-bottom: 1px solid #212121; border-radius: 0;">Gestionar Usuarios</h5>
+			<h5>Gestionar Usuarios</h5>
 				<label for="passwordActual"></label>
-				<input autocomplete="nope"style="margin-bottom:5px; height: 32px;"class="button" type="password" name="passwordActual" placeholder="Ingrese su contraseña:"><br><br>
+				<input autocomplete="nope"class="button" type="password" name="passwordActual" placeholder="Ingrese su contraseña:"><br><br>
 				<label for="emailnewAdmin"></label>
-				<input autocomplete="nope"style="margin-bottom:5px; height: 32px;"class="button" type="text" name="emailnewAdmin" placeholder="Email del usuario:"><br><br><br>
+				<input autocomplete="nope"class="button" type="text" name="emailnewAdmin" placeholder="Email del usuario:"><br><br><br>
 					
-				<h5 style="text-align:left; padding-bottom:1em;border-bottom: 1px solid #212121; border-radius: 0;">Opciones disponibles:</h5>
-				<input class="btn waves-effect waves-light card-panel brown lighten-4" style="color: rgb(109, 36, 2);" type="submit" name="dUser" value="Eliminar Usuario"/>
-				<input class="btn waves-effect waves-light card-panel brown lighten-4" style="color: #212121;"type="submit" name="admin" value="Asignar Administrador"/>
-				<input class="btn waves-effect waves-light card-panel brown lighten-4" style="color: #212121;"type="submit" name="sAdmin" value="Asignar Super Administrador" />
+				<h5>Opciones disponibles:</h5>
+				<input class="btn2 btn waves-effect waves-light card-panel brown lighten-4" type="submit" name="dUser" value="Eliminar Usuario"/>
+				<input class="btn1 btn waves-effect waves-light card-panel brown lighten-4" type="submit" name="admin" value="Asignar Administrador"/>
+				<input class="btn1 btn waves-effect waves-light card-panel brown lighten-4" type="submit" name="sAdmin" value="Asignar Super Administrador" />
 				
 			</form>
 			<form><%= @band %></form>

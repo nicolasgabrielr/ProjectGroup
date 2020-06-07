@@ -1,18 +1,18 @@
 <div class="row">
 <form  action="/sign_in" method="post">
-	<div class="col s12" style="margin: 0em 0em 0em 0em; border-bottom: 2px solid;border-bottom-color: #212121;; color: #212121;; padding-top: 10px;">
+	<div class="login-tittle col s12">
 		<h5>Bienvenido
 		</h5>
 	</div>
 	<input type="text" name="email"class="button" placeholder="Ingrese su Email"></input><br>
 	<input type="password" name="password" class="button" placeholder="Ingrese su contraseña"></input><br><br>
-	<button class="btn waves-effect waves-light col s12 card-panel  brown lighten-4" style="color: #212121;" type="submit" name="action">Ingresar</button>
+	<button class="btn1 btn waves-effect waves-light col s12 card-panel  brown lighten-4"  type="submit" name="action">Ingresar</button>
 	<form><a style="color:red;"><%=@log_err%></a>
 	</form><br><br><br>
 </form>
 <form action="/newUser" method="get">
 	<label for="fname">¿Aun no se registró?</label><br>
-	<button class="btn waves-effect waves-light col s12 card-panel brown lighten-4" style="color: #212121;" type="submit" name="action">Registrarse Ahora</button><br><br><br>
+	<button class="btn1 btn waves-effect waves-light col s12 card-panel brown lighten-4"  type="submit" name="action">Registrarse Ahora</button><br><br><br>
 </form>
 </div>
 <!--<form action="/notificationlist" method="get">
