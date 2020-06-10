@@ -8,5 +8,4 @@ class User < Sequel::Model
   end
   many_to_many :documents
   one_to_many :notifications
-  set_primary_key :id
 end
