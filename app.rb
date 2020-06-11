@@ -296,6 +296,21 @@ class App < Sinatra::Base
     erb :index , :layout => :layout_public_records
   end
 
+  post "/index" do
+    if params[:dni] != ""
+      user = User.find(dni: params[:dni])
+      if user
+        public_docs = user.documents(deleted: false)
+        @arr = public_docs.map{|x| x.filename}.reverse
+      else
+        get_public_documents
+      end
+    else
+      get_public_documents
+    end
+    erb :index , :layout => :layout_public_records
+  end
+
   get "/about" do
     erb:about
   end

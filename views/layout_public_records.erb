@@ -34,23 +34,25 @@
 </div>
 <div class="clearfix"></div>
 
+
+
 <div class="row">
 
 	<div class="column1 z-depth-2 col s2" >
     	<%= yield %>
     </div>
 	<div class="column2 col s9">
-		
+
 		<ul class="z-depth-1" id="li1">
-			
+
 			<li >
 				<h4 class="z-depth-2" id="section_headder" >Facultad de Ciencias Exactas</h4>
-			</li> 
+			</li>
 			<li>
 				<ul class="lista_publica">
 					<% @arr.each do |elem| %>
-					
-					<li class="li-box"> 
+
+					<li class="li-box">
 						<div class="record-box">
 							<div class="clearfix"></div>
 							<div class="record-data">
@@ -59,13 +61,13 @@
 								<p >Descripcion: <%=Document.first(filename: elem).description%></p>
 								</div>
 							<div class="options-records-box-public">
-								
+
 								<a href="file/<%= elem%>"><strong>Descargar</strong></a>
 							</div>
 							<div class="clearfix"></div>
 					  </div>
 					</li>
-					
+
 
 					<% end %>
 				</ul>
