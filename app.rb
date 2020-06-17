@@ -28,13 +28,51 @@ class App < Sinatra::Base
     else
       request.websocket do |ws|
         user = session[:user_id]
+        logger.info(user)
         @connection = {user: user, socket: ws}
         ws.onopen do
           settings.sockets << @connection
         end
+        ws.onmessage do |msg|
+          EM.next_tick { settings.sockets.each{|s|
+            msg = JSON.parse(msg)
+            logger.info(msg)
+            document_id = Document.first(path: msg["file"]).id
+            logger.info(s[:user])
+            if s[:user] == user
+                logger.info(document_id)
+                notification_checked = Notification.first(user_id: s[:user], document_id: document_id)
+                notification_checked.update(checked: true)
+                @alert_for_user=Notification.number_of_uncheckeds_for_user(s[:user])
+                msg["alerta"] = @alert_for_user.to_s
+                msg = msg.to_json
+                logger.info(msg)
+                s[:socket].send(msg)
+            end
+            }
+          }
+        end
       end
     end
   end
+
+  post '/tagg' do
+    @tagged = params["tagg"]
+    document = Document.find(id: params["doc"])
+
+    if @tagged != nil
+      @tagged.map{|u| tagg_user(u,document)} #tagged involved users
+    end
+    document.update(description: params["description"], resolution: params["resolution"])
+    Document_string = JSON.parse '{"foo":"bar", "ping":"pong"}'
+    settings.sockets.each{|s| alert_notification(s[:user])
+
+      s[:socket].send(@alert.to_s)
+     }
+    redirect "/myrecords"
+  end
+
+
 
 
   before do
@@ -178,18 +216,7 @@ class App < Sinatra::Base
     erb:myrecords , :layout => :layout_loged_menu
   end
 
-  post '/tagg' do
-    @tagged = params["tagg"]
-    document = Document.find(id: params["doc"])
-    if @tagged != nil
-      @tagged.map{|u| tagg_user(u,document)} #tagged involved users
-    end
-    document.update(description: params["description"], resolution: params["resolution"])
-    settings.sockets.each{|s| alert_notification(s[:user])
-      s[:socket].send(@alert.to_s)
-     }
-    redirect "/myrecords"
-  end
+
 
   def alert_notification(user)
     @alert =   Notification.number_of_uncheckeds_for_user(user)

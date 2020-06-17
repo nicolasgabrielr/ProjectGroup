@@ -32,18 +32,18 @@
       </form><br>
     <% end %>
   <% end %>
-  </div>  
+  </div>
   </li>
   <li>
     <ol class="lista_publica height500">
       <% @arr.each do |elem| %>
-      <li class="li-box"> 
+      <li class="li-box">
         <div class="record-box">
           <div class="clearfix"></div>
           <div class="record-data">
-            <p><strong><u> Resolución:</u></strong> <strong><%=Document.first(filename: elem).resolution%></strong></p>             
+            <p><strong><u> Resolución:</u></strong> <strong><%=Document.first(filename: elem).resolution%></strong></p>
             <p>Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%></p>
-            <p >Descripcion: <%=Document.first(filename: elem).description%></p>
+            <p >Descripción: <%=Document.first(filename: elem).description%></p>
           </div>
           <div class="options-records-box">
             <ul class="options-records-list">

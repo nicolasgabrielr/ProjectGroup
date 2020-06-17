@@ -14,14 +14,14 @@
  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
-
+<script src="websocket.js" type="text/javascript"></script>
 <div class="header-container z-depth-5">
 	<div class="header-logo">
 	<!--	<img src="/resources/logo2.png" alt="notifications logo" height="64" width="47">-->
 	</div>
     <div class="header-tittle">
-		<h1>Universidad Nacional de Rio Cuarto</h1>
-		<p>Sistema de actas Publicas</p>
+		<h1>Universidad Nacional de Río Cuarto</h1>
+		<p>Sistema de actas Públicas</p>
 		<div class="clearfix"></div>
 	</div>
 	<div class="header-menu">
@@ -51,7 +51,7 @@
 			<li class="li-nav collection-item">
 				<a href="/user_documents">
 					<%if @alert > 0%>
-					<span id="msgs" class="notification-count new badge"><%= @alert %></span>
+					<span id="alert" class="notification-count new badge"><%= @alert %></span>
 					<%end%>
 					Notificaciones
 				</a>
@@ -108,5 +108,5 @@
 		</div>
 	  </footer>
 </body>
-<script src="websocket.js" type="text/javascript"></script>
+
 </html>

@@ -8,7 +8,7 @@
         <form id="form" class="button" action="/load" method="post" enctype="multipart/form-data">
           <input id="fpdf" type="file" name="pdf" value=""class="button" accept="application/pdf">
         </form>
-    
+
 
 
         <form action="/sign_in" method="get" >
@@ -26,9 +26,9 @@
         <form class="button" action="/upload" method="post">
           <label for="fname">Fecha:</label>
           <input type="text" name="realtime" value="<%= @time %>" class="button"readonly>
-          <label for="fname">Descripcion:</label>
+          <label for="fname">Descripción:</label>
           <input type="text" name="description" value="" class="button">
-          <label for="fname">N° de Resolucion:</label>
+          <label for="fname">N° de Resolución:</label>
           <input type="text" name="resolution" value="" class="button">
           <input type="text" name="path" value ="<%= @filename %>" class="button" hidden>
           <input type="text" name="filena" value ="<%= @filename %>" class="button" readonly hidden>

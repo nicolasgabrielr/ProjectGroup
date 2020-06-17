@@ -13,9 +13,9 @@
         <form id="tagform"class="taggform" action="/tagg" method="post">
           <label for="fname">Fecha de subida:</label><br>
           <input type="text" name="realtime" value="<%= @record.realtime.strftime("%d/%m/%y") %>" class="button"readonly><br>
-          <label for="fname">Descripcion:</label><br>
+          <label for="fname">Descripción:</label><br>
           <input type="text" name="description" value="<%= @record.description %>"  class="button"><br>
-          <label for="fname">N° de Resolucion:</label><br>
+          <label for="fname">N° de Resolución:</label><br>
           <input type="text" name="resolution" value="<%= @record.resolution %>" class="button"><br>
           <input type="text" name="doc" value ="<%= @record.id %>" class="button" hidden><br>
           <h5>Notificar a personas:</h5>

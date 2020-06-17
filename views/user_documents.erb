@@ -11,22 +11,24 @@
   }
 </style>
 
+
 <ul class="z-depth-1" id="li2">
-  
+
   <li class=" z-depth-2">
   <h4 id="section_headder" >Mis Notificaciones</h4>
   </li>
   <div class="notifications-box" >
+
   <li>
-    <ol class="notification-list">
+    <ol id="not_checkeds" class="notification-list">
       <% @not_checkeds.each do |elem| %>
-      <li class="li-box z-depth-1"> 
+      <li id = "li_not_Checked<%= elem%>" class="li-box z-depth-1">
         <div class="record-box">
           <div class="clearfix"></div>
-          <div class="record-data-unread"> 
+          <div class="record-data-unread">
             <p ><u> Resolución:</u> <%=Document.first(filename: elem).resolution%></p>
             <p >Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%></p>
-            <p >Descripcion: <%=Document.first(filename: elem).description%></p>
+            <p >Descripción: <%=Document.first(filename: elem).description%></p>
           </div>
           <div class="options-records-box">
             <ul class="options-records-list">
@@ -38,13 +40,24 @@
               </li>
               <li id="option2">
                 <form  action="/check_documents" method="post">
-                  <input type="text" name="path" value="file/<%= elem%>" hidden>
-                  <input  type= "submit" value="Marcar leído" class="button-mark-read" >
-                  <!--<button style="padding-left: 0em;"class="btn waves-effect waves-light " type="submit" name="action" >
-                    <i style="margin-left:0em ; padding: 0em;" class="material-icons right">done_all
-                    </i>
-                  </button>-->
-            		</form><br>
+                  <input id = "<%= elem%>" type="text" name="path" value="file/<%= elem%>" hidden>
+                  <button id = "btn<%= elem%>"> visto</button>
+                  <script type="text/javascript">
+                    document.getElementById("btn<%= elem%>").addEventListener('click', e=> {
+                      e.preventDefault();
+                      item = "li_not_Checked<%= elem%>";
+                      console.log(document.getElementById("li_not_Checked<%= elem%>"));
+                      const msg = {
+                        file: "/file/<%= elem%>",
+                        item: "li_not_Checked<%= elem%>",
+                        alerta: <%= @alert %>,
+                        btn_Id: "btn<%= elem%>"
+                      };
+                      ws.send(JSON.stringify(msg));
+                    });
+                  </script>
+                  <input type= "submit" value="Marcar leído" class="button-mark-read" >
+              	</form><br>
               </li>
               <li id="option2">
                 <input type="text" name="elem" value ="<%= elem %>" class="button" hidden>
@@ -58,15 +71,15 @@
     </ol>
   </li>
   <li>
-    <ol class="notification-list">
+    <ol id="checkeds" class="notification-list">
       <% @checkeds.each do |elem| %>
-      <li class="li-box"> 
+      <li class="li-box">
         <div class="record-box">
           <div class="clearfix"></div>
           <div class="record-data">
             <p><u> Resolución:</u><%=Document.first(filename: elem).resolution%></p>
             <p>Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%></p>
-            <p>Descripcion: <%=Document.first(filename: elem).description%></p>
+            <p>Descripción: <%=Document.first(filename: elem).description%></p>
           </div>
           <div class="options-records-box">
             <ul class="options-records-list">
