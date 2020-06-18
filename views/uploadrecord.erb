@@ -4,7 +4,7 @@
     </title>
   </head>
       <!-------  seleccionar archivo   ------->
-      <div class="column1 z-depth-2 col s2">
+      <div class="column1 z-depth-2 col s3 col m3 col l2">
         <form id="form" class="button" action="/load" method="post" enctype="multipart/form-data">
           <input id="fpdf" type="file" name="pdf" value=""class="button" accept="application/pdf">
         </form>
@@ -16,13 +16,13 @@
         </form><br>
       </div>
       <!--------   Previsualizar archivo   ----------->
-      <div class="column2 col s8">
+      <div class="column2 col s5 col m6 col l8">
         <% if @filename %>
           <embed src="/temp/<%= @filename %>" type="application/pdf" width="100%" height="660px" />
         <% end %>
       </div>
       <!--------- Taggear y subir  --------->
-      <div class="column1 z-depth-2 col s2">
+      <div class="column1 z-depth-2 col s3 col m3 col l2">
         <form class="button" action="/upload" method="post">
           <label for="fname">Fecha:</label>
           <input type="text" name="realtime" value="<%= @time %>" class="button"readonly>

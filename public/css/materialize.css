@@ -9621,7 +9621,7 @@ ul{
 .header-menu{
   float: left;
   width: 20%;
-  min-height: 88px;
+  min-height: 92px;
   box-sizing: border-box;
 }
 .header-menu ul{
@@ -9632,15 +9632,28 @@ ul{
 .header-menu ul li{
   list-style: none;
   margin: 0;
-  padding-top: 65px;
+  padding-top: 76px;
   float: right;
   /*background: #263238 ;*/
   padding-left: 15px;
 
 }
 .header-menu ul li a{
-  text-decoration: underline;
-  text-decoration-color:#cfab7b;
+  color :#cfab7b;
+  margin-right: 5px;
+  border-bottom-style: ridge;
+  border-bottom-color:#cfab7b;
+}
+
+#ullista-flex{
+  min-height: 92px;
+  display: flex!important;
+  align-items:flex-end!important;
+  justify-content: flex-end!important;
+}
+#ullista-flex a {
+  align-items:flex-end!important;
+  justify-content: flex-end!important; 
   color :#cfab7b;
   margin-right: 5px;
   border-bottom-style: ridge;
@@ -10242,21 +10255,43 @@ ul{
     height: 220px; 
     overflow-y: auto; 
   }
-  .close {
-    width: 15px;
-    height: 15px;
-    color:white;
-    background-color: maroon;
-    float: right;
-    right: 0;
-    top: 0;
+  .close{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    width:11px;
+    height:11px;
+    background-color:#212121;
+    margin: 4px;
     padding:0px;
-    margin: 0em;
-  }
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    float:right;
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
   
-  .close:hover {
-    background-color: #85221b;
-    color: white;
+    }
+  .close:hover{
+    opacity: 0.50;
+    -moz-opacity: .50;
+    filter:alpha (opacity=50);
+  }
+  .close p{
+    display: flex;
+    justify-content:center;
+    text-transform: uppercase;
+    font: size 12px;
+    line-height:1px;
+    color:#d7ccc8;
+    text-decoration:none;
+    padding-top:0px ;
+    padding-left:1px ;
+    padding-right:1px;
+    padding-bottom:1px ;
+    text-align: right;
+    float: right;
+    border: none !important;
   }
   * h4{
     padding-top: 0px; 
@@ -10381,7 +10416,7 @@ ul{
     font-weight: bold;
   }
   .dni-box ul{
-    color:#26a69a;
+    color:#212121;
   }
   .notificated-list{
     float: left; 
@@ -10391,4 +10426,7 @@ ul{
     border-bottom: 1px solid #cfab7b; 
     border-radius: 0;  
     font-weight: bold;
+  }
+  #myUL{
+    color:#26a69a;
   }

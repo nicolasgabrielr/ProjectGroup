@@ -36,7 +36,8 @@ ws.onmessage = e => {
     document.getElementById('checkeds').appendChild(document.getElementById(msg.item));
   }
   else{
-    document.getElementById("alert").innerHTML=msg
+    document.getElementById("alert").innerHTML=msg;
+    Materialize.toast('Hay una nueva notificación', 10000);
   }
 
 

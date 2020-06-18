@@ -41,7 +41,7 @@
               <li id="option2">
                 <form  action="/check_documents" method="post">
                   <input id = "<%= elem%>" type="text" name="path" value="file/<%= elem%>" hidden>
-                  <button id = "btn<%= elem%>"> visto</button>
+                  <button class="button-mark-read" id = "btn<%= elem%>"> visto</button>
                   <script type="text/javascript">
                     document.getElementById("btn<%= elem%>").addEventListener('click', e=> {
                       e.preventDefault();
@@ -56,7 +56,6 @@
                       ws.send(JSON.stringify(msg));
                     });
                   </script>
-                  <input type= "submit" value="Marcar leído" class="button-mark-read" >
               	</form><br>
               </li>
               <li id="option2">

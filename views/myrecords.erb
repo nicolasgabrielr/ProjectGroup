@@ -15,7 +15,7 @@
   <li >
   <div  class="search-area z-depth-2">
     <h4 class="z-depth-2" id="section_headder">Mis Actas</h4>
-    <%if @superAdmin == "submit" %>
+    <%if @superAdmin == "visible" %>
     <form class="searchbyres" action="/search_record" method="post">
        <div class="col s2"><a>Desde </a><input type="date" placeholder="Fecha de inicio" name="initiate_date" value="<%= @initial_date %>"> </div>
        <div class="col s2"><a>Hasta </a><input type="date" placeholder="Fecha de fin" name="end_date" value="<%= @end_date %>"></div>

@@ -14,24 +14,26 @@
  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
-
-	<div class="header-container z-depth-5">
-		<div class="header-logo">
-		<!--	<img src="/resources/logo2.png" alt="notifications logo" height="64" width="47">-->
-		</div>
-		<div class="header-tittle">
-			<h1>Universidad Nacional de Rio Cuarto</h1>
-			<p>Sistema de actas Publicas</p>
-			<div class="clearfix"></div>
-		</div>
-		<div class="header-menu">
-			<ul class = "ullista">
-				<!--  <li class= "lista"><a href="/about" >about</a></li>
-				  <li class= "lista"><a href="/sign_in" >index</a></li>
-			  </ul> -->
-		</div>
-		<div class="clearfix"></div>
-	</div>
+<!--Import jQuery before materialize.js-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<div class="header-container z-depth-5">
+<div class="header-logo">
+<!--	<img src="/resources/logo2.png" alt="notifications logo" height="64" width="47">-->
+</div>
+<div class="header-tittle">
+	<h1>Universidad Nacional de Río Cuarto</h1>
+	<p>Sistema de actas Públicas</p>
+	<div class="clearfix"></div>
+</div>
+<div class="header-menu">
+	<ul id="ullista-flex">
+		  <!-- <li class= "lista"><a href="/about" >about</a></li> -->
+		  <a href="/sign_in" >index</a>
+	  </ul>
+</div>
+<div class="clearfix"></div>
+</div>
 <div class="clearfix"></div>
 <div class="row">
 
@@ -47,12 +49,9 @@
 	</div>
 	<div class="col l4 offset-l2 s12">
 	  <h5 class="white-text">Links</h5>
-	  <ul>
-		<li><a class="grey-text text-lighten-3" href="/about">About Us</a></li>
-		<li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-		<li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-		<li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
-	  </ul>
+		<ul>
+			<li><a class="grey-text text-lighten-3" href="/about">About Us</a></li>
+		</ul>
 	</div>
   </div>
 </div>
