@@ -10430,3 +10430,41 @@ ul{
   #myUL{
     color:#26a69a;
   }
+  /* Ponemos un color de fondo y redondeamos las esquinas del thumb */
+ 
+  .myScroll::-webkit-scrollbar {
+    width: 12px;
+    height: 2px;
+  }
+  .myScroll::-webkit-scrollbar-button {
+    width: 2px;
+    height: 0px;
+  }
+  .myScroll::-webkit-scrollbar-thumb {
+    background: #cfab7b;
+    border: 0px solid #efebe9;
+    *border-radius: 50px;
+  }
+  .myScroll::-webkit-scrollbar-thumb:hover {
+    background: #cfab7b;
+  }
+  .myScroll::-webkit-scrollbar-thumb:active {
+    background: #aa8a60;
+  }
+  .myScroll::-webkit-scrollbar-track {
+    background: #efebe9;
+    border: 0px none #ffffff;
+    *border-radius: 50px;
+  }
+  .myScroll::-webkit-scrollbar-track:hover {
+    background: #efebe9;
+  }
+  .myScroll::-webkit-scrollbar-track:active {
+    background: #efebe9;
+  }
+  .myScroll::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+ 
+
+/* Cambiamos el fondo cuando esté en active o hover */

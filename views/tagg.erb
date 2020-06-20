@@ -27,7 +27,7 @@
           <div class="notifications col s12" >
             <div class="col s6 to-notify-list" >
               <p>A notificar</p>
-              <div class="dni-box">
+              <div class="dni-box myScroll">
                 <ul id="myUL">
                   <div class="clearfix"></div>
                 </ul>
@@ -35,7 +35,7 @@
             </div>
             <div class="col s6 notificated-list">
             <p>Ya notificadas:</p>
-              <div class="dni-box">
+              <div class="dni-box myScroll">
               <ul><%if @dni_docc != nil %>
                 <%@dni_docc.each do |elem| %>
                 <lu><%=elem.dni%><br></lu>
