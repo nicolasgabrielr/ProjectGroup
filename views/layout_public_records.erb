@@ -48,7 +48,7 @@
 		<ul class="z-depth-1" id="li1">
 
 			<li >
-				<h4 class="z-depth-2" id="section_headder" >Facultad de Ciencias Exactas</h4>
+				<h4 class="z-depth-2" id="section_headder" >Listado de actas publicas</h4>
 			</li>
 			<li>
 				<ul class="lista_publica myScroll">
@@ -58,13 +58,13 @@
 						<div class="record-box">
 							<div class="clearfix"></div>
 							<div class="record-data">
-								<p><strong><u> Resolución:</u></strong> <strong><%=Document.first(filename: elem).resolution%></strong></p>
-								<p> Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%> </p>
-								<p >Descripción: <%=Document.first(filename: elem).description%></p>
+								<p><strong><u> Resolución:</u></strong> <strong><%=elem[:resolution]%></strong></p>
+								<p> Fecha: <%=elem[:date]%> </p>
+								<p >Descripción: <%=elem[:description]%></p>
 								</div>
 							<div class="options-records-box-public">
 
-								<a href="file/<%= elem%>"><strong>Descargar</strong></a>
+								<a href="file/<%= elem[:filename]%>"><strong>Descargar</strong></a>
 							</div>
 							<div class="clearfix"></div>
 					  </div>

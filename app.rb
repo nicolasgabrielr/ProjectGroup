@@ -1,13 +1,9 @@
 require 'json'
 require './models/init.rb'
 require 'sinatra-websocket'
-
 include FileUtils::Verbose
 
 class App < Sinatra::Base
-
-
-
 
   configure do
     enable :logging
@@ -15,11 +11,9 @@ class App < Sinatra::Base
     set :session_fail, '/'
     set :session_secret, "otro secret pero dificil y abstracto"
     set :sessions, true
-
-    set :server, 'thin'
+  set :server, 'thin'
     set :sockets, []
   end
-
 
   get '/' do
     if !request.websocket?
@@ -33,60 +27,44 @@ class App < Sinatra::Base
         ws.onopen do
           settings.sockets << @connection
         end
-        ws.onmessage do |msg|
-          EM.next_tick { settings.sockets.each{|s|
-            msg = JSON.parse(msg)
-            logger.info(msg)
-            document_id = Document.first(path: msg["file"]).id
-            logger.info(s[:user])
-            if s[:user] == user
-                logger.info(document_id)
-                notification_checked = Notification.first(user_id: s[:user], document_id: document_id)
-                notification_checked.update(checked: true)
-                @alert_for_user=Notification.number_of_uncheckeds_for_user(s[:user])
-                msg["alerta"] = @alert_for_user.to_s
-                msg = msg.to_json
-                logger.info(msg)
-                s[:socket].send(msg)
-            end
-            }
-          }
-        end
       end
     end
   end
 
-  post '/tagg' do
-    @tagged = params["tagg"]
-    document = Document.find(id: params["doc"])
-
-    if @tagged != nil
-      @tagged.map{|u| tagg_user(u,document)} #tagged involved users
-    end
-    document.update(description: params["description"], resolution: params["resolution"])
-    Document_string = JSON.parse '{"foo":"bar", "ping":"pong"}'
+  def update_number_notifications_with_ws
     settings.sockets.each{|s| alert_notification(s[:user])
-
       s[:socket].send(@alert.to_s)
      }
-    redirect "/myrecords"
+  end
+
+  post '/tagg' do
+   @tagged = params["tagg"]
+   document = Document.find(id: params["doc"])
+   if @tagged != nil
+     @tagged.map{|u| tagg_user(u,document)}
+   end
+   document.update(description: params["description"], resolution: params["resolution"])
+   update_number_notifications_with_ws
+   redirect "/myrecords"
   end
 
 
-
+  superAdmin_Pages = ['/assign']
+  admin_Pages = ['/tagg', '/upload', '/load', '/uploadrecord']
+  public_Pages = ['/index', '/sign_in', '/', '/about', '/newUser', '/tablas']
 
   before do
     request.path_info
-    if user_not_logged_in? && restricted_path_for_guest?
+    if user_not_logged_in? && !public_Pages.include?(request.path_info)
       redirect '/index'
     elsif session[:user_id]
       @current_user = User.find(id: session[:user_id])
       alert_notification(session[:user_id])
       set_menu
 
-      if not_eauthorized_category_for_admin? && superAdmin_path?
+      if not_authorized_category_for_admin? && superAdmin_Pages.include?(request.path_info)
         redirect '/index'
-      elsif not_eauthorized_category_for_user? && admin_path?
+      elsif not_authorized_category_for_user? && admin_Pages.include?(request.path_info)
         redirect '/index'
       end
     end
@@ -96,23 +74,11 @@ class App < Sinatra::Base
     !session[:user_id]
   end
 
-  def superAdmin_path?
-    request.path_info == '/assign'
-  end
-
-  def admin_path?
-    request.path_info == '/tagg' || request.path_info == '/upload'|| request.path_info == '/load'|| request.path_info == '/uploadrecord'
-  end
-
-  def restricted_path_for_guest?
-    request.path_info != '/index' && request.path_info != '/sign_in' && request.path_info != '/' && request.path_info != '/about' && request.path_info != '/newUser' && request.path_info != '/tablas'
-  end
-
-  def not_eauthorized_category_for_admin?
+  def not_authorized_category_for_admin?
     @current_user.category != "superAdmin"
   end
 
-  def not_eauthorized_category_for_user?
+  def not_authorized_category_for_user?
     @current_user.category != "superAdmin" && @current_user.category != "admin"
   end
 
@@ -137,7 +103,7 @@ class App < Sinatra::Base
 
   def get_public_documents
     public_docs = Document.deleteds(false)
-     @arr = public_docs.map{|x| x.filename}
+    @arr = documents_array(public_docs)
   end
 
   def checkpass(key)
@@ -146,9 +112,9 @@ class App < Sinatra::Base
 
   get '/user_documents' do
     user_docs = Document.by_ids(Notification.documents_id_uncheckeds_by_user(session[:user_id]))
-    @not_checkeds = user_docs.map{|x| x.filename}
+    @not_checkeds = documents_array(user_docs)
     user_docs = Document.by_ids(Notification.documents_id_checkeds_by_user(session[:user_id]))
-    @checkeds = user_docs.map{|x| x.filename}
+    @checkeds = documents_array(user_docs)
     erb:user_documents , :layout => :layout_loged_menu
   end
 
@@ -168,19 +134,21 @@ class App < Sinatra::Base
       notification_checked = Notification.first(user_id: session[:user_id], document_id: doc_id.id)
       notification_checked.update(checked: true)
     end
+    update_number_notifications_with_ws
     redirect '/user_documents'
   end
 
   get '/myrecords' do
     ds = Document.by_user(session[:user_id])
-    @arr = ds.map{|x| x.filename}
+    @arr = @arr = documents_array(ds)
     get_initial_and_final_date
     erb:myrecords , :layout => :layout_loged_menu
   end
 
   post '/myrecords' do
     if params[:delete]
-      delete_document(params["elem"]) #elem is name of document
+      delete_document(params["elem"])
+      update_number_notifications_with_ws
       redirect "/myrecords"
     else
       "No se pudo eliminar el documento"
@@ -195,7 +163,7 @@ class App < Sinatra::Base
   post '/search_record' do
     if params[:resolution] != ""
       ds = Document.by_resolution(params[:resolution])
-      @arr = ds.map{|x| x.filename}
+      @arr = documents_array(ds)
       if @arr[0] == nil
         @not_found_docs = "No se encontraron actas con dicha resolución.."
       end
@@ -207,7 +175,7 @@ class App < Sinatra::Base
       elsif (params[:author] == "")
         ds = Document.by_date(params[:initiate_date], params[:end_date])
       end
-      @arr = ds.map{|x| x.filename}
+      @arr = documents_array(ds)
       if @arr[0] == nil
         @not_found_docs = "No se encontraron actas relacionadas con su busqueda.."
       end
@@ -215,8 +183,6 @@ class App < Sinatra::Base
     get_initial_and_final_date
     erb:myrecords , :layout => :layout_loged_menu
   end
-
-
 
   def alert_notification(user)
     @alert =   Notification.number_of_uncheckeds_for_user(user)
@@ -231,7 +197,15 @@ class App < Sinatra::Base
       hash = Rack::Utils.parse_nested_query(request.body.read)
       params = JSON.parse hash.to_json
       string_dni = dni.to_s
-      not_user = User.new(surname: string_dni , category: "not_user",  name: string_dni, username: string_dni  , dni: dni, password: "not_user#{string_dni}" , email: "#{string_dni}@email.com")
+      not_user = User.new(
+        surname: string_dni,
+        category: "not_user",
+        name: string_dni,
+        username: string_dni,
+        dni: dni,
+        password: "not_user#{string_dni}",
+        email: "#{string_dni}@email.com"
+      )
       if not_user.save
         document.add_user(not_user)
       else
@@ -245,7 +219,7 @@ class App < Sinatra::Base
     erb:loged , :layout => :layout_loged_menu
   end
 
-  post '/sign_in' do #inicio de sesion
+  post '/sign_in' do
     get_public_documents
     usuario = User.find(email: params["email"])
     if usuario != nil && (usuario.password == params["password"])
@@ -265,11 +239,9 @@ class App < Sinatra::Base
     end
   end
 
-  post '/assign' do #asignacion de admin o super admin
-    @band
-    #filtra la tabla
-    orderbydate=Document.select(:filename,:resolution,:realtime).reverse_order(:realtime).all
-    @arr= orderbydate.map{|x| x.filename}
+  post '/assign' do
+    docs = Document.order_by_date
+    @arr= documents_array(docs)
       if checkpass(params["passwordActual"])
         usuario = User.find(email: params["emailnewAdmin"])
         if params[:dUser] && usuario != nil
@@ -297,7 +269,7 @@ class App < Sinatra::Base
     erb :assign , :layout => :layout_loged_menu
   end
 
-  get '/sign_in' do  #sesion iniciada get
+  get '/sign_in' do
     get_public_documents
     if session[:user_id]
 
@@ -308,7 +280,7 @@ class App < Sinatra::Base
     end
   end
 
-  get '/sign_out' do  #cierre de sesion
+  get '/sign_out' do
     session.clear
     erb:index , :layout => :layout_public_records
   end
@@ -328,7 +300,7 @@ class App < Sinatra::Base
       user = User.find(dni: params[:dni])
       if user
         public_docs = user.documents(deleted: false)
-        @arr = public_docs.map{|x| x.filename}.reverse
+        @arr = documents_array(public_docs)
       else
         get_public_documents
       end
@@ -390,20 +362,40 @@ class App < Sinatra::Base
     erb:modifyphoto
   end
 
-  get '/uploadrecord' do  #carga de ducumentos
+  get '/uploadrecord' do
       erb:uploadrecord
   end
 
-  post '/newUser' do   #cargar un nuevo usuario
+  post '/newUser' do
     request.body.rewind
     hash = Rack::Utils.parse_nested_query(request.body.read)
     params = JSON.parse hash.to_json
     pre_load_user = User.find(dni: params["dni"])
       if pre_load_user
-        pre_load_user.update(surname: params["surname"], category: "user",  name: params["name"], username: params["username"], dni: params["dni"], password: params["key"], email: params["email"] )
-        redirect "/"
+        if pre_load_user.category == "not_user"
+          pre_load_user.update(
+            surname: params["surname"],
+            category: "user",
+            name: params["name"],
+            username: params["username"],
+            dni: params["dni"],
+            password: params["key"],
+            email: params["email"]
+          )
+          redirect "/"
+        else
+          [500, {}, "El usuario ya existe"]
+        end
       else
-        user = User.new(surname: params["surname"], category: "user",  name: params["name"], username: params["username"], dni: params["dni"], password: params["key"], email: params["email"] )
+        user = User.new(
+          surname: params["surname"],
+          category: "user",
+          name: params["name"],
+          username: params["username"],
+          dni: params["dni"],
+          password: params["key"],
+          email: params["email"]
+        )
         if user.save
           redirect "/"
         else
@@ -412,11 +404,11 @@ class App < Sinatra::Base
       end
   end
 
-  get '/uploadImg' do  #carga de fotos
+  get '/uploadImg' do
     erb:modifyphoto
   end
 
-  post '/uploadImg' do     #cargar imagenes a la base de datos
+  post '/uploadImg' do
     if @current_user.imgpath != nil && File.exist?("public#{@current_user.imgpath}")
       File.delete("public#{@current_user.imgpath}")
     end
@@ -427,7 +419,7 @@ class App < Sinatra::Base
     redirect "/mydata"
   end
 
-  post '/load' do   #vista previa del documento para extraer datos y tags
+  post '/load' do
     @time = Time.now
     tempfile = params[:pdf][:tempfile]
     @filename = "#{@time}#{params[:pdf][:filename]}"
@@ -435,14 +427,21 @@ class App < Sinatra::Base
     erb :uploadrecord
   end
 
-  post '/upload' do     #upload documents and taggs users
+  post '/upload' do
     erb :uploadrecord
     request.body.rewind
     hash = Rack::Utils.parse_nested_query(request.body.read)
     params = JSON.parse hash.to_json
     @tagged = params["tagg"]
     cp("public/temp/#{params["path"]}","public/file/#{params["path"]}")
-    document = Document.new(resolution: params ["resolution"],path: "/file/#{params["path"]}",filename: params["filena"], description: params["description"], realtime: params["realtime"], user_id: @current_user.id)
+    document = Document.new(
+      resolution: params ["resolution"],
+      path: "/file/#{params["path"]}",
+      filename: params["filena"],
+      description: params["description"],
+      realtime: params["realtime"],
+      user_id: @current_user.id
+    )
     if document.save
       @record = document
       erb:tagg
@@ -456,66 +455,24 @@ class App < Sinatra::Base
       deleting_doc = Document.find(filename: name)
       ds = Notification.where(document_id: deleting_doc.id).all
       ds.each { |n| n.update(checked: true)}
-      deleting_doc.update(deleted: true) #delete from db
-      #File.delete("public/file/#{name}") #delete from system
+      deleting_doc.update(deleted: true)
     else
       "cannot delete this Doc"
     end
   end
 
-
+  def documents_array(documents)
+      documents.map{|x|
+        file = {:filename => x.filename,
+          :resolution => x.resolution,
+          :description => x.description ,
+          :date => x.realtime.strftime("%d/%m/%y") }
+      }
+  end
 
   def get_initial_and_final_date
     @initial_date = Document.first.realtime.strftime("%Y-%m-%d")
     @end_date = ((Time.now) + 86400).strftime("%Y-%m-%d")
   end
 
-
-## Pruebas para ver las tablas
-
-  get "/prueba" do
-
-
-      Notification.number_of_uncheckeds_for_user(session[:user_id]).to_s
-        #Document.by_ids(Notification.documents_id_uncheckeds_by_user(session[:user_id])).to_s
-    #pp=Document.where(users: User[28]).all
-    #pp.last.path
-    #User[28].documents
-    #User.each { |u| @out+=u.email+"<br/>" }
-    #a.chars.last(5).join
-    #User[20].delete
-    #Document[47].delete
-    #Document.select(:filename).delete
-    #PARA MODIFICAR UN REGISTRO
-    #user = User.last
-    #user.update(category: superAdmin)
-    #PARA MOSTRAR UN REGISTRO
-    #usuario = User.first(id:2)
-    #usuario.update(category:"admin")
-    #usuario = User.first(id: session[:user_id])
-    #u = usuario.name
-    #Notification.documents_id_uncheckeds_by_user(session[:user_id]).to_s
-    #User.all.to_s
-  end
-
-  get '/rename' do
-    docs = Document.all
-    docs.each do |i|
-      i.update(resolution: (i.id + 100000).to_s)
-      i.update(description: "UNRC acta res/#{(i.id + 100000).to_s}")
-    end
-     "rename ok"
-  end
-
-  get '/tablas' do
-    @out = ""
-    User.each { |u| @out+= u.email + "--" + u.category.to_s +  "<br/>" }
-    @out +="<br/>"
-    Document.each { |d| @out+=d.path+"<br/>" }
-    @out +="<br/>"+ "listado de documentos ----> usuarios" + "<br/>"
-    Document.each { |d| @out+= d.path + " ------relacionado con----- " + d.users.to_s + "<br/>" }
-    @out +="<br/>"+ "listado de usuarios ----> documentos" + "<br/>"
-    User.each { |u| @out+= u.email + " -----relacionado con----- " + u.documents.to_s + "<br/>" }
-    @out +="<br/>"
-    end
 end

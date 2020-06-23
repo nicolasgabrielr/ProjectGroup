@@ -17,87 +17,75 @@
   <li class=" z-depth-2">
   <h4 id="section_headder" >Mis Notificaciones</h4>
   </li>
-  <div class="notifications-box myScroll" >
+  <div  class="notifications-box myScroll" >
 
-  <li>
-    <ol id="not_checkeds" class="notification-list">
-      <% @not_checkeds.each do |elem| %>
-      <li id = "li_not_Checked<%= elem%>" class="li-box z-depth-1">
-        <div class="record-box">
-          <div class="clearfix"></div>
-          <div class="record-data-unread">
-            <p ><u> Resolución:</u> <%=Document.first(filename: elem).resolution%></p>
-            <p >Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%></p>
-            <p >Descripción: <%=Document.first(filename: elem).description%></p>
-          </div>
-          <div class="options-records-box">
-            <ul class="options-records-list">
-              <li id="option2">
-                <form  action="/user_documents" method="post">
-                  <input type="text" name="path" value="file/<%= elem%>" hidden>
-                  <input  type= "submit" value="Ver acta" class="button-download">
-            		</form><br>
-              </li>
-              <li id="option2">
-                <form  action="/check_documents" method="post">
-                  <input id = "<%= elem%>" type="text" name="path" value="file/<%= elem%>" hidden>
-                  <button class="button-mark-read" id = "btn<%= elem%>"> visto</button>
-                  <script type="text/javascript">
-                    document.getElementById("btn<%= elem%>").addEventListener('click', e=> {
-                      e.preventDefault();
-                      item = "li_not_Checked<%= elem%>";
-                      console.log(document.getElementById("li_not_Checked<%= elem%>"));
-                      const msg = {
-                        file: "/file/<%= elem%>",
-                        item: "li_not_Checked<%= elem%>",
-                        alerta: <%= @alert %>,
-                        btn_Id: "btn<%= elem%>"
-                      };
-                      ws.send(JSON.stringify(msg));
-                    });
-                  </script>
-              	</form><br>
-              </li>
-              <li id="option2">
-                <input type="text" name="elem" value ="<%= elem %>" class="button" hidden>
-              </li>
-            </ul>
-          </div>
-          <div class="clearfix"></div>
-          </div>
+    <div  >
+      <li>
+        <ol class="notification-list">
+          <% @not_checkeds.each do |elem| %>
+          <li  class="li-box z-depth-1">
+            <div class="record-box">
+              <div class="clearfix"></div>
+              <div class="record-data-unread">
+                <p ><u> Resolución:</u> <%=elem[:resolution]%></p>
+                <p >Fecha: <%=elem[:date]%></p>
+                <p >Descripción: <%=elem[:description]%></p>
+              </div>
+              <div class="options-records-box">
+                <ul class="options-records-list">
+                  <li id="option2">
+                    <form  action="/user_documents" method="post">
+                      <input type="text" name="path" value="file/<%= elem[:filename]%>" hidden>
+                      <input  type= "submit" value="Ver acta" class="button-download">
+                		</form><br>
+                  </li>
+                  <li id="option2">
+                    <form  action="/check_documents" method="post" >
+                      <input  type="text" name="path" value="file/<%= elem[:filename]%>" hidden>
+                      <input type= "submit" value="Marcar leído" class="button-mark-read" >
+                  	</form><br>
+                  </li>
+                  <li id="option2">
+                    <input type="text" name="elem" value ="<%= elem[:filename] %>" class="button" hidden>
+                  </li>
+                </ul>
+              </div>
+              <div class="clearfix"></div>
+              </div>
+          </li>
+          <% end %>
+        </ol>
       </li>
-      <% end %>
-    </ol>
-  </li>
-  <li>
-    <ol id="checkeds" class="notification-list">
-      <% @checkeds.each do |elem| %>
-      <li class="li-box">
-        <div class="record-box">
-          <div class="clearfix"></div>
-          <div class="record-data">
-            <p><u> Resolución:</u><%=Document.first(filename: elem).resolution%></p>
-            <p>Fecha: <%=Document.first(filename: elem).realtime.strftime("%d/%m/%y")%></p>
-            <p>Descripción: <%=Document.first(filename: elem).description%></p>
-          </div>
-          <div class="options-records-box">
-            <ul class="options-records-list">
-              <li id="option2">
-                <form  action="/user_documents" method="post">
-                  <input type="text" name="path" value="file/<%= elem%>" hidden>
-                  <input  type= "submit" value="Ver acta" class="button-download">
-            		</form><br>
-              </li>
-              <li class="option">
-                <input type="text" name="elem" value ="<%= elem %>" class="button" hidden>
-              </li>
-            </ul>
-          </div>
-          <div class="clearfix"></div>
-          </div>
+      <li>
+        <ol  class="notification-list">
+          <% @checkeds.each do |elem| %>
+          <li class="li-box">
+            <div class="record-box">
+              <div class="clearfix"></div>
+              <div class="record-data">
+                <p><u> Resolución:</u><%=elem[:resolution]%></p>
+                <p>Fecha:  <%=elem[:date]%></p>
+                <p>Descripción: <%=elem[:description]%></p>
+              </div>
+              <div class="options-records-box">
+                <ul class="options-records-list">
+                  <li id ="option2">
+                    <form  action="/user_documents" method="post">
+                      <input type="text" name="path" value="file/<%= elem[:filename]%>" hidden>
+                      <input  type= "submit" value="Ver acta" class="button-download">
+                		</form><br>
+                  </li>
+                  <li class="option">
+                    <input type="text" name="elem" value ="<%= elem[:filename] %>" class="button" hidden>
+                  </li>
+                </ul>
+              </div>
+              <div class="clearfix"></div>
+              </div>
+          </li>
+          <% end %>
+        </ol>
       </li>
-      <% end %>
-    </ol>
-  </li>
+    </div>
 </div>
 </ul>
