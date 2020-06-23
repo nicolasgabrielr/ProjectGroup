@@ -160,27 +160,40 @@ class App < Sinatra::Base
     end
   end
 
-  post '/search_record' do
-    if params[:resolution] != ""
-      ds = Document.by_resolution(params[:resolution])
+  def search_record (resolution,ini_d,end_d,author)
+    get_initial_and_final_date
+    if ini_d == ""
+      ini_d = @initial_date
+    end
+    if end_d == ""
+      end_d = @end_date
+    end
+    if resolution != ""
+      ds = Document.by_resolution(resolution)
       @arr = documents_array(ds)
       if @arr[0] == nil
         @not_found_docs = "No se encontraron actas con dicha resolución.."
       end
-    elsif params[:initiate_date] || params[:end_date]
+    elsif ini_d || end_d
       ds = []
-      user_by_author = User.find(username: params[:author])
+      if author != ""
+        user_by_author = User.find(author)
+      end
       if user_by_author
-        ds = Document.by_date_and_user(params[:initiate_date], params[:end_date], user_by_author.id)
-      elsif (params[:author] == "")
-        ds = Document.by_date(params[:initiate_date], params[:end_date])
+        ds = Document.by_date_and_user(ini_d, end_d, user_by_author.id)
+      elsif (author == "")
+        ds = Document.by_date(ini_d, end_d)
       end
       @arr = documents_array(ds)
       if @arr[0] == nil
         @not_found_docs = "No se encontraron actas relacionadas con su busqueda.."
       end
     end
+  end
+
+  post '/search_record' do
     get_initial_and_final_date
+    search_record(params[:resolution],params[:initiate_date],params[:end_date],params[:author])
     erb:myrecords , :layout => :layout_loged_menu
   end
 
@@ -296,7 +309,7 @@ class App < Sinatra::Base
   end
 
   post "/index" do
-    if params[:dni] != ""
+    if params[:dni] != "" && params[:dni] != nil
       user = User.find(dni: params[:dni])
       if user
         public_docs = user.documents(deleted: false)
@@ -304,8 +317,10 @@ class App < Sinatra::Base
       else
         get_public_documents
       end
-    else
-      get_public_documents
+    elsif (params[:resolution] != "" || params[:initiate_date] != "" || params[:end_date] != "")
+        search_record(params[:resolution],params[:initiate_date],params[:end_date],"")
+     else
+        get_public_documents
     end
     erb :index , :layout => :layout_public_records
   end

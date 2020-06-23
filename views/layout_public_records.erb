@@ -2,6 +2,19 @@
 <html>
 <head>
 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+  body {
+    font-family: Arial;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+</style>
+
 <title>
 	Home | Sistema de Actas
 </title>
@@ -49,6 +62,21 @@
 
 			<li >
 				<h4 class="z-depth-2" id="section_headder" >Listado de actas publicas</h4>
+				<div>
+					<form class="searchbyres" action="/index" method="post">
+					   <div class="col s2"><a>Desde </a><input type="date" placeholder="Fecha de inicio" name="initiate_date" value="<%= @initial_date %>"> </div>
+					   <div class="col s2"><a>Hasta </a><input type="date" placeholder="Fecha de fin" name="end_date" value="<%= @end_date %>"></div>
+					   <div class="col s2"><a>Resolucion </a><input type="text" placeholder="Resolución" name="resolution"></div>
+					   <div class="s8 input-search">
+					   <div class="lupa"><button type="submit"><i class="fa fa-search"></i></button></div>
+					</form>
+					<%if @arr[0] == nil && @not_found_docs %>
+					  <form><a class="notfound"> <%=@not_found_docs%> </a></form><br>
+					  <form class="back-button"action="/myrecords" method="get">
+					    <button class="button1">Volver</button>
+					  </form><br>
+					<% end %>
+				</div>
 			</li>
 			<li>
 				<ul class="lista_publica myScroll">
