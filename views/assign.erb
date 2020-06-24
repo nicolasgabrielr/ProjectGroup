@@ -1,28 +1,19 @@
 <div class="modify-box s10">
-	
-
 	<div class="column2 col s6 offset-s2">
-
 		<div class="modify-password">
-
 			<form name="formEmail" action="/assign" method="post">
 			<h5>Gestionar Usuarios</h5>
 				<label for="passwordActual"></label>
 				<input autocomplete="nope"class="button" type="password" name="passwordActual" placeholder="Ingrese su contraseña:"><br><br>
 				<label for="emailnewAdmin"></label>
 				<input autocomplete="nope"class="button" type="text" name="emailnewAdmin" placeholder="Email del usuario:"><br><br><br>
-					
 				<h5>Opciones disponibles:</h5>
-				
              	<button class="btn btn2 waves-effect waves-light col s12 card-panel brown lighten-4" name="dUser">Eliminar Usuario</button>
 				<button class="btn btn1 waves-effect waves-light col s12 card-panel brown lighten-4" name="admin">Asignar Administrador</button>
 				<button class="btn btn1 waves-effect waves-light col s12 card-panel brown lighten-4" name="sAdmin">Asignar Super Administrador</button>
-								
 			</form>
 			<form><%= @band %></form>
-
 		</div>
-
 		<div class="clearfix"></div>
 	</div>	
 	<div class="right"></div>

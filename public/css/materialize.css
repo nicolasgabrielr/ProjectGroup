@@ -9792,9 +9792,9 @@ ul{
   padding-top: 0px;
   text-align: left;
   font-family: Arial, Helvetica, sans-serif;
-  background-color: rgb(240, 234, 232);
-  border-bottom-style: ridge;
-  border-bottom-color: #cfab7b;
+  background-color: rgb(255, 255, 255);
+  /*border-bottom-style: ridge;
+  border-bottom-color: #cfab7b;*/
   color: #212121;
 }
 #li1 li h4{
@@ -10203,7 +10203,7 @@ ul{
   form.searchbyres button {
     float: left;
     width: 10%;
-    background: #34495E;
+    background: #212121;
     color: white;
     font-size: 17px;
     border: 1px solid grey;
@@ -10212,7 +10212,7 @@ ul{
   }
 
   form.searchbyres button:hover {
-    background: #0b7dda;
+    background: #353434;
   }
 
   form.searchbyres::after {

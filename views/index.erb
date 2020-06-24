@@ -1,5 +1,5 @@
 <div class="row">
-<form  action="/sign_in" method="post">
+<form  name="login"action="/sign_in" method="post" onsubmit='return lowerEmail()'>
 	<div class="login-tittle col s12">
 		<h5>Bienvenido
 		</h5>
@@ -21,3 +21,12 @@
 </form>
 </div>
 <script src="websocket.js" type="text/javascript"></script>
+<script>
+    const lowerEmail = () => {
+        // convierto el mail a minusculas y elimino espacios en blanco
+        const emNew1 = document.login.email.value.toLowerCase();
+        document.login.email.value=emNew1.replace(/ /g, "");
+      /* return true;*/
+    }
+
+    </script>

@@ -13,13 +13,13 @@
 
 <ul class="z-depth-1" id="li1">
   <li >
-  <div  class="search-area z-depth-2">
-    <h4 class="z-depth-2" id="section_headder">Mis Actas</h4>
+  <div  class="search-area z-depth-1">
+    <h4 class="" id="section_headder">Mis Actas</h4>
     <%if @superAdmin == "visible" %>
     <form class="searchbyres" action="/search_record" method="post">
        <div class="col s2"><a>Desde </a><input type="date" placeholder="Fecha de inicio" name="initiate_date" value="<%= @initial_date %>"> </div>
        <div class="col s2"><a>Hasta </a><input type="date" placeholder="Fecha de fin" name="end_date" value="<%= @end_date %>"></div>
-       <div class="s8 input-search">
+       <div class="input-search">
           <div class="col s3 input-res"><input type="text" placeholder="Resolución:" name="resolution"></div>
           <div class="col s3 input-autor"><input type="text" placeholder="Autor: (username)" name="author"></div>
           <div class="lupa"><button type="submit"><i class="fa fa-search"></i></button></div>

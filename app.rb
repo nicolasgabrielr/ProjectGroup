@@ -203,26 +203,21 @@ class App < Sinatra::Base
 
   def tagg_user(dni,document)
     user_tagg = User.find(dni: dni)
-    if user_tagg != nil
-      document.add_user(user_tagg)
-    else
-      request.body.rewind
-      hash = Rack::Utils.parse_nested_query(request.body.read)
-      params = JSON.parse hash.to_json
-      string_dni = dni.to_s
-      not_user = User.new(
-        surname: string_dni,
-        category: "not_user",
-        name: string_dni,
-        username: string_dni,
-        dni: dni,
-        password: "not_user#{string_dni}",
-        email: "#{string_dni}@email.com"
-      )
-      if not_user.save
-        document.add_user(not_user)
+    tagged_in_document = Notification.find(user_id: user_tagg.id ,document_id: document.id)
+    if tagged_in_document == nil
+      if user_tagg != nil 
+        document.add_user(user_tagg)
       else
-        [500, {}, "Internal server Error"]
+        request.body.rewind
+        hash = Rack::Utils.parse_nested_query(request.body.read)
+        params = JSON.parse hash.to_json
+        string_dni = dni.to_s
+        not_user = User.new(surname: string_dni , category: "not_user",  name: string_dni, username: string_dni  , dni: dni, password: "not_user#{string_dni}" , email: "#{string_dni}@email.com")
+        if not_user.save
+          document.add_user(not_user)
+        else
+          [500, {}, "Internal server Error"]
+        end
       end
     end
   end

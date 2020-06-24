@@ -146,7 +146,9 @@
 
         const dni1 = document.newUser.dni.value;
 
-        const emNew1 = document.newUser.email.value;
+        // convierto el mail a minusculas y elimino espacios
+        const emNew1 = document.newUser.email.value.toLowerCase().replace(/ /g, "");
+        document.newUser.email.value=emNew1;
 
         const pasNew1=document.newUser.key.value;
 
@@ -160,6 +162,12 @@
 
         const emailPattern=new RegExp("[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}");
 
+        var used_eMails =<%= @eMailList.to_json %>;
+        
+        var used_username =<%= @usernameList.to_json %>;
+
+        var used_dni = <%= @dniList.to_json %>;
+        
         // Eliminamos los posible errores
 
         for (let el of document.querySelectorAll("div[class=error]")) {
@@ -193,7 +201,7 @@
 
               showError("input[name=error-username]", "*Este campo es obligatorio");
 
-            } else if (dni1 == "" ) {
+            }else if (dni1 == "" ) {
 
                 showError("input[name=error-dni]", "*Este campo es obligatorio");
 
