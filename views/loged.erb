@@ -4,15 +4,15 @@
 			<h4 id="section_headder" >Listado de actas publicas</h4>
 			<form class="searchbyres" action="/loged" method="post">
 				<div class="offset-s1 col s2"><a>Desde </a><input type="date" placeholder="Fecha de inicio" name="initiate_date" value="<%= @initial_date %>"> </div>
-				<div class="offset-s1 col s2"><a>Hasta </a><input type="date" placeholder="Fecha de fin" name="end_date" value="<%= @end_date %>"></div>
+				<div class="col s2 input-date"><a>Hasta </a><input type="date" placeholder="Fecha de fin" name="end_date" value="<%= @end_date %>"></div>
+				<div class="col s3"><a>Buscar por resolución:</a><input class="input-res" type="text" placeholder="Ingrese el nro..." name="resolution"></div>
 				<div class="input-search">
-					<div class="col s3 input-res"><input type="text" placeholder="Resolución:" name="resolution"></div>
-					<div class="lupa"><button type="submit"><i class="fa fa-search"></i></button></div>
-				</div>
+				<div class="lupa"><button type="submit"><i class="fa fa-search"></i></button></div>
+			   	</div>
 			</form>
 			<%if @arr[0] == nil && @not_found_docs %>
 			<form><a class="notfound"> <%=@not_found_docs%> </a></form><br>
-			<form class="back-button"action="/myrecords" method="get">
+			<form class="back-button" action="/myrecords" method="get">
 				<button class="button1">Volver</button>
 			</form><br>
 			<% end %>
@@ -30,17 +30,13 @@
 						<p class="short-text tooltipped" data-position="top" data-delay="50" data-tooltip="Descripción: <%=elem[:description]%>">Descripción: <%=elem[:description]%></p>
 					</div>
 					<div class="options-records-box-public">
-
 						<a href="file/<%= elem[:filename]%>"><strong>Descargar</strong></a>
 					</div>
 					<div class="clearfix"></div>
 				</div>
 			</li>
-
-
 			<% end %>
 		</ul>
 	</li>
 </ul>
-
 <script src="websocket.js" type="text/javascript"></script>

@@ -160,14 +160,10 @@ class App < Sinatra::Base
     end
   end
 
-  def search_record (resolution,ini_d,end_d,author)
+ def search_record (resolution,ini_d,end_d,author)
     get_initial_and_final_date
-    if ini_d == ""
-      ini_d = @initial_date
-    end
-    if end_d == ""
-      end_d = @end_date
-    end
+    ini_d == "" ? ini_d = @initial_date : "";
+    end_d == "" ? end_d = @end_date : "";
     if resolution != ""
       ds = Document.by_resolution(resolution)
       @arr = documents_array(ds)
@@ -189,7 +185,6 @@ class App < Sinatra::Base
   end
 
   post '/search_record' do
-    get_initial_and_final_date
     search_record(params[:resolution],params[:initiate_date],params[:end_date],params[:author])
     erb:myrecords , :layout => :layout_loged_menu
   end

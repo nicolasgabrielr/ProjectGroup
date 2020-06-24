@@ -9491,7 +9491,7 @@ ul{
     display: inline-block;
     padding: 8px;
     color: white;
-    background-color: #34495E;
+    background-color: #212121;
     text-align: center;
     cursor: pointer;
     width: 100%;
@@ -10232,8 +10232,13 @@ ul{
   .input-search{
     padding-top:2.7em; 
   }
-  .input-res{
+  .input-date{
     padding-left:2em !important;
+    padding-right:2em !important;
+  }
+  .input-res{
+    margin-top: 1.2em !important;
+    padding-left: 0.5em !important;
   }
   .input-res input{
     width: 100%!important;
@@ -10245,6 +10250,7 @@ ul{
     width: 100%!important;
   }
   .lupa{
+    margin-top: 0.1em !important;
     padding:0em ;
   }
   .notfound{
