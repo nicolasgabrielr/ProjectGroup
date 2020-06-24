@@ -9861,6 +9861,12 @@ ul{
  /* border-style: dotted;
   border-color: orange; */
 }
+.short-text{
+  white-space: nowrap;
+  width: 100%;
+  text-overflow: ellipsis ;
+  overflow: hidden;
+}
 .record-data-unread p{
   font-weight: bold;
 }

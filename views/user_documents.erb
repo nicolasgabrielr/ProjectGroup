@@ -14,7 +14,7 @@
 
 <ul class="z-depth-1" id="li2">
 
-  <li class=" z-depth-2">
+  <li class=" z-depth-1">
   <h4 id="section_headder" >Mis Notificaciones</h4>
   </li>
   <div  class="notifications-box myScroll" >
@@ -29,7 +29,7 @@
               <div class="record-data-unread">
                 <p ><u> Resolución:</u> <%=elem[:resolution]%></p>
                 <p >Fecha: <%=elem[:date]%></p>
-                <p >Descripción: <%=elem[:description]%></p>
+                <p class="short-text tooltipped" data-position="top" data-delay="50" data-tooltip="Descripción: <%=elem[:description]%>">Descripción: <%=elem[:description]%></p>
               </div>
               <div class="options-records-box">
                 <ul class="options-records-list">
@@ -65,7 +65,7 @@
               <div class="record-data">
                 <p><u> Resolución:</u><%=elem[:resolution]%></p>
                 <p>Fecha:  <%=elem[:date]%></p>
-                <p>Descripción: <%=elem[:description]%></p>
+                <p class="short-text tooltipped" data-position="top" data-delay="50" data-tooltip="Descripción: <%=elem[:description]%>">Descripción: <%=elem[:description]%></p>
               </div>
               <div class="options-records-box">
                 <ul class="options-records-list">

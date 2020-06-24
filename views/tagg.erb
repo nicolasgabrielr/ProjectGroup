@@ -83,7 +83,7 @@
     li.appendChild(t);
     if (inputValue === '') {
       alert("Escriba un dni");
-    } else if ((inputValue.length) > 9) {
+    } else if ((inputValue.length) > 9 && (inputValue.length) < 6) {
       alert("Dni no Valido");
     } else {
       document.getElementById("myUL").appendChild(li);

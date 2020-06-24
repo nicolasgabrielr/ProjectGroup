@@ -2,7 +2,7 @@
 	<li>
 		<div class="search-area z-depth-1">
 			<h4 id="section_headder" >Listado de actas publicas</h4>
-			<form class="searchbyres" action="/sign_in" method="post">
+			<form class="searchbyres" action="/loged" method="post">
 				<div class="offset-s1 col s2"><a>Desde </a><input type="date" placeholder="Fecha de inicio" name="initiate_date" value="<%= @initial_date %>"> </div>
 				<div class="offset-s1 col s2"><a>Hasta </a><input type="date" placeholder="Fecha de fin" name="end_date" value="<%= @end_date %>"></div>
 				<div class="input-search">
@@ -27,7 +27,7 @@
 					<div class="record-data">
 						<p><strong><u> Resolución:</u></strong> <strong><%=elem[:resolution]%></strong></p>
 						<p> Fecha: <%=elem[:date]%> </p>
-						<p >Descripción: <%=elem[:description]%></p>
+						<p class="short-text tooltipped" data-position="top" data-delay="50" data-tooltip="Descripción: <%=elem[:description]%>">Descripción: <%=elem[:description]%></p>
 					</div>
 					<div class="options-records-box-public">
 

@@ -171,9 +171,6 @@ class App < Sinatra::Base
     if resolution != ""
       ds = Document.by_resolution(resolution)
       @arr = documents_array(ds)
-      if @arr[0] == nil
-        @not_found_docs = "No se encontraron actas con dicha resolución.."
-      end
     elsif ini_d || end_d
       ds = []
       if author != ""
@@ -185,9 +182,9 @@ class App < Sinatra::Base
         ds = Document.by_date(ini_d, end_d)
       end
       @arr = documents_array(ds)
-      if @arr[0] == nil
-        @not_found_docs = "No se encontraron actas relacionadas con su busqueda.."
-      end
+    end
+    if @arr[0] == nil
+      @not_found_docs = "No se encontraron actas relacionadas con su busqueda.."
     end
   end
 
@@ -226,7 +223,23 @@ class App < Sinatra::Base
     get_public_documents
     erb:loged , :layout => :layout_loged_menu
   end
-
+  
+  post '/loged' do
+    if params[:dni] != "" && params[:dni] != nil
+      user = User.find(dni: params[:dni])
+      if user
+        public_docs = user.documents(deleted: false)
+        @arr = documents_array(public_docs)
+      else
+        get_public_documents
+      end
+    elsif (params[:resolution] != "" || params[:initiate_date] != "" || params[:end_date] != "")
+        search_record(params[:resolution],params[:initiate_date],params[:end_date],"")
+     else
+        get_public_documents
+    end
+      erb:loged , :layout => :layout_loged_menu
+  end
   post '/sign_in' do
     get_public_documents
     usuario = User.find(email: params["email"])
