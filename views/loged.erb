@@ -4,7 +4,7 @@
 			<h4 id="section_headder" >Listado de actas publicas</h4>
 			<form class="searchbyres" action="/loged" method="post">
 				<div class="offset-s1 col s2"><a>Desde </a><input type="date" placeholder="Fecha de inicio" name="initiate_date" value="<%= @initial_date %>"> </div>
-				<div class="col s2 input-date"><a>Hasta </a><input type="date" placeholder="Fecha de fin" name="end_date" value="<%= @end_date %>"></div>
+				<div class="col s2"><a>Hasta </a><input type="date" placeholder="Fecha de fin" name="end_date" value="<%= @end_date %>"></div>
 				<div class="col s3"><a>Buscar por resolución:</a><input class="input-res" type="text" placeholder="Ingrese el nro..." name="resolution"></div>
 				<div class="input-search">
 				<div class="lupa"><button type="submit"><i class="fa fa-search"></i></button></div>

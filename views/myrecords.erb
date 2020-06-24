@@ -16,11 +16,11 @@
   <div  class="search-area z-depth-1">
     <h4 class="" id="section_headder">Mis Actas</h4>
     <%if @superAdmin == "visible" %>
-    <form class="searchbyres" action="/index" method="post">
+    <form class="searchbyres" action="/search_record" method="post">
       <div class="offset-s1 col s2"><a>Desde </a><input type="date" placeholder="Fecha de inicio" name="initiate_date" value="<%= @initial_date %>"> </div>
-      <div class="col s2 input-date"><a>Hasta </a><input type="date" placeholder="Fecha de fin" name="end_date" value="<%= @end_date %>"></div>
-      <div class="col s2"><a>Buscar por resolución:</a><input class="input-res" type="text" placeholder="Ingrese el nro..." name="resolution"></div>
-      <div class="col s2"><a>Buscar por autor:</a><input class="input-res" type="text" placeholder="Autor: (username)" name="author"></div>
+      <div class="col s2"><a>Hasta </a><input type="date" placeholder="Fecha de fin" name="end_date" value="<%= @end_date %>"></div>
+      <div class="col s2"><a>Resolución:</a><input class="input-res" type="text" placeholder="Ingrese el nro..." name="resolution"></div>
+      <div class="col s2"><a>Autor:</a><input class="input-res" type="text" placeholder="Autor: (username)" name="author"></div>
       <div class="input-search">
       <div class="lupa"><button type="submit"><i class="fa fa-search"></i></button></div>
       </div>
