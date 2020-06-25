@@ -26,7 +26,7 @@
 <!--Import jQuery before materialize.js-->
       <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
       <script type="text/javascript" src="js/materialize.min.js"></script>
-<div class="header-container z-depth-5">
+<div class="header-container z-depth-3">
 	<div class="header-logo">
 	</div>
     <div class="header-tittle">
@@ -62,7 +62,7 @@
 						</form>
 						<%if @arr[0] == nil && @not_found_docs %>
 						  <form><a class="notfound"> <%=@not_found_docs%> </a></form><br>
-						  <form class="back-button"action="/myrecords" method="get">
+						  <form class="back-button"action="/index" method="get">
 						    <button class="button1">Volver</button>
 						  </form><br>
 						<% end %>
@@ -97,13 +97,13 @@
 	<div class="container">
 	  <div class="row">
 		<div class="col l6 s12">
-		  <h5 class="white-text">Sistema de Actas U.N.R.C</h5>
+		  <h5 class="white-text"></h5>
 		  <p class="grey-text text-lighten-4">Servicio de Notificacion de actas.</p>
 		</div>
 		<div class="col l4 offset-l2 s12">
-			<h5 class="white-text">Links</h5>
+			<h5 class="white-text"></h5>
 			<ul>
-				<li><a class="grey-text text-lighten-3" href="/about">About Us</a></li>
+				<li><a class="grey-text text-lighten-3" href="#"></a></li>
 			</ul>
 		</div>
 	  </div>
