@@ -82,7 +82,6 @@ class App < Sinatra::Base
     @current_user.category != "superAdmin" && @current_user.category != "admin"
   end
 
-
   def set_menu
     if user_not_logged_in?
       redirect '/index'
@@ -165,7 +164,7 @@ class App < Sinatra::Base
     ini_d == "" ? ini_d = @initial_date : "";
     end_d == "" ? end_d = @end_date : "";
     if resolution != ""
-      ds = Document.by_resolution(resolution)
+      ds = Document.by_resolution_like(resolution)
       @arr = documents_array(ds)
     elsif ini_d || end_d
       ds = []
@@ -190,7 +189,7 @@ class App < Sinatra::Base
   end
 
   def alert_notification(user)
-    @alert =   Notification.number_of_uncheckeds_for_user(user)
+    @alert = Notification.number_of_uncheckeds_for_user(user)
   end
 
   def tagg_user(dni,document)
@@ -235,6 +234,7 @@ class App < Sinatra::Base
     end
       erb:loged , :layout => :layout_loged_menu
   end
+
   post '/sign_in' do
     get_public_documents
     usuario = User.find(email: params["email"])
@@ -315,7 +315,7 @@ class App < Sinatra::Base
     if params[:dni] != "" && params[:dni] != nil
       user = User.find(dni: params[:dni])
       if user
-        public_docs = user.documents(deleted: false)
+        public_docs = user.documents_dataset.where(deleted: false)
         @arr = documents_array(public_docs)
       else
         get_public_documents
