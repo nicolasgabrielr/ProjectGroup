@@ -9528,12 +9528,22 @@ ul{
   color: white;
 }
 .about-section {
+  height: 600px;
   padding: 50px;
   text-align: center;
-  background-color: #474e5d;
-  color: white;
+  background-color: #efebe9;
+  color:#212121;
+  font-family:Verdana,Arial,sans-serif !important;
 }
-
+.about-section h4{
+  margin-top: 1.5em;
+}
+.about-section-info{
+  margin-top: 3em;
+}
+.about-section-info p{
+  text-align: left;
+}
 .container {
   padding: 0 16px;
 }

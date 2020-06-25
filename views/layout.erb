@@ -1,7 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+  body {
+    font-family: Arial;
+  }
 
+  * {
+    box-sizing: border-box;
+  }
+</style>
 <title>
 	Home | Sistema de Actas
 </title>
@@ -9,17 +19,15 @@
  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
  <!--Import materialize.css-->
  <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
-
  <!--Let browser know website is optimized for mobile-->
  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
 <!--Import jQuery before materialize.js-->
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="js/materialize.min.js"></script>
+      <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+      <script type="text/javascript" src="js/materialize.min.js"></script>
 <div class="header-container z-depth-3">
 <div class="header-logo">
-<!--	<img src="/resources/logo2.png" alt="notifications logo" height="64" width="47">-->
 </div>
 <div class="header-tittle">
 	<h1>Universidad Nacional de Río Cuarto</h1>
@@ -28,13 +36,12 @@
 </div>
 <div class="header-menu">
 	<ul id="ullista-flex">
-		  <!-- <li class= "lista"><a href="/about" >about</a></li> -->
-		  <a href="/sign_in" >index</a>
+		  <a href="/loged" >index</a>
 	  </ul>
 </div>
 <div class="clearfix"></div>
 </div>
-<div class="clearfix"></div>
+
 <div class="row">
 
 <%= yield %>
