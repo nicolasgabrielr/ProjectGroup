@@ -320,7 +320,9 @@ class App < Sinatra::Base
       else
         get_public_documents
       end
-    elsif (params[:resolution] != "" || params[:initiate_date] != "" || params[:end_date] != "")
+    elsif ((params[:resolution] != "" && params[:resolution] != nil) ||
+     (params[:initiate_date] != "" && params[:initiate_date] != nil) ||
+      (params[:end_date] != "" && params[:end_date] != nil))
         search_record(params[:resolution],params[:initiate_date],params[:end_date],"")
      else
         get_public_documents
