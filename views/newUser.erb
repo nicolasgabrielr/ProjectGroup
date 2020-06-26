@@ -13,97 +13,98 @@
         <div class="register-box col s8 offset-s2">
          <div class="tittle col s6">
           <form name="newUser" action="/newUser" method="post" onsubmit='return valideNewUser()'><br>
-          <h5>Completa el formulario</h5><br>
+            <h5>Completa el formulario</h5><br>
+          </div>
+          <div class="clearfix"></div>
+             <!-- Input de apellido-->
+            <div class="registerbox" >
+              <div class="inputbox col s6" label for="register"></label>
+              <input  type="text" name="surname"class="button" placeholder="Apellido:"></input>
+              </div>
+              <div class="errorbox col s6" >
+                <p></p>
+                <br>
+                <input  name="error-surname" class="button" hidden></input>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+             <!--input de nombre-->
+            <div class="registerbox" >
+            <div class="inputbox col s6" label for="register"></label>
+              <input   type="text" name="name"class="button" placeholder="Nombre:"></input>
+            </div>
+            <div class="errorbox col s6" >
+              <p></p>
+              <br>
+              <input  name="error-name" class="button" hidden></input>
+            </div>
+            <div class="clearfix"></div>
+            </div>
+             <!--Input de Usuario-->
+            <div class="registerbox" > 
+            <div class="inputbox col s6" label for="register"></label>
+            <input  type="text" name="username"class="button" placeholder="Usuario"></input>
+            </div>
+            <div class="errorbox col s6" >
+              <p></p>
+              <br>
+              <input  name="error-username" class="button" hidden></input>
+            </div>
+            <div class="clearfix"></div>
+            </div> 
+             <!--Input de DNI-->
+            <div class="registerbox" > 
+            <div  class="inputbox col s6" label for="register"></label>
+            <input  type="text" name="dni"class="button" placeholder="DNI:"></input>
+            </div>
+            <div class="errorbox col s6" >
+              <p></p>
+              <br>
+              <input  name="error-dni" class="button" hidden></input>
+            </div>
+            <div class="clearfix"></div>
+            </div>
+             <!--Input de eMail-->
+            <div class="registerbox" >
+            <div class="inputbox col s6" label for="register"></label>
+            <input  type="text" name="email"class="button" placeholder="Email:"></input>
+            </div>
+            <div class="error-box" >
+              <p></p>
+              <br>
+              <input  name="error-email" class="button" hidden></input>
+            </div>
+            <div class="clearfix"></div>
+            </div> 
+            <!--Input de Contraseña-->
+            <div class="registerbox" >
+              <div class="inputbox col s6" label for="register"></label>
+                <input  type="password" name="key"class="button" placeholder="Contraseña:"></input>
+              </div>
+              <div class="errorbox col s6" >
+                <p></p>
+                <br>
+                <input  name="errorkey" class="button" hidden></input>
+              </div>
+              <div class="clearfix"></div>
+            </div> 
+             <!--Input de Repetir Contraseña-->
+            <div class="registerbox" >
+            <div class="inputbox col s6" label for="register"></label>
+            <input  type="password" name="password"class="button" placeholder="Repita la contraseña:"></input>
+            </div>
+            <div class="errorbox col s6" >
+              <p></p>
+              <br>
+              <input  name="error-password" class="button" hidden></input>
+            </div>
+            <div class="clearfix"></div>
+            </div>
+            <button class="btn btn1 waves-effect waves-light col s6 card-panel brown lighten-4 ">Registrarse</button>
+          </form>
         </div>
         <div class="clearfix"></div>
-           <!-- Input de apellido-->
-          <div class="registerbox" >
-            <div class="inputbox col s6" label for="register"></label>
-            <input  type="text" name="surname"class="button" placeholder="Apellido:"></input>
-            </div>
-            <div class="errorbox col s6" >
-              <p></p>
-              <br>
-              <input  name="error-surname" class="button" hidden></input>
-            </div>
-            <div class="clearfix"></div>
-          </div>
-           <!--input de nombre-->
-          <div class="registerbox" >
-          <div class="inputbox col s6" label for="register"></label>
-            <input   type="text" name="name"class="button" placeholder="Nombre:"></input>
-          </div>
-          <div class="errorbox col s6" >
-            <p></p>
-            <br>
-            <input  name="error-name" class="button" hidden></input>
-          </div>
-          <div class="clearfix"></div>
-          </div>
-           <!--Input de Usuario-->
-          <div class="registerbox" > 
-          <div class="inputbox col s6" label for="register"></label>
-          <input  type="text" name="username"class="button" placeholder="Usuario"></input>
-          </div>
-          <div class="errorbox col s6" >
-            <p></p>
-            <br>
-            <input  name="error-username" class="button" hidden></input>
-          </div>
-          <div class="clearfix"></div>
-          </div> 
-           <!--Input de DNI-->
-          <div class="registerbox" > 
-          <div  class="inputbox col s6" label for="register"></label>
-          <input  type="text" name="dni"class="button" placeholder="DNI:"></input>
-          </div>
-          <div class="errorbox col s6" >
-            <p></p>
-            <br>
-            <input  name="error-dni" class="button" hidden></input>
-          </div>
-          <div class="clearfix"></div>
-          </div>
-           <!--Input de eMail-->
-          <div class="registerbox" >
-          <div class="inputbox col s6" label for="register"></label>
-          <input  type="text" name="email"class="button" placeholder="Email:"></input>
-          </div>
-          <div class="error-box" >
-            <p></p>
-            <br>
-            <input  name="error-email" class="button" hidden></input>
-          </div>
-          <div class="clearfix"></div>
-          </div> 
-          <!--Input de Contraseña-->
-          <div class="registerbox" >
-            <div class="inputbox col s6" label for="register"></label>
-              <input  type="password" name="key"class="button" placeholder="Contraseña:"></input>
-            </div>
-            <div class="errorbox col s6" >
-              <p></p>
-              <br>
-              <input  name="errorkey" class="button" hidden></input>
-            </div>
-            <div class="clearfix"></div>
-          </div> 
-           <!--Input de Repetir Contraseña-->
-          <div class="registerbox" >
-          <div class="inputbox col s6" label for="register"></label>
-          <input  type="password" name="password"class="button" placeholder="Repita la contraseña:"></input>
-          </div>
-          <div class="errorbox col s6" >
-            <p></p>
-            <br>
-            <input  name="error-password" class="button" hidden></input>
-          </div>
-          <div class="clearfix"></div>
-          </div> 
-
-          <button class="btn btn1 waves-effect waves-light col s6 card-panel brown lighten-4 ">registrarse</button><br><br>
-          </form>
-        </div> 
+        <form class="col s8 offset-s2"><a style="color:red;"><%=@log_err%></a></form> 
       </div>
     </div>
   </body>

@@ -243,7 +243,6 @@ class App < Sinatra::Base
       session[:user_id] = usuario.id
       @current_user = User.find(id: session[:user_id])
       set_menu
-
       alert_notification(session[:user_id])
       erb:loged , :layout => :layout_loged_menu
     elsif usuario == nil
@@ -315,7 +314,7 @@ class App < Sinatra::Base
     if params[:dni] != "" && params[:dni] != nil
       user = User.find(dni: params[:dni])
       if user
-        public_docs = user.documents_dataset.where(deleted: false)
+        public_docs = user.documents_dataset.where(deleted: false).reverse_order{documents[:realtime]}
         @arr = documents_array(public_docs)
       else
         get_public_documents
@@ -391,6 +390,8 @@ class App < Sinatra::Base
     hash = Rack::Utils.parse_nested_query(request.body.read)
     params = JSON.parse hash.to_json
     pre_load_user = User.find(dni: params["dni"])
+    exist_username = User.find(username: params["username"])
+    exist_email = User.find(email: params["email"])
       if pre_load_user
         if pre_load_user.category == "not_user"
           pre_load_user.update(
@@ -407,20 +408,27 @@ class App < Sinatra::Base
           [500, {}, "El usuario ya existe"]
         end
       else
-        user = User.new(
-          surname: params["surname"],
-          category: "user",
-          name: params["name"],
-          username: params["username"],
-          dni: params["dni"],
-          password: params["key"],
-          email: params["email"]
-        )
-        if user.save
-          redirect "/"
+        if (exist_username)
+          @log_err = "El usuario ingresado ya existe"
+        elsif (exist_email)
+          @log_err = "El email ingresado ya existe"
         else
-          [500, {}, "Internal server Error"]
+          user = User.new(
+            surname: params["surname"],
+            category: "user",
+            name: params["name"],
+            username: params["username"],
+            dni: params["dni"],
+            password: params["key"],
+            email: params["email"]
+          )
+          if user.save
+            redirect "/"
+          else
+            [500, {}, "Internal server Error"]
+          end
         end
+        erb:newUser
       end
   end
 
