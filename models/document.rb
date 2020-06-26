@@ -16,7 +16,7 @@ class Document < Sequel::Model
     def by_resolution_like(resolution)
       select(:filename, :resolution, :realtime, :description).
       where(deleted: false).
-      filter(Sequel[:resolution].like(resolution)).
+      filter(Sequel.like(:resolution, '%'+resolution+'%')).
       all.
       reverse
     end

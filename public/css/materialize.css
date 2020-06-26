@@ -2881,7 +2881,7 @@ ul.staggered-list li {
   padding-top: 20px;
   color: #fff;
   background: #212121;
-  
+
 }
 
 .page-footer .footer-copyright {
@@ -3325,7 +3325,7 @@ span.badge.new {
   font-weight: 300;
   font-size: 0.8rem;
   color: #fff;
-  background-color: #26a69a; 
+  background-color: #26a69a;
   border-radius: 2px;
 }
 
@@ -9442,7 +9442,7 @@ body {
   box-sizing: border-box;
 }
 .button input{
-  margin-bottom:5px!important; 
+  margin-bottom:5px!important;
   height: 32px!important;
 }
 
@@ -9595,7 +9595,7 @@ ul{
   border-bottom-style: ridge;
   border-bottom-color:#cfab7b;
   min-height: 90px;
-  
+
 }
 .header-logo{
   float: left;
@@ -9626,7 +9626,7 @@ ul{
   padding-top: 0;
   color :#cfab7b;
   padding-bottom: 10px ;
- 
+
 }
 .header-menu{
   float: left;
@@ -9663,7 +9663,7 @@ ul{
 }
 #ullista-flex a {
   align-items:flex-end!important;
-  justify-content: flex-end!important; 
+  justify-content: flex-end!important;
   color :#cfab7b;
   margin-right: 5px;
   border-bottom-style: ridge;
@@ -9957,7 +9957,7 @@ ul{
 #section_headder{
   text-align: left;
   padding-left: 40px;
-  margin:0em; 
+  margin:0em;
   border-bottom-style: ridge;
   border-bottom-color: #cfab7b;
  }
@@ -10101,7 +10101,7 @@ ul{
     float: left;
   }
   .inputbox input{
-     margin-bottom:5px!important; 
+     margin-bottom:5px!important;
      height: 32px!important;
   }
   .errorbox{
@@ -10206,7 +10206,7 @@ ul{
     padding-top: 10px;
     padding-bottom: 0px;
   }
-  
+
   form.searchbyres input[type=text] {
     font-size: 17px;
     border: 1px solid grey;
@@ -10240,7 +10240,7 @@ ul{
     color: #212121;
   }
   .input-search{
-    padding-top:2.7em; 
+    padding-top:2.7em;
   }
   .input-date{
     padding-left:2em !important;
@@ -10271,11 +10271,11 @@ ul{
     width: 20%;
     padding-left: 37px;}
   .notifications{
-    padding-top: 1em; 
+    padding-top: 1em;
   }
   .dni-box{
-    height: 220px; 
-    overflow-y: auto; 
+    height: 220px;
+    overflow-y: auto;
   }
   .close{
     display: flex;
@@ -10292,7 +10292,7 @@ ul{
     float:right;
     -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
           box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-  
+
     }
   .close:hover{
     opacity: 0.50;
@@ -10316,25 +10316,25 @@ ul{
     border: none !important;
   }
   * h4{
-    padding-top: 0px; 
+    padding-top: 0px;
     margin: 15px 0em 0em 0em;
   }
   .modify-password h5{
-    text-align:left; 
+    text-align:left;
     padding-bottom:1em;
-    border-bottom: 1px solid #212121; 
+    border-bottom: 1px solid #212121;
     border-radius: 0;
   }
   .modify-password{
-    margin-bottom:5px; 
+    margin-bottom:5px;
     height: 32px;
   }
   .modify-password p{
     font-weight: bolder;
-    margin: 0em; 
+    margin: 0em;
   }
   .modify-password div input{
-    margin-bottom:15px; 
+    margin-bottom:15px;
     height: 32px;
   }
   .btn1{
@@ -10346,13 +10346,13 @@ ul{
   .login-tittle{
     margin: 0em 0em 0em 0em;
     border-bottom: 2px solid;
-    border-bottom-color: #212121; 
-    color: #212121; 
+    border-bottom-color: #212121;
+    color: #212121;
     padding-top: 10px !important;
   }
   .nav-tittle h5{
-    text-align: center; 
-    font-weight: bold; 
+    text-align: center;
+    font-weight: bold;
     color:#212121;
   }
   .nav-tittle{
@@ -10361,7 +10361,7 @@ ul{
   }
   .ul-transparent{
     background-color:rgba(255, 255, 255, 0) !important;
-    border-bottom-color:#cfab7b; 
+    border-bottom-color:#cfab7b;
     border-style: none;
   }
   .li-transparent{
@@ -10373,19 +10373,19 @@ ul{
     border-bottom-color:#cfab7b !important;
   }
   .li-nav a{
-    color:#212121; 
-    font-weight: bold; 
+    color:#212121;
+    font-weight: bold;
   }
   .notification-count{
     float: right ;
-    background-color: crimson !important; 
-    z-index: -2; 
+    background-color: crimson !important;
+    z-index: -2;
   }
   .upload-image{
     padding-top: 1em !important;
   }
   .transparent-link{
-    padding-left: 1em; 
+    padding-left: 1em;
     color:#cf7b7b;
     background-color: rgba(255, 0, 0, 0) !important;
   }
@@ -10393,12 +10393,11 @@ ul{
     color: #212121;
     height: 300px;
   }
-
   .my-data-box h3{
     padding-left: 10px !important;
   }
   .my-image-box{
-    padding: 0em 0em 0em 0em;
+    padding: 0em 0em 0em 0em !important;
   }
   .my-info-box{
     padding-left: 1.5em;
@@ -10420,20 +10419,20 @@ ul{
     color:red;
   }
   .taggform input{
-    margin-bottom:5px !important; 
+    margin-bottom:5px !important;
     height: 32px !important;
   }
   .height650{
     height:650px !important;
   }
   .to-notify-list{
-    float: left; 
+    float: left;
     border-right: 1px solid #cfab7b;
     border-radius: 0;
     overflow-y: auto;
   }
   .to-notify-list p{
-    border-bottom: 1px solid #cfab7b; 
+    border-bottom: 1px solid #cfab7b;
     border-radius: 0;
     font-weight: bold;
   }
@@ -10441,19 +10440,19 @@ ul{
     color:#212121;
   }
   .notificated-list{
-    float: left; 
+    float: left;
     overflow-y: auto;
   }
   .notificated-list p{
-    border-bottom: 1px solid #cfab7b; 
-    border-radius: 0;  
+    border-bottom: 1px solid #cfab7b;
+    border-radius: 0;
     font-weight: bold;
   }
   #myUL{
     color:#26a69a;
   }
   /* Ponemos un color de fondo y redondeamos las esquinas del thumb */
- 
+
   .myScroll::-webkit-scrollbar {
     width: 12px;
     height: 2px;
@@ -10487,6 +10486,6 @@ ul{
   .myScroll::-webkit-scrollbar-corner {
     background: transparent;
   }
- 
+
 
 /* Cambiamos el fondo cuando esté en active o hover */

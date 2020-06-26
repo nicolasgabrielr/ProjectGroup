@@ -33,8 +33,8 @@ class App < Sinatra::Base
 
   def update_number_notifications_with_ws
     settings.sockets.each{|s| alert_notification(s[:user])
-      s[:socket].send(@alert.to_s)
-     }
+    s[:socket].send(@alert.to_s)
+  }
   end
 
   post '/tagg' do
@@ -194,30 +194,31 @@ class App < Sinatra::Base
 
   def tagg_user(dni,document)
     user_tagg = User.find(dni: dni)
-    tagged_in_document = Notification.find(user_id: user_tagg.id ,document_id: document.id)
-    if tagged_in_document == nil
-      if user_tagg != nil 
+    if user_tagg
+      not_tagged_in_document = Notification.find(user_id: user_tagg.id, document_id: document.id)
+      if !not_tagged_in_document
         document.add_user(user_tagg)
+      end
+    else
+      request.body.rewind
+      hash = Rack::Utils.parse_nested_query(request.body.read)
+      params = JSON.parse hash.to_json
+      string_dni = dni.to_s
+      not_user_tagg = User.new(surname: string_dni , category: "not_user",  name: string_dni, username: string_dni  , dni: dni, password: "not_user#{string_dni}" , email: "#{string_dni}@email.com")
+      if not_user_tagg.save
+        document.add_user(not_user_tagg)
       else
-        request.body.rewind
-        hash = Rack::Utils.parse_nested_query(request.body.read)
-        params = JSON.parse hash.to_json
-        string_dni = dni.to_s
-        not_user = User.new(surname: string_dni , category: "not_user",  name: string_dni, username: string_dni  , dni: dni, password: "not_user#{string_dni}" , email: "#{string_dni}@email.com")
-        if not_user.save
-          document.add_user(not_user)
-        else
-          [500, {}, "Internal server Error"]
-        end
+        [500, {}, "Internal server Error"]
       end
     end
   end
+
 
   get '/loged' do
     get_public_documents
     erb:loged , :layout => :layout_loged_menu
   end
-  
+
   post '/loged' do
     if params[:dni] != "" && params[:dni] != nil
       user = User.find(dni: params[:dni])
@@ -501,6 +502,28 @@ class App < Sinatra::Base
   def get_initial_and_final_date
     @initial_date = Document.first.realtime.strftime("%Y-%m-%d")
     @end_date = ((Time.now) + 86400).strftime("%Y-%m-%d")
+  end
+
+  get '/rename' do
+      docs = Document.all
+      docs.each do |i|
+        i.update(resolution: (i.id + 100000).to_s)
+        i.update(description: "UNRC acta res/#{(i.id + 100000).to_s}")
+      end
+       "rename ok"
+  end
+
+
+  get '/tablas' do
+    @out = ""
+    User.each { |u| @out+= u.email + "--" + u.dni.to_s + "--" + u.category.to_s +  "<br/>" }
+    @out +="<br/>"
+    Document.each { |d| @out+=d.path+"<br/>" }
+    @out +="<br/>"+ "listado de documentos ----> usuarios" + "<br/>"
+    Document.each { |d| @out+= d.path + " ------relacionado con----- " + d.users.to_s + "<br/>" }
+    @out +="<br/>"+ "listado de usuarios ----> documentos" + "<br/>"
+    User.each { |u| @out+= u.email + " -----relacionado con----- " + u.documents.to_s + "<br/>" }
+    @out +="<br/>"
   end
 
 end
