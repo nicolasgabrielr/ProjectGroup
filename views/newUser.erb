@@ -179,7 +179,7 @@
  
 
         if (pasNew1!=pasNew2 || pasNew1.length<6 || pasNew1.search(patron1)<0 || pasNew1.search(patron2)<0 ||
-          dni1.search(patron1)<0 || dni1.length<7 || surname1.search(patron2)<0 || name1.search(patron2)<0 ||
+          dni1.search(patron1)<0 || dni1.length<6 || surname1.search(patron2)<0 || name1.search(patron2)<0 ||
            emNew1.length<6 || emNew1.search(emailPattern)<0) {
 
             if (surname1=="") {
@@ -206,7 +206,7 @@
 
                 showError("input[name=error-dni]", "*Este campo es obligatorio");
 
-            }else if (dni1.length<7) {
+            }else if (dni1.length<6) {
 
                 showError("input[name=error-dni]", "*Ingrese un DNI valido");
 
