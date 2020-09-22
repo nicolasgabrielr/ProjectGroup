@@ -94,15 +94,16 @@
 <div class="center col s6 offset-s2">
         <div class="modify-password" >
             <form name="formName" action="/modifyemail" method="post" onsubmit='return validatePassword()'>
-            <h5>Modificar eMail</h5>
-            <div><p >Ingrese su Contraseña </p> <input type="password" name="passwordActual"></div>
-            
-            <div><p>Nuevo email </p> <input type="text" name="emailNew1"></div>
-            <div><p>Repite email </p><input type="text" name="emailNew2"></div>
-            <div>
-                <button class="btn btn1 waves-effect waves-light col s12 card-panel brown lighten-4" type="submit">Modificar Email</button>
-            </div>
-        </form>
+                <h5>Modificar eMail</h5>
+
+                <div><p>Nuevo email </p> <input type="text" name="emailNew1"></div>
+                <div><p>Repite email </p><input type="text" name="emailNew2"></div>
+                <div><p >Ingrese su Contraseña </p> <input type="password" name="passwordActual"></div>
+                
+                <div>
+                    <button class="btn btn1 waves-effect waves-light col s12 card-panel brown lighten-4" type="submit">Modificar Email</button>
+                </div>
+            </form>
        
         
         <form action="/mydata" method="get">
