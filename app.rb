@@ -347,7 +347,17 @@ class App < Sinatra::Base
     @dni = @current_user.dni
     erb:mydata , :layout => :layout_loged_menu
   end
+  get '/modifyData' do
+    erb:modifyData , :layout => :layout_loged_menu
+  end
 
+  post '/modifyData' do
+    @current_user.update(name: params["newName"])
+    @current_user.update(surname: params["newSurname"])
+    @band = "¡Datos actualizados corretamente!"
+    set_menu
+    erb:modifyData , :layout => :layout_loged_menu
+  end
   get '/modifyemail' do
     erb:modifyemail , :layout => :layout_loged_menu
   end
