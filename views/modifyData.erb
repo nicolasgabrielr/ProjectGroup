@@ -1,0 +1,114 @@
+<style>
+
+.error {color:red;}
+
+</style>
+
+<script>
+
+/**
+
+ * Function que inserta un error por encima del elemento recibido
+
+ * @param element -> texto que haga referencia al elemento
+
+ * @param error -> texto del error
+
+ */
+
+const showError = (element, error) => {
+
+    const errorEl=document.createElement("div");
+
+    errorEl.setAttribute("class","error");
+
+    errorEl.innerHTML=error;
+
+    document.querySelector(element).parentElement.prepend(errorEl);
+
+}
+
+
+const validateData = () => {
+
+    //Cogemos los valores actuales del formulario
+
+   
+
+    const name=document.formName.newName.value;
+
+    const surname=document.formName.newSurname.value;
+
+    const patron1=new RegExp("[0-9]+")   //Patron para los numeros
+
+    const patron2=new RegExp("[a-zA-Z]+")   //Patron para las letras 
+    
+
+  
+    
+    // Eliminamos los posible errores
+
+    for (let el of document.querySelectorAll("div[class=error]")) {
+
+        el.remove();
+
+    }
+   
+
+    if (surname.search(patron2)<0 || name.search(patron2)<0){
+        
+
+        if (name=="") {
+
+            showError("input[name=newName]", "*Este campo es obligatorio")
+
+        } else if (name.search(patron2)< 0 ) {
+
+          showError("input[name=newName]", "*el nombre solo debe poseer letras")
+
+        } else if (surname=="") {
+
+            showError("input[name=newSurname]", "*Este campo es obligatorio")
+
+        } else if (surname.search(patron2)<0) {
+
+            showError("input[name=newSurname]", "*el apellido solo debe poseer letras")
+
+        }  
+      
+        return false;
+
+    }
+
+    return true;
+
+}
+
+</script>
+<div class="modify-box">
+
+<div class="center col s6 offset-s2">
+    <div class="modify-password" >
+        <form name="formName" action="/modifyData" method="post" onsubmit='return validateData()'>
+            <h5>Modificar Informacion Personal</h5>
+
+            <!--<div><p>Usuario </p> <input type="text" value="<%= @current_user.username%>"name="newUsername"></div>-->
+            <div><p>Nombre </p><input type="text"  value="<%= @current_user.name%>"name="newName"></div>
+            <div><p>Apellido</p> <input type="text" value="<%= @current_user.surname%>"name="newSurname"></div>
+            
+            <div>
+                <button class="btn btn1 waves-effect waves-light col s12 card-panel brown lighten-4" type="submit">Aceptar</button>
+            </div>
+        </form>
+   
+    
+    <form action="/mydata" method="get">
+       <!-- <p><button class="button"> Volver a Mi Perfil </button></p> -->
+        <form id="errors"><%= @band %></form></ul>
+    </form>
+    
+</div>
+</div>
+<div class="right"></div>
+<div class="clearfix"></div>
+</div>
