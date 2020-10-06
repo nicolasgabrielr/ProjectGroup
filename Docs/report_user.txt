@@ -1,0 +1,47 @@
+Inspecting 1 file
+W
+
+Offenses:
+
+user.rb:1:1: C: Style/Documentation: Missing top-level class documentation comment.
+class User < Sequel::Model
+^^^^^
+user.rb:1:1: C: Style/FrozenStringLiteralComment: Missing frozen string literal comment.
+class User < Sequel::Model
+^
+user.rb:4:3: C: Layout/IndentationWidth: Use 2 (not 1) spaces for indentation.
+   super
+  ^
+user.rb:5:5: C: Layout/IndentationConsistency: Inconsistent indentation detected.
+    validates_presence [:email, :name, :dni, :surname, :password, :username]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+user.rb:5:24: C: Style/SymbolArray: Use %i or %I for an array of symbols.
+    validates_presence [:email, :name, :dni, :surname, :password, :username]
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+user.rb:6:5: C: Layout/IndentationConsistency: Inconsistent indentation detected.
+    validates_unique [:email, :username, :dni]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+user.rb:6:22: C: Style/SymbolArray: Use %i or %I for an array of symbols.
+    validates_unique [:email, :username, :dni]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+user.rb:7:5: C: Layout/IndentationConsistency: Inconsistent indentation detected.
+    validates_format /\A.*@.*\..*\z/, :email, message: 'is not a valid email'
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+user.rb:7:22: W: Lint/AmbiguousRegexpLiteral: Ambiguous regexp literal. Parenthesize the method arguments if it's surely a regexp literal, or add a whitespace to the right of the / if it should be a division.
+    validates_format /\A.*@.*\..*\z/, :email, message: 'is not a valid email'
+                     ^
+user.rb:8:5: C: Layout/IndentationConsistency: Inconsistent indentation detected.
+    validates_inclusion_of :dni, :in => 100000..999999999, message: 'is not a valid dni'
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+user.rb:8:34: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+    validates_inclusion_of :dni, :in => 100000..999999999, message: 'is not a valid dni'
+                                 ^^^^^^
+user.rb:8:41: C: Style/NumericLiterals: Use underscores(_) as thousands separator and separate every 3 digits with them.
+    validates_inclusion_of :dni, :in => 100000..999999999, message: 'is not a valid dni'
+                                        ^^^^^^
+user.rb:8:49: C: Style/NumericLiterals: Use underscores(_) as thousands separator and separate every 3 digits with them.
+    validates_inclusion_of :dni, :in => 100000..999999999, message: 'is not a valid dni'
+                                                ^^^^^^^^^
+user.rb:9:1: C: Layout/EmptyLinesAroundMethodBody: Extra empty line detected at method body end.
+
+1 file inspected, 14 offenses detected, 14 offenses auto-correctable

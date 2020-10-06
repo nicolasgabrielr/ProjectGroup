@@ -1,0 +1,35 @@
+Inspecting 1 file
+C
+
+Offenses:
+
+notification.rb:1:1: C: Style/Documentation: Missing top-level class documentation comment.
+class Notification < Sequel::Model(:documents_users)
+^^^^^
+notification.rb:1:1: C: Style/FrozenStringLiteralComment: Missing frozen string literal comment.
+class Notification < Sequel::Model(:documents_users)
+^
+notification.rb:3:1: C: Layout/EmptyLinesAroundBlockBody: Extra empty line detected at block body beginning.
+notification.rb:5:27: C: Layout/DotPosition: Place the . on the next line, together with the method name.
+      select(:document_id).
+                          ^
+notification.rb:6:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      where(user_id: user_id, checked: true)
+      ^^^^^
+notification.rb:10:27: C: Layout/DotPosition: Place the . on the next line, together with the method name.
+      select(:document_id).
+                          ^
+notification.rb:11:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      where(user_id: user_id, checked: false)
+      ^^^^^
+notification.rb:13:5: C: Layout/EmptyLineBetweenDefs: Use empty lines between method definitions.
+    def number_of_uncheckeds_for_user(user)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+notification.rb:14:43: C: Layout/DotPosition: Place the . on the next line, together with the method name.
+      where(user_id: user, checked: false).
+                                          ^
+notification.rb:15:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      count
+      ^^^^^
+
+1 file inspected, 10 offenses detected, 9 offenses auto-correctable

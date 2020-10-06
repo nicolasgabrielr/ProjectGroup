@@ -1,0 +1,152 @@
+Inspecting 1 file
+C
+
+Offenses:
+
+document.rb:1:1: C: Style/Documentation: Missing top-level class documentation comment.
+class Document < Sequel::Model
+^^^^^
+document.rb:1:1: C: Style/FrozenStringLiteralComment: Missing frozen string literal comment.
+class Document < Sequel::Model
+^
+document.rb:4:3: C: Layout/IndentationWidth: Use 2 (not 1) spaces for indentation.
+   super
+  ^
+document.rb:5:5: C: Layout/IndentationConsistency: Inconsistent indentation detected.
+    validates_presence [:resolution, :filename, :path, :realtime]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+document.rb:5:24: C: Style/SymbolArray: Use %i or %I for an array of symbols.
+    validates_presence [:resolution, :filename, :path, :realtime]
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+document.rb:6:5: C: Layout/IndentationConsistency: Inconsistent indentation detected.
+    validates_unique [:resolution, :filename, :path, :realtime]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+document.rb:6:22: C: Style/SymbolArray: Use %i or %I for an array of symbols.
+    validates_unique [:resolution, :filename, :path, :realtime]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+document.rb:8:3: C: Metrics/BlockLength: Block has too many lines. [42/25]
+  dataset_module do ...
+  ^^^^^^^^^^^^^^^^^
+document.rb:10:62: C: Layout/DotPosition: Place the . on the next line, together with the method name.
+      select(:filename, :resolution, :realtime, :description).
+                                                             ^
+document.rb:11:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      where(deleted: true_or_false).
+      ^^^^^
+document.rb:11:36: C: Layout/DotPosition: Place the . on the next line, together with the method name.
+      where(deleted: true_or_false).
+                                   ^
+document.rb:12:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      order(:realtime).
+      ^^^^^
+document.rb:12:23: C: Layout/DotPosition: Place the . on the next line, together with the method name.
+      order(:realtime).
+                      ^
+document.rb:13:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      all.
+      ^^^
+document.rb:13:10: C: Layout/DotPosition: Place the . on the next line, together with the method name.
+      all.
+         ^
+document.rb:14:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      reverse
+      ^^^^^^^
+document.rb:16:5: C: Layout/EmptyLineBetweenDefs: Use empty lines between method definitions.
+    def by_resolution_like(resolution)
+    ^^^^^^^^^^^^^^^^^^^^^^
+document.rb:17:62: C: Layout/DotPosition: Place the . on the next line, together with the method name.
+      select(:filename, :resolution, :realtime, :description).
+                                                             ^
+document.rb:18:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      where(deleted: false).
+      ^^^^^
+document.rb:18:28: C: Layout/DotPosition: Place the . on the next line, together with the method name.
+      where(deleted: false).
+                           ^
+document.rb:19:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      filter(Sequel.like(:resolution, '%'+resolution+'%')).
+      ^^^^^^
+document.rb:19:42: C: Layout/SpaceAroundOperators: Surrounding space missing for operator +.
+      filter(Sequel.like(:resolution, '%'+resolution+'%')).
+                                         ^
+document.rb:19:53: C: Layout/SpaceAroundOperators: Surrounding space missing for operator +.
+      filter(Sequel.like(:resolution, '%'+resolution+'%')).
+                                                    ^
+document.rb:19:59: C: Layout/DotPosition: Place the . on the next line, together with the method name.
+      filter(Sequel.like(:resolution, '%'+resolution+'%')).
+                                                          ^
+document.rb:20:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      all.
+      ^^^
+document.rb:20:10: C: Layout/DotPosition: Place the . on the next line, together with the method name.
+      all.
+         ^
+document.rb:21:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      reverse
+      ^^^^^^^
+document.rb:23:5: C: Layout/EmptyLineBetweenDefs: Use empty lines between method definitions.
+    def by_user(user)
+    ^^^^^^^^^^^
+document.rb:25:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      where(user_id: user, deleted: false).
+      ^^^^^
+document.rb:26:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      all.
+      ^^^
+document.rb:27:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      reverse
+      ^^^^^^^
+document.rb:29:5: C: Layout/EmptyLineBetweenDefs: Use empty lines between method definitions.
+    def by_ids(id_list)
+    ^^^^^^^^^^
+document.rb:31:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      where(id: id_list, deleted: false).
+      ^^^^^
+document.rb:32:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      all.
+      ^^^
+document.rb:33:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      reverse
+      ^^^^^^^
+document.rb:35:5: C: Layout/EmptyLineBetweenDefs: Use empty lines between method definitions.
+    def order_by_date
+    ^^^^^^^^^^^^^^^^^
+document.rb:36:23: C: Layout/SpaceAfterComma: Space missing after comma.
+      select(:filename,:resolution,:realtime,:resolution).
+                      ^
+document.rb:36:35: C: Layout/SpaceAfterComma: Space missing after comma.
+      select(:filename,:resolution,:realtime,:resolution).
+                                  ^
+document.rb:36:45: C: Layout/SpaceAfterComma: Space missing after comma.
+      select(:filename,:resolution,:realtime,:resolution).
+                                            ^
+document.rb:37:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      reverse_order(:realtime).
+      ^^^^^^^^^^^^^
+document.rb:38:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      all
+      ^^^
+document.rb:40:5: C: Layout/EmptyLineBetweenDefs: Use empty lines between method definitions.
+    def by_date(initial_date, final_date)
+    ^^^^^^^^^^^
+document.rb:42:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      where(realtime: initial_date..final_date, deleted: false).
+      ^^^^^
+document.rb:43:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      all.
+      ^^^
+document.rb:44:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      reverse
+      ^^^^^^^
+document.rb:46:5: C: Layout/EmptyLineBetweenDefs: Use empty lines between method definitions.
+    def by_date_and_user(initial_date, final_date, user)
+    ^^^^^^^^^^^^^^^^^^^^
+document.rb:48:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      where(realtime: initial_date..final_date, user_id: user, deleted: false).
+      ^^^^^
+document.rb:49:7: C: Layout/MultilineMethodCallIndentation: Use 2 (not 0) spaces for indenting an expression spanning multiple lines.
+      all
+      ^^^
+document.rb:51:1: C: Layout/EmptyLinesAroundBlockBody: Extra empty line detected at block body end.
+
+1 file inspected, 49 offenses detected, 49 offenses auto-correctable

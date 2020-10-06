@@ -1,0 +1,144 @@
+diff --git a/models/document.rb b/models/document.rb
+index ab4d903..6ca7e8e 100644
+--- a/models/document.rb
++++ b/models/document.rb
+@@ -1,54 +1,59 @@
+ class Document < Sequel::Model
+   plugin :validation_helpers
+   def validate
+-   super
+-    validates_presence [:resolution, :filename, :path, :realtime]
+-    validates_unique [:resolution, :filename, :path, :realtime]
++    super
++    validates_presence %i[resolution filename path realtime]
++    validates_unique %i[resolution filename path realtime]
+   end
+   dataset_module do
+     def deleteds(true_or_false)
+-      select(:filename, :resolution, :realtime, :description).
+-      where(deleted: true_or_false).
+-      order(:realtime).
+-      all.
+-      reverse
++      select(:filename, :resolution, :realtime, :description)
++        .where(deleted: true_or_false)
++        .order(:realtime)
++        .all
++        .reverse
+     end
++
+     def by_resolution_like(resolution)
+-      select(:filename, :resolution, :realtime, :description).
+-      where(deleted: false).
+-      filter(Sequel.like(:resolution, '%'+resolution+'%')).
+-      all.
+-      reverse
++      select(:filename, :resolution, :realtime, :description)
++        .where(deleted: false)
++        .filter(Sequel.like(:resolution, '%' + resolution + '%'))
++        .all
++        .reverse
+     end
++
+     def by_user(user)
+       select(:filename, :resolution, :realtime, :description).
+-      where(user_id: user, deleted: false).
+-      all.
+-      reverse
++        where(user_id: user, deleted: false).
++        all.
++        reverse
+     end
++
+     def by_ids(id_list)
+       select(:filename, :resolution, :realtime, :description).
+-      where(id: id_list, deleted: false).
+-      all.
+-      reverse
++        where(id: id_list, deleted: false).
++        all.
++        reverse
+     end
++
+     def order_by_date
+-      select(:filename,:resolution,:realtime,:resolution).
+-      reverse_order(:realtime).
+-      all
++      select(:filename, :resolution, :realtime, :resolution).
++        reverse_order(:realtime).
++        all
+     end
++
+     def by_date(initial_date, final_date)
+       select(:filename, :resolution, :realtime, :description).
+-      where(realtime: initial_date..final_date, deleted: false).
+-      all.
+-      reverse
++        where(realtime: initial_date..final_date, deleted: false).
++        all.
++        reverse
+     end
++
+     def by_date_and_user(initial_date, final_date, user)
+       select(:filename, :resolution, :realtime, :description).
+-      where(realtime: initial_date..final_date, user_id: user, deleted: false).
+-      all
++        where(realtime: initial_date..final_date, user_id: user, deleted: false).
++        all
+     end
+-
+   end
+   many_to_many :users
+   one_to_many :notifications
+diff --git a/models/notification.rb b/models/notification.rb
+index 06e8f59..d0f3813 100644
+--- a/models/notification.rb
++++ b/models/notification.rb
+@@ -1,18 +1,18 @@
+ class Notification < Sequel::Model(:documents_users)
+   dataset_module do
+-
+     def documents_id_checkeds_by_user(user_id)
+-      select(:document_id).
+-      where(user_id: user_id, checked: true)
++      select(:document_id)
++        .where(user_id: user_id, checked: true)
+     end
+ 
+     def documents_id_uncheckeds_by_user(user_id)
+-      select(:document_id).
+-      where(user_id: user_id, checked: false)
++      select(:document_id)
++        .where(user_id: user_id, checked: false)
+     end
++
+     def number_of_uncheckeds_for_user(user)
+-      where(user_id: user, checked: false).
+-      count
++      where(user_id: user, checked: false)
++        .count
+     end
+   end
+   many_to_one :document
+diff --git a/models/user.rb b/models/user.rb
+index 945063a..e39123a 100644
+--- a/models/user.rb
++++ b/models/user.rb
+@@ -1,12 +1,11 @@
+ class User < Sequel::Model
+   plugin :validation_helpers
+   def validate
+-   super
+-    validates_presence [:email, :name, :dni, :surname, :password, :username]
+-    validates_unique [:email, :username, :dni]
+-    validates_format /\A.*@.*\..*\z/, :email, message: 'is not a valid email'
+-    validates_inclusion_of :dni, :in => 100000..999999999, message: 'is not a valid dni'
+-
++    super
++    validates_presence %i[email name dni surname password username]
++    validates_unique %i[email username dni]
++    validates_format(/\A.*@.*\..*\z/, :email, message: 'is not a valid email')
++    validates_inclusion_of :dni, in: 100_000..999_999_999, message: 'is not a valid dni'
+   end
+   many_to_many :documents
+   one_to_many :notifications
