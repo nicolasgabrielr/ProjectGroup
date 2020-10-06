@@ -204,7 +204,14 @@ class App < Sinatra::Base
       hash = Rack::Utils.parse_nested_query(request.body.read)
       params = JSON.parse hash.to_json
       string_dni = dni.to_s
-      not_user_tagg = User.new(surname: string_dni , category: "not_user",  name: string_dni, username: string_dni  , dni: dni, password: "not_user#{string_dni}" , email: "#{string_dni}@email.com")
+      not_user_tagg = User.new(
+        surname: string_dni,
+        category: "not_user",
+        name: string_dni,
+        username: string_dni,
+        dni: dni,
+        password: "not_user#{string_dni}",
+        email: "#{string_dni}@email.com")
       if not_user_tagg.save
         document.add_user(not_user_tagg)
       else
