@@ -6,6 +6,7 @@ gem 'sinatra-contrib'
 gem 'sequel'
 gem 'pg'
 gem 'sinatra-websocket'
+gem 'rubocop', '~> 0.91.0', require: false
 group :development do
   gem 'dotenv', '2.7.5'
   gem 'rerun'
