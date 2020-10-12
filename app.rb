@@ -61,7 +61,6 @@ class App < Sinatra::Base
       @current_user = User.find(id: session[:user_id])
       alert_notification(session[:user_id])
       set_menu
-
       if not_authorized_category_for_admin? && superAdmin_Pages.include?(request.path_info)
         redirect '/index'
       elsif not_authorized_category_for_user? && admin_Pages.include?(request.path_info)
@@ -83,21 +82,31 @@ class App < Sinatra::Base
   end
 
   def set_menu
-    if user_not_logged_in?
-      redirect '/index'
-    end
+    redirect '/index' if user_not_logged_in?
     case @current_user.category
       when "superAdmin" then
-        @admin = "visible"
-        @superAdmin = "visible"
+        show_super_admin
       when "admin" then
-        @admin = "visible"
-        @superAdmin = "hidden"
+        show_admin
       else
-        @admin = "hidden"
-        @superAdmin = "hidden"
+        show_user
       end
         @usuario = session[:user_name]
+  end
+
+  def show_super_admin
+    @admin = "visible"
+    @superAdmin = "visible"
+  end
+
+  def show_admin
+    @admin = "visible"
+    @superAdmin = "hidden"
+  end
+
+  def show_user
+    @admin = "hidden"
+    @superAdmin = "hidden"
   end
 
   def get_public_documents
