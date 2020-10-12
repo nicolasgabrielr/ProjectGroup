@@ -1,0 +1,595 @@
+Inspecting 1 file
+C
+
+Offenses:
+
+app.rb:1:1: C: Style/FrozenStringLiteralComment: Missing frozen string literal comment.
+require 'json'
+^
+app.rb:4:1: C: Style/MixinUsage: include is used at the top level. Use inside class or module.
+include FileUtils::Verbose
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:6:1: C: Style/Documentation: Missing top-level class documentation comment.
+class App < Sinatra::Base
+^^^^^
+app.rb:12:26: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    set :session_secret, "otro secret pero dificil y abstracto"
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:21:19: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+      erb :index, :layout => :layout_public_records
+                  ^^^^^^^^^^
+app.rb:35:26: C: Style/BlockDelimiters: Avoid using {...} for multi-line blocks.
+    settings.sockets.each{|s| alert_notification(s[:user])
+                         ^
+app.rb:41:21: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+   @tagged = params["tagg"]
+                    ^^^^^^
+app.rb:42:40: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+   document = Document.find(id: params["doc"])
+                                       ^^^^^
+app.rb:43:4: C: Style/IfUnlessModifier: Favor modifier if usage when having a single-line body. Another good alternative is the usage of control flow &&/||.
+   if @tagged != nil
+   ^^
+app.rb:43:15: C: Style/NonNilCheck: Prefer !expression.nil? over expression != nil.
+   if @tagged != nil
+              ^^
+app.rb:46:40: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+   document.update(description: params["description"], resolution: params["resolution"])
+                                       ^^^^^^^^^^^^^
+app.rb:46:75: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+   document.update(description: params["description"], resolution: params["resolution"])
+                                                                          ^^^^^^^^^^^^
+app.rb:48:13: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+   redirect "/myrecords"
+            ^^^^^^^^^^^^
+app.rb:78:31: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    @current_user.category != "superAdmin"
+                              ^^^^^^^^^^^^
+app.rb:82:31: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    @current_user.category != "superAdmin" && @current_user.category != "admin"
+                              ^^^^^^^^^^^^
+app.rb:82:73: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    @current_user.category != "superAdmin" && @current_user.category != "admin"
+                                                                        ^^^^^^^
+app.rb:86:5: C: Style/IfUnlessModifier: Favor modifier if usage when having a single-line body. Another good alternative is the usage of control flow &&/||.
+    if user_not_logged_in?
+    ^^
+app.rb:90:12: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      when "superAdmin" then
+           ^^^^^^^^^^^^
+app.rb:90:25: C: Style/MultilineWhenThen: Do not use then for multiline when statement.
+      when "superAdmin" then
+                        ^^^^
+app.rb:91:18: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+        @admin = "visible"
+                 ^^^^^^^^^
+app.rb:92:23: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+        @superAdmin = "visible"
+                      ^^^^^^^^^
+app.rb:93:12: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      when "admin" then
+           ^^^^^^^
+app.rb:93:20: C: Style/MultilineWhenThen: Do not use then for multiline when statement.
+      when "admin" then
+                   ^^^^
+app.rb:94:18: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+        @admin = "visible"
+                 ^^^^^^^^^
+app.rb:95:23: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+        @superAdmin = "hidden"
+                      ^^^^^^^^
+app.rb:97:18: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+        @admin = "hidden"
+                 ^^^^^^^^
+app.rb:98:23: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+        @superAdmin = "hidden"
+                      ^^^^^^^^
+app.rb:117:26: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+    erb:user_documents , :layout => :layout_loged_menu
+                         ^^^^^^^^^^
+app.rb:121:15: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    if params["path"]
+              ^^^^^^
+app.rb:122:48: C: Style/StringLiteralsInInterpolation: Prefer single-quoted strings inside interpolations.
+      doc_id = Document.first(path: "/#{params["path"]}")
+                                               ^^^^^^
+app.rb:126:25: C: Style/StringLiteralsInInterpolation: Prefer single-quoted strings inside interpolations.
+    @path =  "/#{params["path"]}"
+                        ^^^^^^
+app.rb:127:20: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+    erb:view_doc , :layout => :layout_loged_menu
+                   ^^^^^^^^^^
+app.rb:131:15: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    if params["path"]
+              ^^^^^^
+app.rb:132:48: C: Style/StringLiteralsInInterpolation: Prefer single-quoted strings inside interpolations.
+      doc_id = Document.first(path: "/#{params["path"]}")
+                                               ^^^^^^
+app.rb:144:21: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+    erb:myrecords , :layout => :layout_loged_menu
+                    ^^^^^^^^^^
+app.rb:149:30: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      delete_document(params["elem"])
+                             ^^^^^^
+app.rb:151:16: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      redirect "/myrecords"
+               ^^^^^^^^^^^^
+app.rb:153:7: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      "No se pudo eliminar el documento"
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:156:48: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      @record = Document.find(filename: params["elem"])
+                                               ^^^^^^
+app.rb:164:14: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    ini_d == "" ? ini_d = @initial_date : "";
+             ^^
+app.rb:164:43: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    ini_d == "" ? ini_d = @initial_date : "";
+                                          ^^
+app.rb:164:45: C: Style/Semicolon: Do not use semicolons to terminate expressions.
+    ini_d == "" ? ini_d = @initial_date : "";
+                                            ^
+app.rb:165:14: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    end_d == "" ? end_d = @end_date : "";
+             ^^
+app.rb:165:39: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    end_d == "" ? end_d = @end_date : "";
+                                      ^^
+app.rb:165:41: C: Style/Semicolon: Do not use semicolons to terminate expressions.
+    end_d == "" ? end_d = @end_date : "";
+                                        ^
+app.rb:166:22: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    if resolution != ""
+                     ^^
+app.rb:171:7: C: Style/IfUnlessModifier: Favor modifier if usage when having a single-line body. Another good alternative is the usage of control flow &&/||.
+      if author != ""
+      ^^
+app.rb:171:20: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      if author != ""
+                   ^^
+app.rb:176:13: C: Style/ParenthesesAroundCondition: Don't use parentheses around the condition of an elsif.
+      elsif (author == "")
+            ^^^^^^^^^^^^^^
+app.rb:176:24: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      elsif (author == "")
+                       ^^
+app.rb:181:5: C: Style/GuardClause: Use a guard clause (return unless @arr[0] == nil) instead of wrapping the code inside a conditional expression.
+    if @arr[0] == nil
+    ^^
+app.rb:181:5: C: Style/IfUnlessModifier: Favor modifier if usage when having a single-line body. Another good alternative is the usage of control flow &&/||.
+    if @arr[0] == nil
+    ^^
+app.rb:181:16: C: Style/NilComparison: Prefer the use of the nil? predicate.
+    if @arr[0] == nil
+               ^^
+app.rb:182:25: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      @not_found_docs = "No se encontraron actas relacionadas con su busqueda.."
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:188:21: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+    erb:myrecords , :layout => :layout_loged_menu
+                    ^^^^^^^^^^
+app.rb:199:7: C: Style/IfUnlessModifier: Favor modifier if usage when having a single-line body. Another good alternative is the usage of control flow &&/||.
+      if !not_tagged_in_document
+      ^^
+app.rb:199:7: C: Style/NegatedIf: Favor unless over if for negative conditions.
+      if !not_tagged_in_document ...
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:209:19: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+        category: "not_user",
+                  ^^^^^^^^^^
+app.rb:218:19: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+        [500, {}, "Internal server Error"]
+                  ^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:226:17: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+    erb:loged , :layout => :layout_loged_menu
+                ^^^^^^^^^^
+app.rb:230:24: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    if params[:dni] != "" && params[:dni] != nil
+                       ^^
+app.rb:230:43: C: Style/NonNilCheck: Prefer !expression.nil? over expression != nil.
+    if params[:dni] != "" && params[:dni] != nil
+                                          ^^
+app.rb:238:11: C: Style/ParenthesesAroundCondition: Don't use parentheses around the condition of an elsif.
+    elsif (params[:resolution] != "" || params[:initiate_date] != "" || params[:end_date] != "")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:238:35: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    elsif (params[:resolution] != "" || params[:initiate_date] != "" || params[:end_date] != "")
+                                  ^^
+app.rb:238:67: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    elsif (params[:resolution] != "" || params[:initiate_date] != "" || params[:end_date] != "")
+                                                                  ^^
+app.rb:238:94: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    elsif (params[:resolution] != "" || params[:initiate_date] != "" || params[:end_date] != "")
+                                                                                             ^^
+app.rb:239:84: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+        search_record(params[:resolution],params[:initiate_date],params[:end_date],"")
+                                                                                   ^^
+app.rb:243:19: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+      erb:loged , :layout => :layout_loged_menu
+                  ^^^^^^^^^^
+app.rb:248:39: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    usuario = User.find(email: params["email"])
+                                      ^^^^^^^
+app.rb:249:16: C: Style/NonNilCheck: Prefer !expression.nil? over expression != nil.
+    if usuario != nil && (usuario.password == params["password"])
+               ^^
+app.rb:249:54: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    if usuario != nil && (usuario.password == params["password"])
+                                                     ^^^^^^^^^^
+app.rb:255:19: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+      erb:loged , :layout => :layout_loged_menu
+                  ^^^^^^^^^^
+app.rb:256:19: C: Style/NilComparison: Prefer the use of the nil? predicate.
+    elsif usuario == nil
+                  ^^
+app.rb:257:18: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      @log_err = "El usuario ingresado no existe"
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:258:19: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+      erb:index , :layout => :layout_public_records
+                  ^^^^^^^^^^
+app.rb:260:18: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      @log_err = "La contraseña ingresada es incorrecta"
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:261:19: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+      erb:index , :layout => :layout_public_records
+                  ^^^^^^^^^^
+app.rb:268:27: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      if checkpass(params["passwordActual"])
+                          ^^^^^^^^^^^^^^^^
+app.rb:269:43: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+        usuario = User.find(email: params["emailnewAdmin"])
+                                          ^^^^^^^^^^^^^^^
+app.rb:270:38: C: Style/NonNilCheck: Prefer !expression.nil? over expression != nil.
+        if params[:dUser] && usuario != nil
+                                     ^^
+app.rb:272:19: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+          @band = "¡El usuario ha sido eliminado con Exito!"
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:274:19: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+          @band = "¡El usuario no existe o no se pudo eliminar!"
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:277:35: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+          usuario.update(category:"admin")
+                                  ^^^^^^^
+app.rb:278:19: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+          @band = "¡El Administrador ha sido cargado con exito!"
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:280:35: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+          usuario.update(category:"superAdmin")
+                                  ^^^^^^^^^^^^
+app.rb:281:19: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+          @band = "¡El Administrador ha sido cargado con exito!"
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:284:17: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+        @band = "El password es incorrecto o el usuario no existe"
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:288:18: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+    erb:assign , :layout => :layout_loged_menu
+                 ^^^^^^^^^^
+app.rb:292:19: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+    erb :assign , :layout => :layout_loged_menu
+                  ^^^^^^^^^^
+app.rb:300:19: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+      erb:loged , :layout => :layout_loged_menu
+                  ^^^^^^^^^^
+app.rb:302:19: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+      erb:index , :layout => :layout_public_records
+                  ^^^^^^^^^^
+app.rb:308:17: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+    erb:index , :layout => :layout_public_records
+                ^^^^^^^^^^
+app.rb:311:7: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+  get "/notificationlist" do
+      ^^^^^^^^^^^^^^^^^^^
+app.rb:315:7: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+  get "/index" do
+      ^^^^^^^^
+app.rb:318:18: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+    erb :index , :layout => :layout_public_records
+                 ^^^^^^^^^^
+app.rb:321:8: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+  post "/index" do
+       ^^^^^^^^
+app.rb:322:24: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    if params[:dni] != "" && params[:dni] != nil
+                       ^^
+app.rb:322:43: C: Style/NonNilCheck: Prefer !expression.nil? over expression != nil.
+    if params[:dni] != "" && params[:dni] != nil
+                                          ^^
+app.rb:330:11: C: Style/ParenthesesAroundCondition: Don't use parentheses around the condition of an elsif.
+    elsif ((params[:resolution] != "" && params[:resolution] != nil) || ...
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:330:36: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    elsif ((params[:resolution] != "" && params[:resolution] != nil) ||
+                                   ^^
+app.rb:330:62: C: Style/NonNilCheck: Prefer !expression.nil? over expression != nil.
+    elsif ((params[:resolution] != "" && params[:resolution] != nil) ||
+                                                             ^^
+app.rb:331:33: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+     (params[:initiate_date] != "" && params[:initiate_date] != nil) ||
+                                ^^
+app.rb:331:62: C: Style/NonNilCheck: Prefer !expression.nil? over expression != nil.
+     (params[:initiate_date] != "" && params[:initiate_date] != nil) ||
+                                                             ^^
+app.rb:332:29: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      (params[:end_date] != "" && params[:end_date] != nil))
+                            ^^
+app.rb:332:53: C: Style/NonNilCheck: Prefer !expression.nil? over expression != nil.
+      (params[:end_date] != "" && params[:end_date] != nil))
+                                                    ^^
+app.rb:333:84: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+        search_record(params[:resolution],params[:initiate_date],params[:end_date],"")
+                                                                                   ^^
+app.rb:337:18: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+    erb :index , :layout => :layout_public_records
+                 ^^^^^^^^^^
+app.rb:340:7: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+  get "/about" do
+      ^^^^^^^^
+app.rb:355:18: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+    erb:mydata , :layout => :layout_loged_menu
+                 ^^^^^^^^^^
+app.rb:358:22: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+    erb:modifyData , :layout => :layout_loged_menu
+                     ^^^^^^^^^^
+app.rb:362:39: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    @current_user.update(name: params["newName"])
+                                      ^^^^^^^^^
+app.rb:363:42: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    @current_user.update(surname: params["newSurname"])
+                                         ^^^^^^^^^^^^
+app.rb:364:13: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    @band = "¡Datos actualizados corretamente!"
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:366:22: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+    erb:modifyData , :layout => :layout_loged_menu
+                     ^^^^^^^^^^
+app.rb:369:23: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+    erb:modifyemail , :layout => :layout_loged_menu
+                      ^^^^^^^^^^
+app.rb:373:25: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    if checkpass(params["passwordActual"])
+                        ^^^^^^^^^^^^^^^^
+app.rb:374:42: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      @current_user.update(email: params["emailNew1"])
+                                         ^^^^^^^^^^^
+app.rb:375:15: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      @band = "¡El email ha sido Actualizado con exito!"
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:377:15: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      @band = "La contraseña o el email son Incorrectos!"
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:381:23: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+    erb:modifyemail , :layout => :layout_loged_menu
+                      ^^^^^^^^^^
+app.rb:385:26: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+    erb:modifypassword , :layout => :layout_loged_menu
+                         ^^^^^^^^^^
+app.rb:389:25: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    if checkpass(params["passwordActual"])
+                        ^^^^^^^^^^^^^^^^
+app.rb:390:45: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      @current_user.update(password: params["passwordNew1"])
+                                            ^^^^^^^^^^^^^^
+app.rb:391:15: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      @band = "¡El password ha sido Actualizado con exito!"
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:393:15: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      @band = "La contraseña ingresada es incorrecta"
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:395:26: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+    erb:modifypassword , :layout => :layout_loged_menu
+                         ^^^^^^^^^^
+app.rb:410:43: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    pre_load_user = User.find(dni: params["dni"])
+                                          ^^^^^
+app.rb:411:49: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    exist_username = User.find(username: params["username"])
+                                                ^^^^^^^^^^
+app.rb:412:43: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    exist_email = User.find(email: params["email"])
+                                          ^^^^^^^
+app.rb:414:38: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+        if pre_load_user.category == "not_user"
+                                     ^^^^^^^^^^
+app.rb:416:29: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+            surname: params["surname"],
+                            ^^^^^^^^^
+app.rb:417:23: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+            category: "user",
+                      ^^^^^^
+app.rb:418:26: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+            name: params["name"],
+                         ^^^^^^
+app.rb:419:30: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+            username: params["username"],
+                             ^^^^^^^^^^
+app.rb:420:25: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+            dni: params["dni"],
+                        ^^^^^
+app.rb:421:30: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+            password: params["key"],
+                             ^^^^^
+app.rb:422:27: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+            email: params["email"]
+                          ^^^^^^^
+app.rb:424:20: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+          redirect "/"
+                   ^^^
+app.rb:426:21: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+          [500, {}, "El usuario ya existe"]
+                    ^^^^^^^^^^^^^^^^^^^^^^
+app.rb:429:12: C: Style/ParenthesesAroundCondition: Don't use parentheses around the condition of an if.
+        if (exist_username)
+           ^^^^^^^^^^^^^^^^
+app.rb:429:12: C: Style/RedundantParentheses: Don't use parentheses around a variable.
+        if (exist_username)
+           ^^^^^^^^^^^^^^^^
+app.rb:430:22: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+          @log_err = "El usuario ingresado ya existe"
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:431:15: C: Style/ParenthesesAroundCondition: Don't use parentheses around the condition of an elsif.
+        elsif (exist_email)
+              ^^^^^^^^^^^^^
+app.rb:431:15: C: Style/RedundantParentheses: Don't use parentheses around a variable.
+        elsif (exist_email)
+              ^^^^^^^^^^^^^
+app.rb:432:22: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+          @log_err = "El email ingresado ya existe"
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:435:29: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+            surname: params["surname"],
+                            ^^^^^^^^^
+app.rb:436:23: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+            category: "user",
+                      ^^^^^^
+app.rb:437:26: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+            name: params["name"],
+                         ^^^^^^
+app.rb:438:30: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+            username: params["username"],
+                             ^^^^^^^^^^
+app.rb:439:25: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+            dni: params["dni"],
+                        ^^^^^
+app.rb:440:30: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+            password: params["key"],
+                             ^^^^^
+app.rb:441:27: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+            email: params["email"]
+                          ^^^^^^^
+app.rb:444:22: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+            redirect "/"
+                     ^^^
+app.rb:446:23: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+            [500, {}, "Internal server Error"]
+                      ^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:458:30: C: Style/NonNilCheck: Prefer !expression.nil? over expression != nil.
+    if @current_user.imgpath != nil && File.exist?("public#{@current_user.imgpath}")
+                             ^^
+app.rb:465:14: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    redirect "/mydata"
+             ^^^^^^^^^
+app.rb:481:22: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    @tagged = params["tagg"]
+                     ^^^^^^
+app.rb:482:30: C: Style/StringLiteralsInInterpolation: Prefer single-quoted strings inside interpolations.
+    cp("public/temp/#{params["path"]}","public/file/#{params["path"]}")
+                             ^^^^^^
+app.rb:482:62: C: Style/StringLiteralsInInterpolation: Prefer single-quoted strings inside interpolations.
+    cp("public/temp/#{params["path"]}","public/file/#{params["path"]}")
+                                                             ^^^^^^
+app.rb:484:27: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      resolution: params ["resolution"],
+                          ^^^^^^^^^^^^
+app.rb:485:29: C: Style/StringLiteralsInInterpolation: Prefer single-quoted strings inside interpolations.
+      path: "/file/#{params["path"]}",
+                            ^^^^^^
+app.rb:486:24: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      filename: params["filena"],
+                       ^^^^^^^^
+app.rb:487:27: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      description: params["description"],
+                          ^^^^^^^^^^^^^
+app.rb:488:24: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      realtime: params["realtime"],
+                       ^^^^^^^^^^
+app.rb:495:17: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      [500, {}, "Internal server Error"]
+                ^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:506:7: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      "cannot delete this Doc"
+      ^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:511:20: C: Style/BlockDelimiters: Avoid using {...} for multi-line blocks.
+      documents.map{|x|
+                   ^
+app.rb:512:17: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+        file = {:filename => x.filename,
+                ^^^^^^^^^^^^
+app.rb:513:11: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+          :resolution => x.resolution,
+          ^^^^^^^^^^^^^^
+app.rb:514:11: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+          :description => x.description ,
+          ^^^^^^^^^^^^^^^
+app.rb:515:11: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+          :date => x.realtime.strftime("%d/%m/%y") }
+          ^^^^^^^^
+app.rb:515:40: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+          :date => x.realtime.strftime("%d/%m/%y") }
+                                       ^^^^^^^^^^
+app.rb:520:54: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    @initial_date = Document.first.realtime.strftime("%Y-%m-%d")
+                                                     ^^^^^^^^^^
+app.rb:521:18: C: Style/RedundantParentheses: Don't use parentheses around a method call.
+    @end_date = ((Time.now) + 86400).strftime("%Y-%m-%d")
+                 ^^^^^^^^^^
+app.rb:521:31: C: Style/NumericLiterals: Use underscores(_) as thousands separator and separate every 3 digits with them.
+    @end_date = ((Time.now) + 86400).strftime("%Y-%m-%d")
+                              ^^^^^
+app.rb:521:47: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    @end_date = ((Time.now) + 86400).strftime("%Y-%m-%d")
+                                              ^^^^^^^^^^
+app.rb:527:38: C: Style/NumericLiterals: Use underscores(_) as thousands separator and separate every 3 digits with them.
+        i.update(resolution: (i.id + 100000).to_s)
+                                     ^^^^^^
+app.rb:528:56: C: Style/NumericLiterals: Use underscores(_) as thousands separator and separate every 3 digits with them.
+        i.update(description: "UNRC acta res/#{(i.id + 100000).to_s}")
+                                                       ^^^^^^
+app.rb:530:8: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+       "rename ok"
+       ^^^^^^^^^^^
+app.rb:535:12: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    @out = ""
+           ^^
+app.rb:536:38: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    User.each { |u| @out+= u.email + "--" + u.dni.to_s + "--" + u.category.to_s +  "<br/>" }
+                                     ^^^^
+app.rb:536:58: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    User.each { |u| @out+= u.email + "--" + u.dni.to_s + "--" + u.category.to_s +  "<br/>" }
+                                                         ^^^^
+app.rb:536:84: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    User.each { |u| @out+= u.email + "--" + u.dni.to_s + "--" + u.category.to_s +  "<br/>" }
+                                                                                   ^^^^^^^
+app.rb:537:12: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    @out +="<br/>"
+           ^^^^^^^
+app.rb:538:38: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    Document.each { |d| @out+=d.path+"<br/>" }
+                                     ^^^^^^^
+app.rb:539:12: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    @out +="<br/>"+ "listado de documentos ----> usuarios" + "<br/>"
+           ^^^^^^^
+app.rb:539:21: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    @out +="<br/>"+ "listado de documentos ----> usuarios" + "<br/>"
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:539:62: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    @out +="<br/>"+ "listado de documentos ----> usuarios" + "<br/>"
+                                                             ^^^^^^^
+app.rb:540:41: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    Document.each { |d| @out+= d.path + " ------relacionado con----- " + d.users.to_s + "<br/>" }
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:540:89: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    Document.each { |d| @out+= d.path + " ------relacionado con----- " + d.users.to_s + "<br/>" }
+                                                                                        ^^^^^^^
+app.rb:541:12: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    @out +="<br/>"+ "listado de usuarios ----> documentos" + "<br/>"
+           ^^^^^^^
+app.rb:541:21: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    @out +="<br/>"+ "listado de usuarios ----> documentos" + "<br/>"
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:541:62: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    @out +="<br/>"+ "listado de usuarios ----> documentos" + "<br/>"
+                                                             ^^^^^^^
+app.rb:542:38: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    User.each { |u| @out+= u.email + " -----relacionado con----- " + u.documents.to_s + "<br/>" }
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app.rb:542:89: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    User.each { |u| @out+= u.email + " -----relacionado con----- " + u.documents.to_s + "<br/>" }
+                                                                                        ^^^^^^^
+app.rb:543:12: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    @out +="<br/>"
+           ^^^^^^^
+
+1 file inspected, 196 offenses detected, 193 offenses auto-correctable
