@@ -198,33 +198,29 @@ class App < Sinatra::Base
   end
 
   def tagg_user(dni,document)
-    user_tagg = User.find(dni: dni)
-    if user_tagg
-      not_tagged_in_document = Notification.find(user_id: user_tagg.id, document_id: document.id)
-      if !not_tagged_in_document
-        document.add_user(user_tagg)
+    if User.find(dni: dni)
+      if User.find(dni: dni) and !Notification.find(user_id: User.find(dni: dni).id, document_id: document.id)
+        document.add_user(User.find(dni: dni))
       end
     else
-      request.body.rewind
-      hash = Rack::Utils.parse_nested_query(request.body.read)
-      params = JSON.parse hash.to_json
-      string_dni = dni.to_s
-      not_user_tagg = User.new(
-        surname: string_dni,
-        category: "not_user",
-        name: string_dni,
-        username: string_dni,
-        dni: dni,
-        password: "not_user#{string_dni}",
-        email: "#{string_dni}@email.com")
-      if not_user_tagg.save
-        document.add_user(not_user_tagg)
-      else
-        [500, {}, "Internal server Error"]
-      end
+      not_user_tagg = add_generic_user(dni.to_s, dni)
+      not_user_tagg.save ? document.add_user(not_user_tagg) :
+        [500, {}, "Internal server Error"];
     end
   end
 
+  def add_generic_user (string_dni, dni)
+    User.new(
+      surname: string_dni,
+      category: "not_user",
+      name: string_dni,
+      username: string_dni,
+      dni: dni,
+      password: "not_user#{string_dni}",
+      email: "#{string_dni}@email.com")
+    not_user_tagg.save ? document.add_user(not_user_tagg) :
+      [500, {}, "Internal server Error"];
+  end
 
   get '/loged' do
     get_public_documents
