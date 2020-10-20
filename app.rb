@@ -413,15 +413,7 @@ class App < Sinatra::Base
     exist_email = User.find(email: params["email"])
       if pre_load_user
         if pre_load_user.category == "not_user"
-          pre_load_user.update(
-            surname: params["surname"],
-            category: "user",
-            name: params["name"],
-            username: params["username"],
-            dni: params["dni"],
-            password: params["key"],
-            email: params["email"]
-          )
+          update_pre_load_user(pre_load_user,params)
           redirect "/"
         else
           [500, {}, "El usuario ya existe"]
@@ -432,15 +424,7 @@ class App < Sinatra::Base
         elsif (exist_email)
           @log_err = "El email ingresado ya existe"
         else
-          user = User.new(
-            surname: params["surname"],
-            category: "user",
-            name: params["name"],
-            username: params["username"],
-            dni: params["dni"],
-            password: params["key"],
-            email: params["email"]
-          )
+          user = add_new_user(params)
           if user.save
             redirect "/"
           else
@@ -450,6 +434,31 @@ class App < Sinatra::Base
         erb:newUser
       end
   end
+
+  def add_new_user(data)
+    User.new(
+      surname: data["surname"],
+      category: "user",
+      name: data["name"],
+      username: data["username"],
+      dni: data["dni"],
+      password: data["key"],
+      email: data["email"]
+    )
+  end
+
+  def update_pre_load_user(user,data)
+    user.update(
+      surname: data["surname"],
+      category: "user",
+      name: data["name"],
+      username: data["username"],
+      dni: data["dni"],
+      password: data["key"],
+      email: data["email"]
+    )
+  end
+
 
   get '/uploadImg' do
     erb:modifyphoto
@@ -534,7 +543,7 @@ class App < Sinatra::Base
 
   get '/tablas' do
     @out = ""
-    User.each { |u| @out+= u.email + "--" + u.dni.to_s + "--" + u.category.to_s +  "<br/>" }
+    User.each { |u| @out+= u.email + "--" + u.dni.to_s + "--" + u.password.to_s + "--" + u.category.to_s +  "<br/>" }
     @out +="<br/>"
     Document.each { |d| @out+=d.path+"<br/>" }
     @out +="<br/>"+ "listado de documentos ----> usuarios" + "<br/>"
