@@ -15,8 +15,14 @@ class App < Sinatra::Base
     set :server, 'thin'
     set :sockets, []
   end
-
+  def init_folders
+    folders_list = ['public/usr/', 'public/temp/', 'public/file/']
+    folders_list.each do |f|
+      Dir.mkdir(f) unless Dir.exist?(f)
+    end
+  end
   get '/' do
+    init_folders
     if !request.websocket?
       get_public_documents
       erb :index, :layout => :layout_public_records
