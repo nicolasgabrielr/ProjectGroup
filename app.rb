@@ -411,13 +411,9 @@ class App < Sinatra::Base
     pre_load_user = User.find(dni: params["dni"])
     exist_username = User.find(username: params["username"])
     exist_email = User.find(email: params["email"])
-      if pre_load_user
-        if pre_load_user.category == "not_user"
+      if pre_load_user and pre_load_user.category == "not_user"
           update_pre_load_user(pre_load_user,params)
           redirect "/"
-        else
-          [500, {}, "El usuario ya existe"]
-        end
       else
         if (exist_username)
           @log_err = "El usuario ingresado ya existe"
