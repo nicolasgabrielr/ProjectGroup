@@ -9685,7 +9685,7 @@ ul{
 
 .column1 {
   float: left;
-  height: 660px;
+  height: 100vh;
   padding: 7px;
   box-sizing: border-box;
   background-color: #efebe9 ;
@@ -9693,7 +9693,7 @@ ul{
 .column2 {
   float: left;
   width: auto;
-  height: 660px;
+  height: 100vh;
   padding: 7px;
   box-sizing: border-box;
 }
@@ -9771,10 +9771,10 @@ ul{
   margin: 1em 0 0 2em;
   # background-color: blue;
   width: 100%;
-  min-height: 580px;
+  min-height: 95vh;
 }
 .notifications-box{
-  height:580px;
+  height:90vh;
   overflow-y: auto;
 }
 /* css de las listas publicas */
@@ -9818,9 +9818,9 @@ ul{
 }
 #li1{
   margin: 1em 0 0 2em;
-  # background-color: blue;
+  *background-color: blue;
   width: 100%;
-  height: 640px;
+  height: 96vh;
 }
 
 .li-box{
@@ -10409,7 +10409,7 @@ ul{
     font-weight: bold !important;
   }
   .height500{
-    height:500px;
+    height:75vh;
   }
   .tittle{
     border-bottom-style: ridge;

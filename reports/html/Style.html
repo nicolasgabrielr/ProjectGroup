@@ -1,0 +1,2547 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='UTF-8' />
+    <title>RuboCop Inspection Report</title>
+    
+    <style>
+    * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    }
+
+    body, html {
+    font-size: 62.5%;
+    }
+    body {
+    background-color: #ecedf0;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    margin: 0;
+    }
+    code {
+    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 85%;
+    }
+    #header {
+    background: #f9f9f9;
+    color: #333;
+    border-bottom: 3px solid #ccc;
+    height: 50px;
+    padding: 0;
+    }
+    #header .logo {
+    float: left;
+    margin: 5px 12px 7px 20px;
+    width: 38px;
+    height: 38px;
+    }
+    #header .title {
+    display: inline-block;
+    float: left;
+    height: 50px;
+    font-size: 2.4rem;
+    letter-spacing: normal;
+    line-height: 50px;
+    margin: 0;
+    }
+
+    .information, #offenses {
+    width: 100%;
+    padding: 20px;
+    color: #333;
+    }
+    #offenses {
+    padding: 0 20px;
+    }
+
+    .information .infobox {
+    border-left: 3px solid;
+    border-radius: 4px;
+    background-color: #fff;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    padding: 15px;
+    border-color: #0088cc;
+    font-size: 1.4rem;
+    }
+    .information .infobox .info-title {
+    font-size: 1.8rem;
+    line-height: 2.2rem;
+    margin: 0 0 0.5em;
+    }
+    .information .offenses-list li {
+    line-height: 1.8rem
+    }
+    .information .offenses-list {
+    padding-left: 20px;
+    margin-bottom: 0;
+    }
+
+    #offenses .offense-box {
+    border-radius: 4px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    }
+    .fixed .box-title {
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    width: 100%;
+    }
+    .box-title-placeholder {
+    display: none;
+    }
+    .fixed .box-title-placeholder {
+    display: block;
+    }
+    #offenses .offense-box .box-title h3, #offenses .offense-box .box-title-placeholder h3 {
+    color: #33353f;
+    background-color: #f6f6f6;
+    font-size: 2rem;
+    line-height: 2rem;
+    display: block;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 0;
+    }
+    #offenses .offense-box .offense-reports  {
+    padding: 0 15px;
+    }
+    #offenses .offense-box .offense-reports .report {
+    border-bottom: 1px dotted #ddd;
+    padding: 15px 0px;
+    position: relative;
+    font-size: 1.3rem;
+    }
+    #offenses .offense-box .offense-reports .report:last-child {
+    border-bottom: none;
+    }
+    #offenses .offense-box .offense-reports .report pre code {
+    display: block;
+    background: #000;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    line-height: 1.6rem;
+    }
+    #offenses .offense-box .offense-reports .report .location {
+    font-weight: bold;
+    }
+    #offenses .offense-box .offense-reports .report .message code {
+    padding: 0.3em;
+    background-color: rgba(0,0,0,0.07);
+    border-radius: 3px;
+    }
+    .severity {
+    text-transform: capitalize;
+    font-weight: bold;
+    }
+    .highlight {
+    padding: 2px;
+    border-radius: 2px;
+    font-weight: bold;
+    }
+
+    .severity.refactor {
+    color: rgba(237, 156, 40, 1.0);
+    }
+    .highlight.refactor {
+    background-color: rgba(237, 156, 40, 0.6);
+    border: 1px solid rgba(237, 156, 40, 0.4);
+    }
+
+    .severity.convention {
+    color: rgba(237, 156, 40, 1.0);
+    }
+    .highlight.convention {
+    background-color: rgba(237, 156, 40, 0.6);
+    border: 1px solid rgba(237, 156, 40, 0.4);
+    }
+
+    .severity.warning {
+    color: rgba(150, 40, 239, 1.0);
+    }
+    .highlight.warning {
+    background-color: rgba(150, 40, 239, 0.6);
+    border: 1px solid rgba(150, 40, 239, 0.4);
+    }
+
+    .severity.error {
+    color: rgba(210, 50, 45, 1.0);
+    }
+    .highlight.error {
+    background-color: rgba(210, 50, 45, 0.6);
+    border: 1px solid rgba(210, 50, 45, 0.4);
+    }
+
+    .severity.fatal {
+    color: rgba(210, 50, 45, 1.0);
+    }
+    .highlight.fatal {
+    background-color: rgba(210, 50, 45, 0.6);
+    border: 1px solid rgba(210, 50, 45, 0.4);
+    }
+
+    footer {
+    margin-bottom: 20px;
+    margin-right: 20px;
+    font-size: 1.3rem;
+    color: #777;
+    text-align: right;
+    }
+    .extra-code {
+      color: #ED9C28
+    }
+    </style>
+
+    <script>
+    (function() {
+      // floating headers. requires classList support.
+      if (!('classList' in document.createElement("_"))) return;
+
+      var loaded = false,
+        boxes,
+        boxPositions;
+
+      window.onload = function() {
+        var scrollY = window.scrollY;
+        boxes = document.querySelectorAll('.offense-box');
+        boxPositions = [];
+        for (var i = 0; i < boxes.length; i++)
+          // need to add scrollY because the page might be somewhere other than the top when loaded.
+          boxPositions[i] = boxes[i].getBoundingClientRect().top + scrollY;
+        loaded = true;
+      };
+
+      window.onscroll = function() {
+        if (!loaded) return;
+        var i,
+          idx,
+          scrollY = window.scrollY;
+        for (i = 0; i < boxPositions.length; i++) {
+          if (scrollY <= boxPositions[i] - 1) {
+            idx = i;
+            break;
+          }
+        }
+        if (typeof idx == 'undefined') idx = boxes.length;
+        if (idx > 0)
+          boxes[idx - 1].classList.add('fixed');
+        for (i = 0; i < boxes.length; i++) {
+          if (i < idx) continue;
+          boxes[i].classList.remove('fixed');
+        }
+      };
+    })();
+    </script>
+  </head>
+  <body>
+    <div id="header">
+      <img class="logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAABMCAYAAADHl1ErAAAKQWlDQ1BJQ0Mg
+UHJvZmlsZQAASA2dlndUU9kWh8+9N73QEiIgJfQaegkg0jtIFQRRiUmAUAKG
+hCZ2RAVGFBEpVmRUwAFHhyJjRRQLg4Ji1wnyEFDGwVFEReXdjGsJ7601896a
+/cdZ39nnt9fZZ+9917oAUPyCBMJ0WAGANKFYFO7rwVwSE8vE9wIYEAEOWAHA
+4WZmBEf4RALU/L09mZmoSMaz9u4ugGS72yy/UCZz1v9/kSI3QyQGAApF1TY8
+fiYX5QKUU7PFGTL/BMr0lSkyhjEyFqEJoqwi48SvbPan5iu7yZiXJuShGlnO
+Gbw0noy7UN6aJeGjjAShXJgl4GejfAdlvVRJmgDl9yjT0/icTAAwFJlfzOcm
+oWyJMkUUGe6J8gIACJTEObxyDov5OWieAHimZ+SKBIlJYqYR15hp5ejIZvrx
+s1P5YjErlMNN4Yh4TM/0tAyOMBeAr2+WRQElWW2ZaJHtrRzt7VnW5mj5v9nf
+Hn5T/T3IevtV8Sbsz55BjJ5Z32zsrC+9FgD2JFqbHbO+lVUAtG0GQOXhrE/v
+IADyBQC03pzzHoZsXpLE4gwnC4vs7GxzAZ9rLivoN/ufgm/Kv4Y595nL7vtW
+O6YXP4EjSRUzZUXlpqemS0TMzAwOl89k/fcQ/+PAOWnNycMsnJ/AF/GF6FVR
+6JQJhIlou4U8gViQLmQKhH/V4X8YNicHGX6daxRodV8AfYU5ULhJB8hvPQBD
+IwMkbj96An3rWxAxCsi+vGitka9zjzJ6/uf6Hwtcim7hTEEiU+b2DI9kciWi
+LBmj34RswQISkAd0oAo0gS4wAixgDRyAM3AD3iAAhIBIEAOWAy5IAmlABLJB
+PtgACkEx2AF2g2pwANSBetAEToI2cAZcBFfADXALDIBHQAqGwUswAd6BaQiC
+8BAVokGqkBakD5lC1hAbWgh5Q0FQOBQDxUOJkBCSQPnQJqgYKoOqoUNQPfQj
+dBq6CF2D+qAH0CA0Bv0BfYQRmALTYQ3YALaA2bA7HAhHwsvgRHgVnAcXwNvh
+SrgWPg63whfhG/AALIVfwpMIQMgIA9FGWAgb8URCkFgkAREha5EipAKpRZqQ
+DqQbuY1IkXHkAwaHoWGYGBbGGeOHWYzhYlZh1mJKMNWYY5hWTBfmNmYQM4H5
+gqVi1bGmWCesP3YJNhGbjS3EVmCPYFuwl7ED2GHsOxwOx8AZ4hxwfrgYXDJu
+Na4Etw/XjLuA68MN4SbxeLwq3hTvgg/Bc/BifCG+Cn8cfx7fjx/GvyeQCVoE
+a4IPIZYgJGwkVBAaCOcI/YQRwjRRgahPdCKGEHnEXGIpsY7YQbxJHCZOkxRJ
+hiQXUiQpmbSBVElqIl0mPSa9IZPJOmRHchhZQF5PriSfIF8lD5I/UJQoJhRP
+ShxFQtlOOUq5QHlAeUOlUg2obtRYqpi6nVpPvUR9Sn0vR5Mzl/OX48mtk6uR
+a5Xrl3slT5TXl3eXXy6fJ18hf0r+pvy4AlHBQMFTgaOwVqFG4bTCPYVJRZqi
+lWKIYppiiWKD4jXFUSW8koGStxJPqUDpsNIlpSEaQtOledK4tE20Otpl2jAd
+Rzek+9OT6cX0H+i99AllJWVb5SjlHOUa5bPKUgbCMGD4M1IZpYyTjLuMj/M0
+5rnP48/bNq9pXv+8KZX5Km4qfJUilWaVAZWPqkxVb9UU1Z2qbapP1DBqJmph
+atlq+9Uuq43Pp893ns+dXzT/5PyH6rC6iXq4+mr1w+o96pMamhq+GhkaVRqX
+NMY1GZpumsma5ZrnNMe0aFoLtQRa5VrntV4wlZnuzFRmJbOLOaGtru2nLdE+
+pN2rPa1jqLNYZ6NOs84TXZIuWzdBt1y3U3dCT0svWC9fr1HvoT5Rn62fpL9H
+v1t/ysDQINpgi0GbwaihiqG/YZ5ho+FjI6qRq9Eqo1qjO8Y4Y7ZxivE+41sm
+sImdSZJJjclNU9jU3lRgus+0zwxr5mgmNKs1u8eisNxZWaxG1qA5wzzIfKN5
+m/krCz2LWIudFt0WXyztLFMt6ywfWSlZBVhttOqw+sPaxJprXWN9x4Zq42Oz
+zqbd5rWtqS3fdr/tfTuaXbDdFrtOu8/2DvYi+yb7MQc9h3iHvQ732HR2KLuE
+fdUR6+jhuM7xjOMHJ3snsdNJp9+dWc4pzg3OowsMF/AX1C0YctFx4bgccpEu
+ZC6MX3hwodRV25XjWuv6zE3Xjed2xG3E3dg92f24+ysPSw+RR4vHlKeT5xrP
+C16Il69XkVevt5L3Yu9q76c+Oj6JPo0+E752vqt9L/hh/QL9dvrd89fw5/rX
++08EOASsCegKpARGBFYHPgsyCRIFdQTDwQHBu4IfL9JfJFzUFgJC/EN2hTwJ
+NQxdFfpzGC4sNKwm7Hm4VXh+eHcELWJFREPEu0iPyNLIR4uNFksWd0bJR8VF
+1UdNRXtFl0VLl1gsWbPkRoxajCCmPRYfGxV7JHZyqffS3UuH4+ziCuPuLjNc
+lrPs2nK15anLz66QX8FZcSoeGx8d3xD/iRPCqeVMrvRfuXflBNeTu4f7kufG
+K+eN8V34ZfyRBJeEsoTRRJfEXYljSa5JFUnjAk9BteB1sl/ygeSplJCUoykz
+qdGpzWmEtPi000IlYYqwK10zPSe9L8M0ozBDuspp1e5VE6JA0ZFMKHNZZruY
+jv5M9UiMJJslg1kLs2qy3mdHZZ/KUcwR5vTkmuRuyx3J88n7fjVmNXd1Z752
+/ob8wTXuaw6thdauXNu5Tnddwbrh9b7rj20gbUjZ8MtGy41lG99uit7UUaBR
+sL5gaLPv5sZCuUJR4b0tzlsObMVsFWzt3WazrWrblyJe0fViy+KK4k8l3JLr
+31l9V/ndzPaE7b2l9qX7d+B2CHfc3em681iZYlle2dCu4F2t5czyovK3u1fs
+vlZhW3FgD2mPZI+0MqiyvUqvakfVp+qk6oEaj5rmvep7t+2d2sfb17/fbX/T
+AY0DxQc+HhQcvH/I91BrrUFtxWHc4azDz+ui6rq/Z39ff0TtSPGRz0eFR6XH
+wo911TvU1zeoN5Q2wo2SxrHjccdv/eD1Q3sTq+lQM6O5+AQ4ITnx4sf4H++e
+DDzZeYp9qukn/Z/2ttBailqh1tzWibakNml7THvf6YDTnR3OHS0/m/989Iz2
+mZqzymdLz5HOFZybOZ93fvJCxoXxi4kXhzpXdD66tOTSna6wrt7LgZevXvG5
+cqnbvfv8VZerZ645XTt9nX297Yb9jdYeu56WX+x+aem172296XCz/ZbjrY6+
+BX3n+l37L972un3ljv+dGwOLBvruLr57/17cPel93v3RB6kPXj/Mejj9aP1j
+7OOiJwpPKp6qP6391fjXZqm99Oyg12DPs4hnj4a4Qy//lfmvT8MFz6nPK0a0
+RupHrUfPjPmM3Xqx9MXwy4yX0+OFvyn+tveV0auffnf7vWdiycTwa9HrmT9K
+3qi+OfrW9m3nZOjk03dp76anit6rvj/2gf2h+2P0x5Hp7E/4T5WfjT93fAn8
+8ngmbWbm3/eE8/syOll+AAAACXBIWXMAAAsTAAALEwEAmpwYAAAEJGlUWHRY
+TUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9i
+ZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRm
+OlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjIt
+cmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjph
+Ym91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRv
+YmUuY29tL3RpZmYvMS4wLyIKICAgICAgICAgICAgeG1sbnM6ZXhpZj0iaHR0
+cDovL25zLmFkb2JlLmNvbS9leGlmLzEuMC8iCiAgICAgICAgICAgIHhtbG5z
+OmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIKICAgICAg
+ICAgICAgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAv
+Ij4KICAgICAgICAgPHRpZmY6UmVzb2x1dGlvblVuaXQ+MTwvdGlmZjpSZXNv
+bHV0aW9uVW5pdD4KICAgICAgICAgPHRpZmY6Q29tcHJlc3Npb24+NTwvdGlm
+ZjpDb21wcmVzc2lvbj4KICAgICAgICAgPHRpZmY6WFJlc29sdXRpb24+NzI8
+L3RpZmY6WFJlc29sdXRpb24+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9u
+PjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgICAgIDx0aWZmOllSZXNvbHV0
+aW9uPjcyPC90aWZmOllSZXNvbHV0aW9uPgogICAgICAgICA8ZXhpZjpQaXhl
+bFhEaW1lbnNpb24+NzY8L2V4aWY6UGl4ZWxYRGltZW5zaW9uPgogICAgICAg
+ICA8ZXhpZjpDb2xvclNwYWNlPjE8L2V4aWY6Q29sb3JTcGFjZT4KICAgICAg
+ICAgPGV4aWY6UGl4ZWxZRGltZW5zaW9uPjc2PC9leGlmOlBpeGVsWURpbWVu
+c2lvbj4KICAgICAgICAgPGRjOnN1YmplY3Q+CiAgICAgICAgICAgIDxyZGY6
+U2VxLz4KICAgICAgICAgPC9kYzpzdWJqZWN0PgogICAgICAgICA8eG1wOk1v
+ZGlmeURhdGU+MjAxNDowOToyMyAyMjowOToxNDwveG1wOk1vZGlmeURhdGU+
+CiAgICAgICAgIDx4bXA6Q3JlYXRvclRvb2w+UGl4ZWxtYXRvciAzLjIuMTwv
+eG1wOkNyZWF0b3JUb29sPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAg
+PC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KkpvroQAABkNJREFUeAHtm0uIHFUY
+hWveM8ZpHN/RYCIS34mKGGSMMmLA6CKILmQwBOJCEcwqKzELceVWN+IyIgQM
+4gt84SMqBpNBkBiJGkEFMRFNMmSSzEzm5fmG7qEpbt1bt7q6XuOBQ3Xfuvf/
+z/nr3qrq6u6OIH9cLAlrxGvr20e0vVsE34rviL+Lv9W3J7XNDR05Zb5deR8U
+7xfXiVeKnaIN89p5XPxB/EL8WPxerCxqcrZd3CdOiwstkhj7RGISuzLol5On
+xSNiq0WKGk9scpCr1LhP6veLUUbTbicXOUuHHil+QZwS0y6KKx45yY2GUuAy
+qXxXdBlr9340oKXQWC11Y2K7ixE3PlrQVEhcI1WHxLhmsuqHJrQVCtx8cpOZ
+VRF886ANjYVAl1TsFX1NZN0fjWjNHTulIGvzSfOhNVfcpuwTYlIDWY9DK5pz
+AdP7EzFr063mQ3MuS/PREharUWy0Zwruog+IDQFl26I9008Cm0tcrMbBxYM3
+XM+gogI+GbWjRO2ZebhKRTklNo5UWbd4wIsXksywEWW4yCtLMTvjYcRXWpKC
+bfJNUuD+3l58C9Yt83cWuAC+0vCCp7aBT/3nxbKet8K68eL1JMO3unzLtFtk
+WwVQwKp4Kebx8KnurbLwjLhBHCimHW9VkxpxUHxVPOw92jJgi/bxjXP4HFCV
+93jDYypYrSj/iFUpTpQPPK4RrYhzW7FVES61RqnGTjw+4bISp2B3uIJUaL/T
+a5yC9VaoIC4rTq9xCjbrylKh/U6vroLdpGKsr1BBXFbwiudE4NP8j2LUVaWq
+7XiOfBpjm2HbNPBmcbkBz3g3wnanf1ojBo2j6o1DnZ3B6IpasL6nb/Hng0y5
+IgKT8+Khmelgz9nTwal53lnB13E1Uw9bwaz+r+jqCvZcsjIY7hsIZhdXrSl8
+sdq69Tl7//RkMHriWPD33JxLnLE2vk8rlpLsGBwKhvsHggn30Voak/+LhUXN
+aN81/m8iObZzWGRABg339QfTC9ZJGDk+zx1oRnsi4xKeaBxlmlJi45zNsxox
+cqMZ7UkPdeKCvX3uTNCrkpWpaGhFM9qTFizxOWy3rjZru3uD7RfWgoGOcpRt
+UjPrlYnxAO1JYXN6QEF5WGgFtxQ39vQGXbZI1gjZ7JzTlPpp5vzirUWMjGPq
+4/QejjOiBmbuciTevcH57TWRu7zlUjS84jnRuV3jFr+z+1Lb5VKwr+qe8W6E
+q5I87jhpHFnNxhOyZX3E4yoYZcnl13o5HQ+n1zgFS34Nzsl1C2mdXuMU7PMW
+BJRtaCpeecTDfUnVT/x4tD7O8jn616nz1xUuGt7w6ITP/Xmfoj0s8n/sFSIz
+Low4Szw8Jov33F+FgfezIn+r+UDkH77/I+0K+MywRm7+0P6hGF7vM2rbIh4V
+i4S1EvOeGP6ZOY+hHxKPi7GR5GkFYxDBsmwGS5RlWzSg6QYxPDlYjt7+vQfU
+q2G6G6bNdF6rD1naPKZXHNk0wEx/yxEITWgLzzCTB0eoBBV2RrR3eEC7Xxcv
+sHeLvXdUPcfFz2KPaLFjllc1foD7hphWsbBOLGISOxMkXZJJxLEMuWAALuEY
+PcebBKBQW0XOT8Qk9ndiIbFKqlgGnBuayS+SbxGj0KUdz4sUaUdUJ492YhCL
+mMSOAppMv/zGA17ajqQFawhj+YSvWI19PltixFmKqRYsyyXZKEZaS4fZnVas
+hjbnNo+ChUVtVMP1omvWUaCfxW/EUuFqqTX9m21W7es8nTyl/oxrPhfaXtOX
+MT5AkykHHvDSdgwpw1+iyRgfjeLiHnU8I5ri2NoYw9i4QJMpHh7w0nZw7zYm
+mkS8GTP7SvX7JSKGKW64jbHEiIO96hQez3s8ZHYf+nKECKb+NtEGzpvviyYT
+Pm3EcJ2D0WJajuTBQ2bYqEz8wMpkcErtu8TLxTC4X3pJNI1L0kYs0z0YudGA
+FlNctOPBG64rU1RARH4kborqoPZj4mGx8cUCuVaJG8Q0cVDB/hQpDKiJ/C/K
+tmQ/1f7NovNXdeqTGu5SJB6RmI5gkdvQjPZc8KyyFrk4Jm1ozhXPKTvPzE3i
+itSGRrQWAo9LxR9ikQrUrAVtaCwUOMm+KB4Vm8Xm+RotaLJdALQ7Xwwq/b3i
+TvFXMeuCkZPcaEBLqvgPBhCuiZo8+sAAAAAASUVORK5CYII=
+" alt="">
+      <h1 class="title">RuboCop Inspection Report</h1>
+    </div>
+    <div class="information">
+      <div class="infobox">
+        <div class="total">
+          1 file inspected,
+          195 offenses detected:
+        </div>
+        <ul class="offenses-list">
+          
+            
+            <li>
+              <a href="#offense_app.rb">
+                app.rb - 195 offenses
+              </a>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+    <div id="offenses">
+      
+      
+      <div class="offense-box" id="offense_app.rb">
+        <div class="box-title-placeholder"><h3>&nbsp;</h3></div>
+        <div class="box-title"><h3>app.rb - 195 offenses</h3></div>
+        <div class="offense-reports">
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #1</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/FrozenStringLiteralComment: Missing frozen string literal comment.</span>
+            </div>
+            
+            <pre><code><span class="highlight convention">r</span>equire &#39;json&#39;</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #4</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/MixinUsage: <code>include</code> is used at the top level. Use inside <code>class</code> or <code>module</code>.</span>
+            </div>
+            
+            <pre><code><span class="highlight convention">include FileUtils::Verbose</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #6</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/Documentation: Missing top-level class documentation comment.</span>
+            </div>
+            
+            <pre><code><span class="highlight convention">class</span> App &lt; Sinatra::Base</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #12</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    set :session_secret, <span class="highlight convention">&quot;otro secret pero dificil y abstracto&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #21</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>      erb :index, <span class="highlight convention">:layout =&gt;</span> :layout_public_records</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #35</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/BlockDelimiters: Avoid using <code>{...}</code> for multi-line blocks.</span>
+            </div>
+            
+            <pre><code>    settings.sockets.each<span class="highlight convention">{</span>|s| alert_notification(s[:user])</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #41</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>   @tagged = params[<span class="highlight convention">&quot;tagg&quot;</span>]</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #42</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>   document = Document.find(id: params[<span class="highlight convention">&quot;doc&quot;</span>])</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #43</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/IfUnlessModifier: Favor modifier <code>if</code> usage when having a single-line body. Another good alternative is the usage of control flow <code>&&</code>/<code>||</code>.</span>
+            </div>
+            
+            <pre><code>   <span class="highlight convention">if</span> @tagged != nil</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #43</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/NonNilCheck: Prefer <code>!expression.nil?</code> over <code>expression != nil</code>.</span>
+            </div>
+            
+            <pre><code>   if @tagged <span class="highlight convention">!=</span> nil</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #46</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>   document.update(description: params[<span class="highlight convention">&quot;description&quot;</span>], resolution: params[&quot;resolution&quot;])</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #46</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>   document.update(description: params[&quot;description&quot;], resolution: params[<span class="highlight convention">&quot;resolution&quot;</span>])</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #48</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>   redirect <span class="highlight convention">&quot;/myrecords&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #77</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @current_user.category != <span class="highlight convention">&quot;superAdmin&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #81</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @current_user.category != <span class="highlight convention">&quot;superAdmin&quot;</span> &amp;&amp; @current_user.category != &quot;admin&quot;</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #81</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @current_user.category != &quot;superAdmin&quot; &amp;&amp; @current_user.category != <span class="highlight convention">&quot;admin&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #87</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      when <span class="highlight convention">&quot;superAdmin&quot;</span> then</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #87</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/MultilineWhenThen: Do not use <code>then</code> for multiline <code>when</code> statement.</span>
+            </div>
+            
+            <pre><code>      when &quot;superAdmin&quot; <span class="highlight convention">then</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #89</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      when <span class="highlight convention">&quot;admin&quot;</span> then</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #89</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/MultilineWhenThen: Do not use <code>then</code> for multiline <code>when</code> statement.</span>
+            </div>
+            
+            <pre><code>      when &quot;admin&quot; <span class="highlight convention">then</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #98</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @admin = <span class="highlight convention">&quot;visible&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #99</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @superAdmin = <span class="highlight convention">&quot;visible&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #103</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @admin = <span class="highlight convention">&quot;visible&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #104</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @superAdmin = <span class="highlight convention">&quot;hidden&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #108</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @admin = <span class="highlight convention">&quot;hidden&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #109</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @superAdmin = <span class="highlight convention">&quot;hidden&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #126</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>    erb:user_documents , <span class="highlight convention">:layout =&gt;</span> :layout_loged_menu</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #130</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    if params[<span class="highlight convention">&quot;path&quot;</span>]</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #131</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiteralsInInterpolation: Prefer single-quoted strings inside interpolations.</span>
+            </div>
+            
+            <pre><code>      doc_id = Document.first(path: &quot;/#{params[<span class="highlight convention">&quot;path&quot;</span>]}&quot;)</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #135</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiteralsInInterpolation: Prefer single-quoted strings inside interpolations.</span>
+            </div>
+            
+            <pre><code>    @path =  &quot;/#{params[<span class="highlight convention">&quot;path&quot;</span>]}&quot;</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #136</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>    erb:view_doc , <span class="highlight convention">:layout =&gt;</span> :layout_loged_menu</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #140</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    if params[<span class="highlight convention">&quot;path&quot;</span>]</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #141</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiteralsInInterpolation: Prefer single-quoted strings inside interpolations.</span>
+            </div>
+            
+            <pre><code>      doc_id = Document.first(path: &quot;/#{params[<span class="highlight convention">&quot;path&quot;</span>]}&quot;)</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #153</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>    erb:myrecords , <span class="highlight convention">:layout =&gt;</span> :layout_loged_menu</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #158</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      delete_document(params[<span class="highlight convention">&quot;elem&quot;</span>])</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #160</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      redirect <span class="highlight convention">&quot;/myrecords&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #162</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      <span class="highlight convention">&quot;No se pudo eliminar el documento&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #165</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      @record = Document.find(filename: params[<span class="highlight convention">&quot;elem&quot;</span>])</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #173</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    ini_d == <span class="highlight convention">&quot;&quot;</span> ? ini_d = @initial_date : &quot;&quot;;</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #173</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    ini_d == &quot;&quot; ? ini_d = @initial_date : <span class="highlight convention">&quot;&quot;</span>;</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #173</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/Semicolon: Do not use semicolons to terminate expressions.</span>
+            </div>
+            
+            <pre><code>    ini_d == &quot;&quot; ? ini_d = @initial_date : &quot;&quot;<span class="highlight convention">;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #174</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    end_d == <span class="highlight convention">&quot;&quot;</span> ? end_d = @end_date : &quot;&quot;;</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #174</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    end_d == &quot;&quot; ? end_d = @end_date : <span class="highlight convention">&quot;&quot;</span>;</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #174</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/Semicolon: Do not use semicolons to terminate expressions.</span>
+            </div>
+            
+            <pre><code>    end_d == &quot;&quot; ? end_d = @end_date : &quot;&quot;<span class="highlight convention">;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #175</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    if resolution != <span class="highlight convention">&quot;&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #180</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/IfUnlessModifier: Favor modifier <code>if</code> usage when having a single-line body. Another good alternative is the usage of control flow <code>&&</code>/<code>||</code>.</span>
+            </div>
+            
+            <pre><code>      <span class="highlight convention">if</span> author != &quot;&quot;</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #180</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      if author != <span class="highlight convention">&quot;&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #185</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/ParenthesesAroundCondition: Don't use parentheses around the condition of an <code>elsif</code>.</span>
+            </div>
+            
+            <pre><code>      elsif <span class="highlight convention">(author == &quot;&quot;)</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #185</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      elsif (author == <span class="highlight convention">&quot;&quot;</span>)</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #190</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/GuardClause: Use a guard clause (<code>return unless @arr[0] == nil</code>) instead of wrapping the code inside a conditional expression.</span>
+            </div>
+            
+            <pre><code>    <span class="highlight convention">if</span> @arr[0] == nil</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #190</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/IfUnlessModifier: Favor modifier <code>if</code> usage when having a single-line body. Another good alternative is the usage of control flow <code>&&</code>/<code>||</code>.</span>
+            </div>
+            
+            <pre><code>    <span class="highlight convention">if</span> @arr[0] == nil</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #190</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/NilComparison: Prefer the use of the <code>nil?</code> predicate.</span>
+            </div>
+            
+            <pre><code>    if @arr[0] <span class="highlight convention">==</span> nil</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #191</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      @not_found_docs = <span class="highlight convention">&quot;No se encontraron actas relacionadas con su busqueda..&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #197</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>    erb:myrecords , <span class="highlight convention">:layout =&gt;</span> :layout_loged_menu</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #208</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/IfUnlessModifier: Favor modifier <code>if</code> usage when having a single-line body. Another good alternative is the usage of control flow <code>&&</code>/<code>||</code>.</span>
+            </div>
+            
+            <pre><code>      <span class="highlight convention">if</span> !not_tagged_in_document</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #208</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/NegatedIf: Favor <code>unless</code> over <code>if</code> for negative conditions.</span>
+            </div>
+            
+            <pre><code>      <span class="highlight convention">if !not_tagged_in_document</span> <span class="extra-code">...</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #218</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>        category: <span class="highlight convention">&quot;not_user&quot;</span>,</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #227</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>        [500, {}, <span class="highlight convention">&quot;Internal server Error&quot;</span>]</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #235</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>    erb:loged , <span class="highlight convention">:layout =&gt;</span> :layout_loged_menu</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #239</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    if params[:dni] != <span class="highlight convention">&quot;&quot;</span> &amp;&amp; params[:dni] != nil</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #239</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/NonNilCheck: Prefer <code>!expression.nil?</code> over <code>expression != nil</code>.</span>
+            </div>
+            
+            <pre><code>    if params[:dni] != &quot;&quot; &amp;&amp; params[:dni] <span class="highlight convention">!=</span> nil</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #247</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/ParenthesesAroundCondition: Don't use parentheses around the condition of an <code>elsif</code>.</span>
+            </div>
+            
+            <pre><code>    elsif <span class="highlight convention">(params[:resolution] != &quot;&quot; || params[:initiate_date] != &quot;&quot; || params[:end_date] != &quot;&quot;)</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #247</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    elsif (params[:resolution] != <span class="highlight convention">&quot;&quot;</span> || params[:initiate_date] != &quot;&quot; || params[:end_date] != &quot;&quot;)</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #247</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    elsif (params[:resolution] != &quot;&quot; || params[:initiate_date] != <span class="highlight convention">&quot;&quot;</span> || params[:end_date] != &quot;&quot;)</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #247</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    elsif (params[:resolution] != &quot;&quot; || params[:initiate_date] != &quot;&quot; || params[:end_date] != <span class="highlight convention">&quot;&quot;</span>)</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #248</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>        search_record(params[:resolution],params[:initiate_date],params[:end_date],<span class="highlight convention">&quot;&quot;</span>)</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #252</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>      erb:loged , <span class="highlight convention">:layout =&gt;</span> :layout_loged_menu</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #257</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    usuario = User.find(email: params[<span class="highlight convention">&quot;email&quot;</span>])</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #258</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/NonNilCheck: Prefer <code>!expression.nil?</code> over <code>expression != nil</code>.</span>
+            </div>
+            
+            <pre><code>    if usuario <span class="highlight convention">!=</span> nil &amp;&amp; (usuario.password == params[&quot;password&quot;])</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #258</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    if usuario != nil &amp;&amp; (usuario.password == params[<span class="highlight convention">&quot;password&quot;</span>])</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #264</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>      erb:loged , <span class="highlight convention">:layout =&gt;</span> :layout_loged_menu</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #265</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/NilComparison: Prefer the use of the <code>nil?</code> predicate.</span>
+            </div>
+            
+            <pre><code>    elsif usuario <span class="highlight convention">==</span> nil</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #266</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      @log_err = <span class="highlight convention">&quot;El usuario ingresado no existe&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #267</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>      erb:index , <span class="highlight convention">:layout =&gt;</span> :layout_public_records</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #269</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      @log_err = <span class="highlight convention">&quot;La contraseña ingresada es incorrecta&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #270</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>      erb:index , <span class="highlight convention">:layout =&gt;</span> :layout_public_records</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #277</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      if checkpass(params[<span class="highlight convention">&quot;passwordActual&quot;</span>])</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #278</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>        usuario = User.find(email: params[<span class="highlight convention">&quot;emailnewAdmin&quot;</span>])</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #279</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/NonNilCheck: Prefer <code>!expression.nil?</code> over <code>expression != nil</code>.</span>
+            </div>
+            
+            <pre><code>        if params[:dUser] &amp;&amp; usuario <span class="highlight convention">!=</span> nil</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #281</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>          @band = <span class="highlight convention">&quot;¡El usuario ha sido eliminado con Exito!&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #283</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>          @band = <span class="highlight convention">&quot;¡El usuario no existe o no se pudo eliminar!&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #286</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>          usuario.update(category:<span class="highlight convention">&quot;admin&quot;</span>)</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #287</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>          @band = <span class="highlight convention">&quot;¡El Administrador ha sido cargado con exito!&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #289</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>          usuario.update(category:<span class="highlight convention">&quot;superAdmin&quot;</span>)</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #290</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>          @band = <span class="highlight convention">&quot;¡El Administrador ha sido cargado con exito!&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #293</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>        @band = <span class="highlight convention">&quot;El password es incorrecto o el usuario no existe&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #297</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>    erb:assign , <span class="highlight convention">:layout =&gt;</span> :layout_loged_menu</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #301</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>    erb :assign , <span class="highlight convention">:layout =&gt;</span> :layout_loged_menu</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #309</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>      erb:loged , <span class="highlight convention">:layout =&gt;</span> :layout_loged_menu</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #311</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>      erb:index , <span class="highlight convention">:layout =&gt;</span> :layout_public_records</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #317</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>    erb:index , <span class="highlight convention">:layout =&gt;</span> :layout_public_records</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #320</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>  get <span class="highlight convention">&quot;/notificationlist&quot;</span> do</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #324</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>  get <span class="highlight convention">&quot;/index&quot;</span> do</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #327</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>    erb :index , <span class="highlight convention">:layout =&gt;</span> :layout_public_records</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #330</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>  post <span class="highlight convention">&quot;/index&quot;</span> do</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #331</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    if params[:dni] != <span class="highlight convention">&quot;&quot;</span> &amp;&amp; params[:dni] != nil</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #331</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/NonNilCheck: Prefer <code>!expression.nil?</code> over <code>expression != nil</code>.</span>
+            </div>
+            
+            <pre><code>    if params[:dni] != &quot;&quot; &amp;&amp; params[:dni] <span class="highlight convention">!=</span> nil</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #339</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/ParenthesesAroundCondition: Don't use parentheses around the condition of an <code>elsif</code>.</span>
+            </div>
+            
+            <pre><code>    elsif <span class="highlight convention">((params[:resolution] != &quot;&quot; &amp;&amp; params[:resolution] != nil) ||</span> <span class="extra-code">...</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #339</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    elsif ((params[:resolution] != <span class="highlight convention">&quot;&quot;</span> &amp;&amp; params[:resolution] != nil) ||</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #339</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/NonNilCheck: Prefer <code>!expression.nil?</code> over <code>expression != nil</code>.</span>
+            </div>
+            
+            <pre><code>    elsif ((params[:resolution] != &quot;&quot; &amp;&amp; params[:resolution] <span class="highlight convention">!=</span> nil) ||</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #340</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>     (params[:initiate_date] != <span class="highlight convention">&quot;&quot;</span> &amp;&amp; params[:initiate_date] != nil) ||</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #340</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/NonNilCheck: Prefer <code>!expression.nil?</code> over <code>expression != nil</code>.</span>
+            </div>
+            
+            <pre><code>     (params[:initiate_date] != &quot;&quot; &amp;&amp; params[:initiate_date] <span class="highlight convention">!=</span> nil) ||</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #341</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      (params[:end_date] != <span class="highlight convention">&quot;&quot;</span> &amp;&amp; params[:end_date] != nil))</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #341</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/NonNilCheck: Prefer <code>!expression.nil?</code> over <code>expression != nil</code>.</span>
+            </div>
+            
+            <pre><code>      (params[:end_date] != &quot;&quot; &amp;&amp; params[:end_date] <span class="highlight convention">!=</span> nil))</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #342</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>        search_record(params[:resolution],params[:initiate_date],params[:end_date],<span class="highlight convention">&quot;&quot;</span>)</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #346</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>    erb :index , <span class="highlight convention">:layout =&gt;</span> :layout_public_records</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #349</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>  get <span class="highlight convention">&quot;/about&quot;</span> do</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #364</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>    erb:mydata , <span class="highlight convention">:layout =&gt;</span> :layout_loged_menu</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #367</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>    erb:modifyData , <span class="highlight convention">:layout =&gt;</span> :layout_loged_menu</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #371</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @current_user.update(name: params[<span class="highlight convention">&quot;newName&quot;</span>])</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #372</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @current_user.update(surname: params[<span class="highlight convention">&quot;newSurname&quot;</span>])</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #373</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @band = <span class="highlight convention">&quot;¡Datos actualizados corretamente!&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #375</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>    erb:modifyData , <span class="highlight convention">:layout =&gt;</span> :layout_loged_menu</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #378</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>    erb:modifyemail , <span class="highlight convention">:layout =&gt;</span> :layout_loged_menu</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #382</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    if checkpass(params[<span class="highlight convention">&quot;passwordActual&quot;</span>])</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #383</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      @current_user.update(email: params[<span class="highlight convention">&quot;emailNew1&quot;</span>])</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #384</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      @band = <span class="highlight convention">&quot;¡El email ha sido Actualizado con exito!&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #386</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      @band = <span class="highlight convention">&quot;La contraseña o el email son Incorrectos!&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #390</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>    erb:modifyemail , <span class="highlight convention">:layout =&gt;</span> :layout_loged_menu</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #394</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>    erb:modifypassword , <span class="highlight convention">:layout =&gt;</span> :layout_loged_menu</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #398</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    if checkpass(params[<span class="highlight convention">&quot;passwordActual&quot;</span>])</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #399</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      @current_user.update(password: params[<span class="highlight convention">&quot;passwordNew1&quot;</span>])</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #400</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      @band = <span class="highlight convention">&quot;¡El password ha sido Actualizado con exito!&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #402</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      @band = <span class="highlight convention">&quot;La contraseña ingresada es incorrecta&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #404</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>    erb:modifypassword , <span class="highlight convention">:layout =&gt;</span> :layout_loged_menu</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #419</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    pre_load_user = User.find(dni: params[<span class="highlight convention">&quot;dni&quot;</span>])</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #420</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    exist_username = User.find(username: params[<span class="highlight convention">&quot;username&quot;</span>])</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #421</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    exist_email = User.find(email: params[<span class="highlight convention">&quot;email&quot;</span>])</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #423</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>        if pre_load_user.category == <span class="highlight convention">&quot;not_user&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #425</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>            surname: params[<span class="highlight convention">&quot;surname&quot;</span>],</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #426</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>            category: <span class="highlight convention">&quot;user&quot;</span>,</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #427</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>            name: params[<span class="highlight convention">&quot;name&quot;</span>],</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #428</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>            username: params[<span class="highlight convention">&quot;username&quot;</span>],</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #429</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>            dni: params[<span class="highlight convention">&quot;dni&quot;</span>],</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #430</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>            password: params[<span class="highlight convention">&quot;key&quot;</span>],</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #431</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>            email: params[<span class="highlight convention">&quot;email&quot;</span>]</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #433</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>          redirect <span class="highlight convention">&quot;/&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #435</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>          [500, {}, <span class="highlight convention">&quot;El usuario ya existe&quot;</span>]</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #438</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/ParenthesesAroundCondition: Don't use parentheses around the condition of an <code>if</code>.</span>
+            </div>
+            
+            <pre><code>        if <span class="highlight convention">(exist_username)</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #438</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/RedundantParentheses: Don't use parentheses around a variable.</span>
+            </div>
+            
+            <pre><code>        if <span class="highlight convention">(exist_username)</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #439</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>          @log_err = <span class="highlight convention">&quot;El usuario ingresado ya existe&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #440</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/ParenthesesAroundCondition: Don't use parentheses around the condition of an <code>elsif</code>.</span>
+            </div>
+            
+            <pre><code>        elsif <span class="highlight convention">(exist_email)</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #440</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/RedundantParentheses: Don't use parentheses around a variable.</span>
+            </div>
+            
+            <pre><code>        elsif <span class="highlight convention">(exist_email)</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #441</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>          @log_err = <span class="highlight convention">&quot;El email ingresado ya existe&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #444</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>            surname: params[<span class="highlight convention">&quot;surname&quot;</span>],</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #445</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>            category: <span class="highlight convention">&quot;user&quot;</span>,</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #446</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>            name: params[<span class="highlight convention">&quot;name&quot;</span>],</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #447</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>            username: params[<span class="highlight convention">&quot;username&quot;</span>],</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #448</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>            dni: params[<span class="highlight convention">&quot;dni&quot;</span>],</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #449</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>            password: params[<span class="highlight convention">&quot;key&quot;</span>],</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #450</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>            email: params[<span class="highlight convention">&quot;email&quot;</span>]</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #453</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>            redirect <span class="highlight convention">&quot;/&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #455</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>            [500, {}, <span class="highlight convention">&quot;Internal server Error&quot;</span>]</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #467</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/NonNilCheck: Prefer <code>!expression.nil?</code> over <code>expression != nil</code>.</span>
+            </div>
+            
+            <pre><code>    if @current_user.imgpath <span class="highlight convention">!=</span> nil &amp;&amp; File.exist?(&quot;public#{@current_user.imgpath}&quot;)</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #474</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    redirect <span class="highlight convention">&quot;/mydata&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #490</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @tagged = params[<span class="highlight convention">&quot;tagg&quot;</span>]</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #491</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiteralsInInterpolation: Prefer single-quoted strings inside interpolations.</span>
+            </div>
+            
+            <pre><code>    cp(&quot;public/temp/#{params[<span class="highlight convention">&quot;path&quot;</span>]}&quot;,&quot;public/file/#{params[&quot;path&quot;]}&quot;)</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #491</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiteralsInInterpolation: Prefer single-quoted strings inside interpolations.</span>
+            </div>
+            
+            <pre><code>    cp(&quot;public/temp/#{params[&quot;path&quot;]}&quot;,&quot;public/file/#{params[<span class="highlight convention">&quot;path&quot;</span>]}&quot;)</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #493</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      resolution: params [<span class="highlight convention">&quot;resolution&quot;</span>],</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #494</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiteralsInInterpolation: Prefer single-quoted strings inside interpolations.</span>
+            </div>
+            
+            <pre><code>      path: &quot;/file/#{params[<span class="highlight convention">&quot;path&quot;</span>]}&quot;,</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #495</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      filename: params[<span class="highlight convention">&quot;filena&quot;</span>],</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #496</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      description: params[<span class="highlight convention">&quot;description&quot;</span>],</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #497</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      realtime: params[<span class="highlight convention">&quot;realtime&quot;</span>],</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #504</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      [500, {}, <span class="highlight convention">&quot;Internal server Error&quot;</span>]</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #515</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>      <span class="highlight convention">&quot;cannot delete this Doc&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #520</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/BlockDelimiters: Avoid using <code>{...}</code> for multi-line blocks.</span>
+            </div>
+            
+            <pre><code>      documents.map<span class="highlight convention">{</span>|x|</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #521</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>        file = {<span class="highlight convention">:filename =&gt;</span> x.filename,</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #522</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>          <span class="highlight convention">:resolution =&gt;</span> x.resolution,</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #523</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>          <span class="highlight convention">:description =&gt;</span> x.description ,</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #524</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/HashSyntax: Use the new Ruby 1.9 hash syntax.</span>
+            </div>
+            
+            <pre><code>          <span class="highlight convention">:date =&gt;</span> x.realtime.strftime(&quot;%d/%m/%y&quot;) }</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #524</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>          :date =&gt; x.realtime.strftime(<span class="highlight convention">&quot;%d/%m/%y&quot;</span>) }</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #529</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @initial_date = Document.first.realtime.strftime(<span class="highlight convention">&quot;%Y-%m-%d&quot;</span>)</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #530</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/RedundantParentheses: Don't use parentheses around a method call.</span>
+            </div>
+            
+            <pre><code>    @end_date = (<span class="highlight convention">(Time.now)</span> + 86400).strftime(&quot;%Y-%m-%d&quot;)</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #530</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/NumericLiterals: Use underscores(_) as thousands separator and separate every 3 digits with them.</span>
+            </div>
+            
+            <pre><code>    @end_date = ((Time.now) + <span class="highlight convention">86400</span>).strftime(&quot;%Y-%m-%d&quot;)</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #530</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @end_date = ((Time.now) + 86400).strftime(<span class="highlight convention">&quot;%Y-%m-%d&quot;</span>)</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #536</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/NumericLiterals: Use underscores(_) as thousands separator and separate every 3 digits with them.</span>
+            </div>
+            
+            <pre><code>        i.update(resolution: (i.id + <span class="highlight convention">100000</span>).to_s)</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #537</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/NumericLiterals: Use underscores(_) as thousands separator and separate every 3 digits with them.</span>
+            </div>
+            
+            <pre><code>        i.update(description: &quot;UNRC acta res/#{(i.id + <span class="highlight convention">100000</span>).to_s}&quot;)</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #539</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>       <span class="highlight convention">&quot;rename ok&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #544</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @out = <span class="highlight convention">&quot;&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #545</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    User.each { |u| @out+= u.email + <span class="highlight convention">&quot;--&quot;</span> + u.dni.to_s + &quot;--&quot; + u.category.to_s +  &quot;&lt;br/&gt;&quot; }</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #545</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    User.each { |u| @out+= u.email + &quot;--&quot; + u.dni.to_s + <span class="highlight convention">&quot;--&quot;</span> + u.category.to_s +  &quot;&lt;br/&gt;&quot; }</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #545</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    User.each { |u| @out+= u.email + &quot;--&quot; + u.dni.to_s + &quot;--&quot; + u.category.to_s +  <span class="highlight convention">&quot;&lt;br/&gt;&quot;</span> }</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #546</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @out +=<span class="highlight convention">&quot;&lt;br/&gt;&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #547</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    Document.each { |d| @out+=d.path+<span class="highlight convention">&quot;&lt;br/&gt;&quot;</span> }</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #548</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @out +=<span class="highlight convention">&quot;&lt;br/&gt;&quot;</span>+ &quot;listado de documentos ----&gt; usuarios&quot; + &quot;&lt;br/&gt;&quot;</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #548</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @out +=&quot;&lt;br/&gt;&quot;+ <span class="highlight convention">&quot;listado de documentos ----&gt; usuarios&quot;</span> + &quot;&lt;br/&gt;&quot;</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #548</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @out +=&quot;&lt;br/&gt;&quot;+ &quot;listado de documentos ----&gt; usuarios&quot; + <span class="highlight convention">&quot;&lt;br/&gt;&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #549</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    Document.each { |d| @out+= d.path + <span class="highlight convention">&quot; ------relacionado con----- &quot;</span> + d.users.to_s + &quot;&lt;br/&gt;&quot; }</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #549</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    Document.each { |d| @out+= d.path + &quot; ------relacionado con----- &quot; + d.users.to_s + <span class="highlight convention">&quot;&lt;br/&gt;&quot;</span> }</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #550</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @out +=<span class="highlight convention">&quot;&lt;br/&gt;&quot;</span>+ &quot;listado de usuarios ----&gt; documentos&quot; + &quot;&lt;br/&gt;&quot;</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #550</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @out +=&quot;&lt;br/&gt;&quot;+ <span class="highlight convention">&quot;listado de usuarios ----&gt; documentos&quot;</span> + &quot;&lt;br/&gt;&quot;</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #550</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @out +=&quot;&lt;br/&gt;&quot;+ &quot;listado de usuarios ----&gt; documentos&quot; + <span class="highlight convention">&quot;&lt;br/&gt;&quot;</span></code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #551</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    User.each { |u| @out+= u.email + <span class="highlight convention">&quot; -----relacionado con----- &quot;</span> + u.documents.to_s + &quot;&lt;br/&gt;&quot; }</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #551</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    User.each { |u| @out+= u.email + &quot; -----relacionado con----- &quot; + u.documents.to_s + <span class="highlight convention">&quot;&lt;br/&gt;&quot;</span> }</code></pre>
+            
+          </div>
+          
+          <div class="report">
+            <div class="meta">
+              <span class="location">Line #552</span> –
+              <span class="severity convention">convention:</span>
+              <span class="message">Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.</span>
+            </div>
+            
+            <pre><code>    @out +=<span class="highlight convention">&quot;&lt;br/&gt;&quot;</span></code></pre>
+            
+          </div>
+          
+        </div>
+      </div>
+      
+      
+    </div>
+    <footer>
+      Generated by <a href="https://github.com/rubocop-hq/rubocop">RuboCop</a>
+      <span class="version">0.91.0</span>
+    </footer>
+  </body>
+</html>
