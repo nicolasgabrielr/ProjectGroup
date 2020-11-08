@@ -5,14 +5,14 @@ require './services/account_service'
 class Account_controller < Sinatra::Base
 
 	configure do
-	  	enable :logging
-	    enable :sessions
-	    set :session_fail, '/'
-	    set :session_secret, 'otro secret pero dificil y abstracto'
-	    set :sessions, true
-	    set :views, settings.root + '/../views'
-	    set :server, 'thin'
-	    set :sockets, []
+  	enable :logging
+    enable :sessions
+    set :session_fail, '/'
+    set :session_secret, 'otro secret pero dificil y abstracto'
+    set :sessions, true
+    set :views, settings.root + '/../views'
+    set :server, 'thin'
+    set :sockets, []
 	end
 
 	get '/newUser' do
@@ -30,3 +30,4 @@ class Account_controller < Sinatra::Base
   end
 
 end
+
