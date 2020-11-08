@@ -3,6 +3,8 @@
 require 'json'
 require './models/init.rb'
 require 'sinatra-websocket'
+require './controllers/account_controller.rb'
+
 include FileUtils::Verbose
 
 class App < Sinatra::Base
@@ -15,16 +17,20 @@ class App < Sinatra::Base
     set :server, 'thin'
     set :sockets, []
   end
+
+  use Account_controller
+
   def init_folders
     folders_list = ['public/usr/', 'public/temp/', 'public/file/']
     folders_list.each do |f|
       Dir.mkdir(f) unless Dir.exist?(f)
     end
   end
+
   get '/' do
     init_folders
     if !request.websocket?
-      get_public_documents
+      @arr = documents_array(Document.deleteds(false))
       erb :index, :layout => :layout_public_records
     else
       request.websocket do |ws|
@@ -112,11 +118,6 @@ class App < Sinatra::Base
   def show_user
     @admin = 'hidden'
     @superAdmin = 'hidden'
-  end
-
-  def get_public_documents
-    public_docs = Document.deleteds(false)
-    @arr = documents_array(public_docs)
   end
 
   def checkpass(key)
@@ -233,7 +234,7 @@ class App < Sinatra::Base
   end
 
   get '/loged' do
-    get_public_documents
+    @arr = documents_array(Document.deleteds(false))
     erb :loged, :layout => :layout_loged_menu
   end
 
@@ -244,18 +245,18 @@ class App < Sinatra::Base
         public_docs = user.documents(:deleted => false)
         @arr = documents_array(public_docs)
       else
-        get_public_documents
+        @arr = documents_array(Document.deleteds(false))
       end
     elsif params[:resolution] != '' || params[:initiate_date] != '' || params[:end_date] != ''
       search_record(params[:resolution], params[:initiate_date], params[:end_date], '')
     else
-      get_public_documents
+      @arr = documents_array(Document.deleteds(false))
     end
     erb :loged, :layout => :layout_loged_menu
   end
 
   post '/sign_in' do
-    get_public_documents
+    @arr = documents_array(Document.deleteds(false))
     usuario = User.find(:email => params['email'])
     if !usuario.nil? && (usuario.password == params['password'])
       session[:user_name] = usuario.name
@@ -304,7 +305,7 @@ class App < Sinatra::Base
   end
 
   get '/sign_in' do
-    get_public_documents
+    @arr = documents_array(Document.deleteds(false))
     if session[:user_id]
 
       set_menu
@@ -324,7 +325,7 @@ class App < Sinatra::Base
   end
 
   get '/index' do
-    get_public_documents
+    @arr = documents_array(Document.deleteds(false))
     session.clear
     erb :index, :layout => :layout_public_records
   end
@@ -336,24 +337,20 @@ class App < Sinatra::Base
         public_docs = user.documents_dataset.where(:deleted => false).reverse_order { documents[:realtime] }
         @arr = documents_array(public_docs)
       else
-        get_public_documents
+        @arr = documents_array(Document.deleteds(false))
       end
     elsif (params[:resolution] != '' && !params[:resolution].nil?) ||
           (params[:initiate_date] != '' && !params[:initiate_date].nil?) ||
           (params[:end_date] != '' && !params[:end_date].nil?)
       search_record(params[:resolution], params[:initiate_date], params[:end_date], '')
     else
-      get_public_documents
+      @arr = documents_array(Document.deleteds(false))
     end
     erb :index, :layout => :layout_public_records
   end
 
   get '/about' do
     erb :about
-  end
-
-  get '/newUser' do
-    erb :newUser
   end
 
   get '/mydata' do
@@ -365,6 +362,7 @@ class App < Sinatra::Base
     @dni = @current_user.dni
     erb :mydata, :layout => :layout_loged_menu
   end
+
   get '/modifyData' do
     erb :modifyData, :layout => :layout_loged_menu
   end
@@ -412,57 +410,6 @@ class App < Sinatra::Base
 
   get '/uploadrecord' do
     erb :uploadrecord
-  end
-
-  post '/newUser' do
-    request.body.rewind
-    hash = Rack::Utils.parse_nested_query(request.body.read)
-    params = JSON.parse hash.to_json
-    pre_load_user = User.find(:dni => params['dni'])
-    exist_username = User.find(:username => params['username'])
-    exist_email = User.find(:email => params['email'])
-    if pre_load_user && (pre_load_user.category == 'not_user')
-      update_pre_load_user(pre_load_user, params)
-      redirect '/'
-    else
-      if exist_username
-        @log_err = 'El usuario ingresado ya existe'
-      elsif exist_email
-        @log_err = 'El email ingresado ya existe'
-      else
-        user = add_new_user(params)
-        if user.save
-          redirect '/'
-        else
-          [500, {}, 'Internal server Error']
-        end
-      end
-      erb :newUser
-    end
-  end
-
-  def add_new_user(data)
-    User.new(
-      :surname => data['surname'],
-      :category => 'user',
-      :name => data['name'],
-      :username => data['username'],
-      :dni => data['dni'],
-      :password => data['key'],
-      :email => data['email']
-    )
-  end
-
-  def update_pre_load_user(user, data)
-    user.update(
-      :surname => data['surname'],
-      :category => 'user',
-      :name => data['name'],
-      :username => data['username'],
-      :dni => data['dni'],
-      :password => data['key'],
-      :email => data['email']
-    )
   end
 
   get '/uploadImg' do
