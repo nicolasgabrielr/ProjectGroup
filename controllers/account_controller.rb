@@ -41,4 +41,3 @@ class Account_controller < Sinatra::Base
 	end
 
 end
-
