@@ -7,8 +7,10 @@
 	<input type="text" name="email"class="button" placeholder="Ingrese su Email"></input><br>
 	<input type="password" name="password" class="button" placeholder="Ingrese su contraseña"></input><br><br>
 	<button class="btn1 btn waves-effect waves-light col s12 card-panel  brown lighten-4"  type="submit" name="action">Ingresar</button>
-	<form><a style="color:red;"><%=@log_err%></a>
-	</form><br><br><br>
+	<% if defined? log_err %>
+		<form><a style="color:red;"><%=log_err%></a>
+		</form>
+	<% end %>
 </form>
 <form action="/newUser" method="get">
 	<label for="fname">¿Aún no se registró?</label><br>
