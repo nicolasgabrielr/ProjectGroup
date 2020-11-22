@@ -9,12 +9,10 @@ class Account_service
  		if pre_load_user && (pre_load_user.category == 'not_user')
 	    update_pre_load_user pre_load_user, params
     else
-      if exist_username
-      	@log_err = 'El usuario ingresado ya existe'
-        #raise ArgumentError.new('El usuario ingresado ya existe')
+      if exist_username || (pre_load_user && (pre_load_user.category != 'not_user'))
+        raise ArgumentError.new('El usuario ingresado ya existe')
       elsif exist_email
-      	@log_err = 'El email ingresado ya existe'
-        #raise ArgumentError.new('El email ingresado ya existe')
+        raise ArgumentError.new('El email ingresado ya existe')
       else
         add_new_user params
       end
@@ -32,8 +30,7 @@ class Account_service
 	    :email => data['email']
 	    )
 		unless newUser.valid?
-			@log_err = 'Datos para crear el usuario incorrectos'
-      #raise ValidationModelError.new("Datos para crear el usuario incorrectos", newUser.errors)
+      raise ArgumentError.new('Datos para crear el usuario incorrectos')
     end
 		newUser.save
 	end
@@ -48,6 +45,47 @@ class Account_service
       :password => data['key'],
       :email => data['email']
     )
+  end
+
+  def self.set_menu(session)
+    redirect '/index' if !session
+    @current_user = User.find(:id => session)
+    case @current_user.category
+    when 'superAdmin'
+      show_super_admin
+    when 'admin'
+      show_admin
+    else
+      show_user
+    end
+    @usuario = session
+  end
+
+  def self.show_super_admin
+    @admin = 'visible'
+    @superAdmin = 'visible'
+  end
+
+  def self.show_admin
+    @admin = 'visible'
+    @superAdmin = 'hidden'
+  end
+
+  def self.show_user
+    @admin = 'hidden'
+    @superAdmin = 'hidden'
+  end
+
+  def self.sign_in(params,session)
+    usuario = User.find(:email => params['email'])
+    if !usuario.nil? && (usuario.password == params['password'])
+      session[:user_name] = usuario.name
+      session[:user_id] = usuario.id
+    elsif usuario.nil?
+      raise ArgumentError.new('El usuario ingresado no existe')
+    else
+      raise ArgumentError.new('La contraseña ingresada es incorrecta')
+    end
   end
 
 end
