@@ -71,7 +71,7 @@ class App < Sinatra::Base
     elsif session[:user_id]
       @current_user = User.find(:id => session[:user_id])
       alert_notification(session[:user_id])
-      Account_service.set_menu(session[:user_id])
+      @usr = Account_service.set_menu session[:user_id], @current_user
       if not_authorized_category_for_admin? && superAdmin_Pages.include?(request.path_info)
         redirect '/index'
       elsif not_authorized_category_for_user? && admin_Pages.include?(request.path_info)
@@ -205,28 +205,6 @@ class App < Sinatra::Base
     end
   end
 
-  get '/loged' do
-    @arr = General_service.documents_array(Document.deleteds(false))
-    erb :loged, :layout => :layout_loged_menu
-  end
-
-  post '/loged' do
-    if params[:dni] != '' && !params[:dni].nil?
-      user = User.find(:dni => params[:dni])
-      if user
-        public_docs = user.documents(:deleted => false)
-        @arr = General_service.documents_array(public_docs)
-      else
-        @arr = General_service.documents_array(Document.deleteds(false))
-      end
-    elsif params[:resolution] != '' || params[:initiate_date] != '' || params[:end_date] != ''
-      search_record(params[:resolution], params[:initiate_date], params[:end_date], '')
-    else
-      @arr = General_service.documents_array(Document.deleteds(false))
-    end
-    erb :loged, :layout => :layout_loged_menu
-  end
-
   post '/assign' do
     docs = Document.order_by_date
     @arr = General_service.documents_array(docs)
@@ -249,28 +227,12 @@ class App < Sinatra::Base
       @band = 'El password es incorrecto o el usuario no existe'
     end
 
-    Account_service.set_menu(session[:user_id])
+    @usr = Account_service.set_menu session[:user_id], @current_user
     erb :assign, :layout => :layout_loged_menu
   end
 
   get '/assign' do
     erb :assign, :layout => :layout_loged_menu
-  end
-
-  get '/sign_in' do
-    @arr = General_service.documents_array(Document.deleteds(false))
-    if session[:user_id]
-
-      Account_service.set_menu(session[:user_id])
-      erb :loged, :layout => :layout_loged_menu
-    else
-      erb :index, :layout => :layout_public_records
-    end
-  end
-
-  get '/sign_out' do
-    session.clear
-    erb :index, :layout => :layout_public_records
   end
 
   get '/notificationlist' do
@@ -307,78 +269,6 @@ class App < Sinatra::Base
     erb :about
   end
 
-  get '/mydata' do
-    @isAdmin = @current_user.category
-    @username = @current_user.name
-    @foto = @current_user.imgpath
-    @name = @current_user.name
-    @surname = @current_user.surname
-    @dni = @current_user.dni
-    erb :mydata, :layout => :layout_loged_menu
-  end
-
-  get '/modifyData' do
-    erb :modifyData, :layout => :layout_loged_menu
-  end
-
-  post '/modifyData' do
-    @current_user.update(:name => params['newName'])
-    @current_user.update(:surname => params['newSurname'])
-    @band = '¡Datos actualizados corretamente!'
-    Account_service.set_menu(session[:user_id])
-    erb :modifyData, :layout => :layout_loged_menu
-  end
-  get '/modifyemail' do
-    erb :modifyemail, :layout => :layout_loged_menu
-  end
-
-  post '/modifyemail' do
-    if checkpass(params['passwordActual'])
-      @current_user.update(:email => params['emailNew1'])
-      @band = '¡El email ha sido Actualizado con exito!'
-    else
-      @band = 'La contraseña o el email son Incorrectos!'
-    end
-    Account_service.set_menu(session[:user_id])
-    erb :modifyemail, :layout => :layout_loged_menu
-  end
-
-  get '/modifypassword' do
-    erb :modifypassword, :layout => :layout_loged_menu
-  end
-
-  post '/modifypassword' do
-    if checkpass(params['passwordActual'])
-      @current_user.update(:password => params['passwordNew1'])
-      @band = '¡El password ha sido Actualizado con exito!'
-    else
-      @band = 'La contraseña ingresada es incorrecta'
-    end
-    erb :modifypassword, :layout => :layout_loged_menu
-  end
-
-  get '/modifyphoto' do
-    erb :modifyphoto
-  end
-
-  get '/uploadrecord' do
-    erb :uploadrecord
-  end
-
-  get '/uploadImg' do
-    erb :modifyphoto
-  end
-
-  post '/uploadImg' do
-    if !@current_user.imgpath.nil? && File.exist?("public#{@current_user.imgpath}")
-      File.delete("public#{@current_user.imgpath}")
-    end
-    tempfile = params[:myImg][:tempfile]
-    @filename = params[:myImg][:filename]
-    cp(tempfile.path, "public/usr/#{@filename}")
-    @current_user.update(:imgpath => "/usr/#{@filename}")
-    redirect '/mydata'
-  end
 
   post '/load' do
     @time = Time.now
