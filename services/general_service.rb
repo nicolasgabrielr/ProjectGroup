@@ -12,4 +12,11 @@ class General_service
     end
 	end
 
+	def self.current_user(session)
+		User.find(:id => session[:user_id])
+  end
+
+	def self.number_of_uncheckeds(session)
+	  Notification.number_of_uncheckeds_for_user(session[:user_id])
+  end
 end

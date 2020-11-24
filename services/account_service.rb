@@ -47,33 +47,23 @@ class Account_service
     )
   end
 
-  def self.set_menu(session)
-    redirect '/index' if !session
-    @current_user = User.find(:id => session)
-    case @current_user.category
+  def self.set_menu(session, user)
+		raise ArgumentError.new('No hay una sesion abierta') if !session
+    #redirect '/index' if !session
+    user = User.find(:id => session)
+    case user.category
     when 'superAdmin'
-      show_super_admin
+			admin = 'visible'
+	    superAdmin = 'visible'
     when 'admin'
-      show_admin
+			admin = 'visible'
+	    superAdmin = 'hidden'
     else
-      show_user
+			admin = 'hidden'
+	    superAdmin = 'hidden'
     end
-    @usuario = session
-  end
-
-  def self.show_super_admin
-    @admin = 'visible'
-    @superAdmin = 'visible'
-  end
-
-  def self.show_admin
-    @admin = 'visible'
-    @superAdmin = 'hidden'
-  end
-
-  def self.show_user
-    @admin = 'hidden'
-    @superAdmin = 'hidden'
+    usuario = session
+		return { :admin => admin, :superAdmin => superAdmin, :usuario => usuario }
   end
 
   def self.sign_in(params,session)
@@ -88,4 +78,43 @@ class Account_service
     end
   end
 
+	def self.loged(params)
+		if params[:dni] != '' && !params[:dni].nil?
+			user = User.find(:dni => params[:dni])
+			if user
+				public_docs = user.documents(:deleted => false)
+				@arr = General_service.documents_array(public_docs)
+			else
+				@arr = General_service.documents_array(Document.deleteds(false))
+			end
+		elsif params[:resolution] != '' || params[:initiate_date] != '' || params[:end_date] != ''
+			search_record(params[:resolution], params[:initiate_date], params[:end_date], '')
+		else
+			@arr = General_service.documents_array(Document.deleteds(false))
+		end
+	end
+
+	def self.modify_data(user, params, msg)
+		user.update(:name => params['newName'])
+    user.update(:surname => params['newSurname'])
+		msg = '¡Datos actualizados corretamente!'
+	end
+
+	def self.modify_email(user, params, msg)
+		if checkpass(params['passwordActual'])
+			user.update(:email => params['emailNew1'])
+			msg = '¡El email ha sido Actualizado con exito!'
+		else
+			msg = 'La contraseña o el email son Incorrectos!'
+		end
+	end
+
+	def self.modify_password(user, params, msg)
+		if checkpass(params['passwordActual'])
+			user.update(:password => params['passwordNew1'])
+			band = '¡El password ha sido Actualizado con exito!'
+		else
+			band = 'La contraseña ingresada es incorrecta'
+		end
+	end
 end
