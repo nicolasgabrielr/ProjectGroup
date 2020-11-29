@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require './services/account_service'
 require './services/document_service'
+require './services/notification_service'
 #require './exceptions/ValidationModelError.rb'
 
 class Account_controller < Sinatra::Base
@@ -22,7 +23,7 @@ class Account_controller < Sinatra::Base
 		if session[:user_id]
 		  @current_user = Account_service.current_user session
 			@usr = Account_service.set_menu session[:user_id], @current_user
-		  @alert = Notification.number_of_uncheckeds_for_user(session[:user_id])
+		  @alert = Notification_service.number_of_uncheckeds session
 		end
 		@arr = Document_service.documents_array(Document.deleteds(false))
   end
@@ -50,7 +51,7 @@ class Account_controller < Sinatra::Base
 		else
 			@current_user = Account_service.current_user session
 	    @usr = Account_service.set_menu session[:user_id], @current_user
-			@alert = Document_service.number_of_uncheckeds session
+			@alert = Notification_service.number_of_uncheckeds session
 			return erb :loged, :layout => :layout_loged_menu
 	end
 

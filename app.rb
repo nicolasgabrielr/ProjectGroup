@@ -23,6 +23,9 @@ class App < Sinatra::Base
   end
 
   $ws = []
+  superAdmin_Pages = ['/assign']
+  admin_Pages = ['/tagg', '/upload', '/load', '/uploadrecord']
+  public_Pages = ['/index', '/sign_in', '/', '/about', '/newUser', '/tablas']
 
   use Account_controller
   use Admin_controller
@@ -32,9 +35,6 @@ class App < Sinatra::Base
 
 
 
-  superAdmin_Pages = ['/assign']
-  admin_Pages = ['/tagg', '/upload', '/load', '/uploadrecord']
-  public_Pages = ['/index', '/sign_in', '/', '/about', '/newUser', '/tablas']
 
   before do
     request.path_info
