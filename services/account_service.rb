@@ -19,6 +19,33 @@ class Account_service
     end
 	end
 
+	def self.current_user(session)
+		User.find(:id => session[:user_id])
+  end
+
+  def self.message(user, params)
+		if user.password == params['passwordActual']
+	 	 usuario = User.find(:email => params['emailnewAdmin'])
+	 	 if params[:dUser] && !usuario.nil?
+	 		 usuario.destroy
+	 		 msg = '¡El usuario ha sido eliminado con Exito!'
+	 	 else
+	 		 msg = '¡El usuario no existe o no se pudo eliminar!'
+	 	 end
+	 	 if params[:admin]
+	 		 usuario.update(:category => 'admin')
+	 		 msg = '¡El Administrador ha sido cargado con exito!'
+	 	 elsif params[:sAdmin]
+	 		 usuario.update(:category => 'superAdmin')
+	 		 msg = '¡El Administrador ha sido cargado con exito!'
+	 	 end
+	  else
+	 	 msg = 'El password es incorrecto o el usuario no existe'
+	  end
+		return msg
+	end
+
+
 	def self.add_new_user(data)
 		newUser = User.new(
 			:surname => data['surname'],
@@ -78,6 +105,12 @@ class Account_service
     end
   end
 
+	def self.logged_page (user)
+		if user == nil
+      raise ArgumentError.new('no esta logueado')
+		end
+  end
+
 	def self.loged(params)
 		if params[:dni] != '' && !params[:dni].nil?
 			user = User.find(:dni => params[:dni])
@@ -101,7 +134,7 @@ class Account_service
 	end
 
 	def self.modify_email(user, params, msg)
-		if checkpass(params['passwordActual'])
+		if checkpass(params['passwordActual'], user)
 			user.update(:email => params['emailNew1'])
 			msg = '¡El email ha sido Actualizado con exito!'
 		else
@@ -109,8 +142,12 @@ class Account_service
 		end
 	end
 
+	def self.checkpass(key, user)
+    user.password == key
+  end
+
 	def self.modify_password(user, params, msg)
-		if checkpass(params['passwordActual'])
+		if checkpass(params['passwordActual'], user)
 			user.update(:password => params['passwordNew1'])
 			band = '¡El password ha sido Actualizado con exito!'
 		else

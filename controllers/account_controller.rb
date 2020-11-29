@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require './services/account_service'
+require './services/document_service'
 #require './exceptions/ValidationModelError.rb'
 
 class Account_controller < Sinatra::Base
@@ -19,11 +20,11 @@ class Account_controller < Sinatra::Base
 
 	before do
 		if session[:user_id]
-		  @current_user = General_service.current_user session
+		  @current_user = Account_service.current_user session
 			@usr = Account_service.set_menu session[:user_id], @current_user
 		  @alert = Notification.number_of_uncheckeds_for_user(session[:user_id])
 		end
-		@arr = General_service.documents_array(Document.deleteds(false))
+		@arr = Document_service.documents_array(Document.deleteds(false))
   end
 
 	get '/newUser' do
@@ -38,7 +39,7 @@ class Account_controller < Sinatra::Base
 		rescue ArgumentError => e
 			return erb :newUser, :locals => {:log_err => e.message}
 		else
-			@arr = General_service.documents_array Document.deleteds(false)
+			@arr = Document_service.documents_array Document.deleteds(false)
 			return erb :index, :layout => :layout_public_records
 	end
 
@@ -47,14 +48,18 @@ class Account_controller < Sinatra::Base
 		rescue ArgumentError => e
 			return erb :index, :locals => {:log_err => e.message}, :layout => :layout_public_records
 		else
-			@current_user = General_service.current_user session
+			@current_user = Account_service.current_user session
 	    @usr = Account_service.set_menu session[:user_id], @current_user
-			@alert = General_service.number_of_uncheckeds session
+			@alert = Document_service.number_of_uncheckeds session
 			return erb :loged, :layout => :layout_loged_menu
 	end
 
 	get '/loged' do
-    return erb :loged, :layout => :layout_loged_menu
+		Account_service.logged_page @current_user
+		rescue ArgumentError => e
+			return erb :index, :locals => {:log_err => e.message}, :layout => :layout_public_records
+		else
+      return erb :loged, :layout => :layout_loged_menu
   end
 
   post '/loged' do
