@@ -22,10 +22,6 @@ class Document_service
 		end
 	end
 
-	def self.number_of_uncheckeds(session)
-	  Notification.number_of_uncheckeds_for_user(session[:user_id])
-  end
-
 	def self.add_generic_user(string_dni, dni)
 		not_user_tagg = User.new(
 			:surname => string_dni,

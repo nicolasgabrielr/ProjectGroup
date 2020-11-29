@@ -1,4 +1,4 @@
-class Validation_model < StandardError
+class Validation_model_error < StandardError
     attr_reader : errors
 
     def initialize(msg = "datos incorrectos", errors)
