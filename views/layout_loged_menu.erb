@@ -64,13 +64,13 @@
 				<a href="/loged">Todas las Actas</a>
 			</li>
 			<if >
-			<li class="li-nav collection-item " style="visibility: <%= @admin %>;">
+			<li class="li-nav collection-item " style="visibility: <%= @usr[:admin] %>;">
 				<a href="/uploadrecord">Subir Actas </a>
 			</li>
-			<li class="li-nav collection-item " style="visibility: <%= @admin %>;">
+			<li class="li-nav collection-item " style="visibility: <%= @usr[:admin] %>;">
 				<a href="/myrecords">Gestionar Actas</a>
 			</li>
-			<li class="li-nav collection-item" style="visibility: <%= @superAdmin %>;">
+			<li class="li-nav collection-item" style="visibility: <%= @usr[:superAdmin] %>;">
 				<a href="/assign">Gestionar Usuarios</a>
 			</li>
 			<li class="li-nav collection-item z-depth-1" >

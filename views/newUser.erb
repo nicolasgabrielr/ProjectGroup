@@ -104,7 +104,9 @@
           </form>
         </div>
         <div class="clearfix"></div>
-        <form class="col s8 offset-s2"><a style="color:red;"><%=@log_err%></a></form> 
+        <% if defined? log_err %>
+          <form class="col s8 offset-s2"><a style="color:red;"><%=log_err%></a></form> 
+        <% end %>
       </div>
     </div>
   </body>
